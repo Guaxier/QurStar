@@ -63,6 +63,7 @@ project/
 │   └── index.html              # 项目文档首页
 │
 ├── .gitignore                  # Git 忽略配置文件
+├── LICENSE                     # 项目许可协议文件
 └── README.md                   # 项目说明文档
 ```
 
