@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API 文档</title>
+  <link type="text/css" rel="stylesheet" href="aieditor/style.css">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #444;
+    }
+    
+    header {
+      background-color: #2c3e50;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    nav {
+      background-color: #34495e;
+      color: #fff;
+      padding: 10px 0;
+    }
+    
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    
+    nav ul li {
+      display: inline;
+      margin-right: 20px;
+    }
+    
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    nav ul li a:hover {
+      color: #ff7f50;
+    }
+    
+    section {
+      padding: 20px;
+    }
+    
+    .endpoint {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      padding: 20px;
+    }
+    
+    .endpoint h2 {
+      margin-top: 0;
+      color: #333;
+    }
+    
+    .endpoint p {
+      margin-bottom: 0;
+      color: #555;
+    }
+    
+    footer {
+      background-color: #2c3e50;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+        /* 禁用鼠标符合 */
+    .disable-cursor{
+      pointer-events: none;
+    }
+    .aie-theme-light{
+    /*  pointer-events: none; */
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>齐心创意API文档</h1>
+    此页面为api文档，演示请查看<a style="color: #007bff; text-decoration: none;" href="http://video.qilingwl.com">API接口示例</a>
+  </header>
+  
+  <nav>
+    <ul>
+      <li><a href="#endpoint1">公共模块</a></li>
+      <li><a href="#endpoint2">用户系统</a></li>
+      <li><a href="#endpoint3">数据库系统</a></li>
+      <!-- Add more endpoints here -->
+    </ul>
+  </nav>
+  
+  <section id="endpoint1" class="endpoint">
+    <h2>公共模块</h2>
+    <p>公共模块的api介绍</p>
+  </section>
+  
+  <section id="endpoint2" class="endpoint">
+    <h2>用户系统</h2>
+    <p>用户系统的api介绍</p>
+    <h7>
+    已立项：即将逻辑进行开发的接口<br>
+    未完成：正在进行逻辑开发的接口<br>
+    已完成(未开放):逻辑功能已经完成但未进行测试验证，可能是出于安全原因获未知的BUG存在不确定因素需要调整。<br>
+    已完成：已经完成开发并通过测试验证的接口，可以按照文档正常调用其功能，可以参考示例调用。<br>
+    </h7>
+    <p></p>
+
+
+
+
+
+    <div  style=" margin: auto; width: 709px;" class="aie-theme-light" >
+      
+      
+      <div class="aie-container"><aie-menus></aie-menus><div style="flex-grow: 1; overflow: auto;" aria-expanded="false"><div contenteditable="true" tabindex="0" translate="no" class="tiptap ProseMirror aie-content" style="height: calc(100% - 20px);"><h4 style="line-height: 26px; text-align: center"><strong><span style="font-size: 20px">接口列表(Post)</span></strong></h4><div class="tableWrapper"><table style="min-width: 75px;"><colgroup><col><col><col></colgroup><tbody><tr><th colspan="1" rowspan="1"><p style="text-align: center">接口名称</p></th><th colspan="1" rowspan="1"><p style="text-align: center">接口描述</p></th><th colspan="1" rowspan="1"><p style="text-align: center">开发情况</p></th></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(63, 63, 63)">GetCode</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">公共验证码</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">已完成</span></p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(63, 63, 63)">GetPhoneCode</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">手机验证码</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">已完成(未开放)</span></p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(63, 63, 63)">GetEmailCode</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">邮箱验证码</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">已完成</span></p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(63, 63, 63)">Registe</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">用户注册</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">已完成</span></p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(63, 63, 63)">Login</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">用户登录</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">已完成</span></p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center">ForgotP<span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">assword</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">找回密码</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(0, 0, 0)">未完成</span></p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center">UpdateP<span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">assword</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">修改密码</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(0, 0, 0)">未完成</span></p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center">TokenVerify</p></td><td colspan="1" rowspan="1"><p style="text-align: center">状态检查</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">已完成(未开放)</span></p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><br class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p style="text-align: center"><br class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(0, 0, 0)">未完成</span></p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><br class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p style="text-align: center"><br class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(0, 0, 0)">未完成</span></p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><br class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p style="text-align: center"><br class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(0, 0, 0)">未完成</span></p></td></tr></tbody></table></div><h5 style="line-height: 24px"><br class="ProseMirror-trailingBreak"></h5><h5 style="line-height: 24px"><strong><span style="font-size: 20px">公共验证码 (</span><span style="color: rgb(63, 63, 63)">GetCode</span>)<span style="color: rgb(192, 0, 0); font-size: 12px">该接口用于用户登录时进行人机检查</span></strong></h5><p><strong><span style="color: green">请求样例：</span><span style="font-family: -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif; color: rgb(77, 77, 77)">&nbsp;</span></strong></p><div class="aie-codeblock-wrapper">
+                <div class="aie-codeblock-tools" contenteditable="false">
+                    <div class="aie-codeblock-tools-lang" contenteditable="false"><span>示例代码</span><svg  viewBox="0 0 24 24" class="disable-cursor"><path d="M12 16L6 10H18L12 16Z"></path></svg></div>
+                </div>
+                <pre class="hljs"><code>“data”:{&nbsp;
+    "way":&nbsp;“getcode”,
+}),</code></pre>
+                </div><p><br class="ProseMirror-trailingBreak"></p><p style="line-height: 26px"><strong><span style="color: red">参数说明:</span>&nbsp;</strong></p><div class="tableWrapper"><table style="min-width: 100px;"><colgroup><col><col><col><col></colgroup><tbody><tr><th colspan="1" rowspan="1"><p style="text-align: center">字段名称</p></th><th colspan="1" rowspan="1"><p style="text-align: center">类型</p></th><th colspan="1" rowspan="1"><p style="text-align: center">必须</p></th><th colspan="1" rowspan="1"><p style="text-align: center">描述</p></th></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">way</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">是 (getcode)</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">请求标识</p></td></tr></tbody></table></div><p><strong><span style="color: green">返回样例：(成功)</span><span style="font-family: -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif; color: rgb(77, 77, 77)">&nbsp;</span></strong></p><div class="aie-codeblock-wrapper">
+                <div class="aie-codeblock-tools" contenteditable="false">
+                    <div class="aie-codeblock-tools-lang" contenteditable="false"><span>示例代码</span><svg  viewBox="0 0 24 24" class="disable-cursor"><path d="M12 16L6 10H18L12 16Z"></path></svg></div>
+                </div>
+                <pre class="hljs"><code>{&nbsp;
+&nbsp;&nbsp;&nbsp;message:"获取验证码成功！"
+&nbsp;&nbsp;&nbsp;success:&nbsp;true
+ &nbsp;   image: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD//gA+Q1JFQVRPUjogZ2QtanBlZyB2MS4wIC"
+ &nbsp;   codeid："1234"
+}</code></pre>
+                </div><p><strong><span style="color: green">返回样例：(失败)</span><span style="font-family: -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif; color: rgb(77, 77, 77)">&nbsp;</span></strong></p><div class="aie-codeblock-wrapper">
+                <div class="aie-codeblock-tools" contenteditable="false">
+                    <div class="aie-codeblock-tools-lang" contenteditable="false"><span>示例代码</span><svg  viewBox="0 0 24 24" class="disable-cursor"><path d="M12 16L6 10H18L12 16Z"></path></svg></div>
+                </div>
+                <pre class="hljs"><code>{&nbsp;
+&nbsp;&nbsp;&nbsp;message:"获取验证码失败！"
+&nbsp;&nbsp;&nbsp;success:&nbsp;false
+}</code></pre>
+                </div><p style="line-height: 26px"><strong><span style="color: red">参数说明:</span>&nbsp;</strong></p><div class="tableWrapper"><table style="min-width: 75px;"><colgroup><col><col><col></colgroup><tbody><tr><th colspan="1" rowspan="1"><p style="text-align: center">字段名称</p></th><th colspan="1" rowspan="1"><p style="text-align: center">类型</p></th><th colspan="1" rowspan="1"><p style="text-align: center">描述</p></th></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">message</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center">返回验证码信息</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">success</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">布尔</p></td><td colspan="1" rowspan="1"><p style="text-align: center">返回获取验证码结果</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center">image</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">string</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">返回验证码图片(base64)</span></p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center">codeid</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">string</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">验证码id，校验时须同时携带id和验证码</span></p></td></tr></tbody></table></div><h5 style="line-height: 24px"><strong><span style="font-size: 20px">邮箱验证码 (</span><span style="color: rgb(63, 63, 63)">GetEmailCode</span>)<span style="color: rgb(192, 0, 0); font-size: 12px">该接口用于注册时的邮箱验证</span></strong></h5><p><strong><span style="color: green">请求样例：</span><span style="font-family: -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif; color: rgb(77, 77, 77)">&nbsp;</span></strong></p><div class="aie-codeblock-wrapper">
+                <div class="aie-codeblock-tools" contenteditable="false">
+                    <div class="aie-codeblock-tools-lang" contenteditable="false"><span>示例代码</span><svg  viewBox="0 0 24 24" class="disable-cursor"><path d="M12 16L6 10H18L12 16Z"></path></svg></div>
+                </div>
+                <pre class="hljs"><code>“data”:{&nbsp;
+    "way":&nbsp;“getemailcode”,
+    "email":"xxx@xxx"
+}),</code></pre>
+                </div><p><br class="ProseMirror-trailingBreak"></p><p style="line-height: 26px"><strong><span style="color: red">参数说明:</span>&nbsp;</strong></p><div class="tableWrapper"><table style="min-width: 100px;"><colgroup><col><col><col><col></colgroup><tbody><tr><th colspan="1" rowspan="1"><p style="text-align: center">字段名称</p></th><th colspan="1" rowspan="1"><p style="text-align: center">类型</p></th><th colspan="1" rowspan="1"><p style="text-align: center">必须</p></th><th colspan="1" rowspan="1"><p style="text-align: center">描述</p></th></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">way</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">是 (getemailcode)</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">请求标识</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center">email</p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(63, 63, 63)">是&nbsp;</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">用户邮箱</p></td></tr></tbody></table></div><p><strong><span style="color: green">返回样例：(成功)</span><span style="font-family: -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif; color: rgb(77, 77, 77)">&nbsp;</span></strong></p><div class="aie-codeblock-wrapper">
+                <div class="aie-codeblock-tools" contenteditable="false">
+                    <div class="aie-codeblock-tools-lang" contenteditable="false"><span>示例代码</span><svg  viewBox="0 0 24 24" class="disable-cursor"><path d="M12 16L6 10H18L12 16Z"></path></svg></div>
+                </div>
+                <pre class="hljs"><code>{&nbsp;
+    message:"邮件已发送！"
+&nbsp;&nbsp;success:&nbsp;true
+    codeid："1234"
+}</code></pre>
+                </div><p><strong><span style="color: green">返回样例：(失败)</span><span style="font-family: -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif; color: rgb(77, 77, 77)">&nbsp;</span></strong></p><div class="aie-codeblock-wrapper">
+                <div class="aie-codeblock-tools" contenteditable="false">
+                    <div class="aie-codeblock-tools-lang" contenteditable="false"><span>示例代码</span><svg  viewBox="0 0 24 24" class="disable-cursor"><path d="M12 16L6 10H18L12 16Z"></path></svg></div>
+                </div>
+                <pre class="hljs"><code>{&nbsp;
+&nbsp;&nbsp;&nbsp;message:"邮箱已经存在！" &amp;&amp; message:"邮件服务器异常！"
+&nbsp;&nbsp;&nbsp;success:&nbsp;false
+}</code></pre>
+                </div><p style="line-height: 26px"><strong><span style="color: red">参数说明:</span>&nbsp;</strong></p><div class="tableWrapper"><table style="min-width: 75px;"><colgroup><col><col><col></colgroup><tbody><tr><th colspan="1" rowspan="1"><p style="text-align: center">字段名称</p></th><th colspan="1" rowspan="1"><p style="text-align: center">类型</p></th><th colspan="1" rowspan="1"><p style="text-align: center">描述</p></th></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">message</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center">返回验证码信息</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">success</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">布尔</p></td><td colspan="1" rowspan="1"><p style="text-align: center">返回获取验证码结果</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center">codeid</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">string</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">验证码id，校验时须同时携带id和验证码</p></td></tr></tbody></table></div><h5 style="line-height: 24px"><strong><span style="font-size: 20px">手机验证码 (</span><span style="color: rgb(63, 63, 63)">GetPhoneCode</span>)<span style="color: rgb(192, 0, 0); font-size: 12px">该接口用于注册时的验证</span></strong></h5><p><strong><span style="color: green">请求样例：</span><span style="font-family: -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif; color: rgb(77, 77, 77)">&nbsp;</span></strong></p><div class="aie-codeblock-wrapper">
+                <div class="aie-codeblock-tools" contenteditable="false">
+                    <div class="aie-codeblock-tools-lang" contenteditable="false"><span>示例代码</span><svg  viewBox="0 0 24 24" class="disable-cursor"><path d="M12 16L6 10H18L12 16Z"></path></svg></div>
+                </div>
+                <pre class="hljs"><code>“data”:{&nbsp;
+    "way":&nbsp;“getphonecode”,
+    "email":"xxx@xxx"
+}),</code></pre>
+                </div><p><br class="ProseMirror-trailingBreak"></p><p style="line-height: 26px"><strong><span style="color: red">参数说明:</span>&nbsp;</strong></p><div class="tableWrapper"><table style="min-width: 100px;"><colgroup><col><col><col><col></colgroup><tbody><tr><th colspan="1" rowspan="1"><p style="text-align: center">字段名称</p></th><th colspan="1" rowspan="1"><p style="text-align: center">类型</p></th><th colspan="1" rowspan="1"><p style="text-align: center">必须</p></th><th colspan="1" rowspan="1"><p style="text-align: center">描述</p></th></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">way</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">是 (getephonecode)</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">请求标识</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center">phone</p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(63, 63, 63)">是&nbsp;</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">手机号码</p></td></tr></tbody></table></div><p><strong><span style="color: green">返回样例：(成功)</span><span style="font-family: -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif; color: rgb(77, 77, 77)">&nbsp;</span></strong></p><div class="aie-codeblock-wrapper">
+                <div class="aie-codeblock-tools" contenteditable="false">
+                    <div class="aie-codeblock-tools-lang" contenteditable="false"><span>示例代码</span><svg  viewBox="0 0 24 24" class="disable-cursor"><path d="M12 16L6 10H18L12 16Z"></path></svg></div>
+                </div>
+                <pre class="hljs"><code>{&nbsp;
+&nbsp;&nbsp;message:"验证码已发送！"
+&nbsp;&nbsp;success:&nbsp;true
+ &nbsp; codeid："1234"
+}</code></pre>
+                </div><p style="line-height: 26px"><br class="ProseMirror-trailingBreak"></p><p><strong><span style="color: green">返回样例：(失败)</span><span style="font-family: -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif; color: rgb(77, 77, 77)">&nbsp;</span></strong></p><div class="aie-codeblock-wrapper">
+                <div class="aie-codeblock-tools" contenteditable="false">
+                    <div class="aie-codeblock-tools-lang" contenteditable="false"><span>示例代码</span><svg  viewBox="0 0 24 24" class="disable-cursor"><path d="M12 16L6 10H18L12 16Z"></path></svg></div>
+                </div>
+                <pre class="hljs"><code>{&nbsp;
+&nbsp;&nbsp;&nbsp;message:"请勿短时间内重复获取！" &amp;&amp; message:"短信服务器异常！"
+&nbsp;&nbsp;&nbsp;success:&nbsp;false
+}</code></pre>
+                </div><p style="line-height: 26px"><strong><span style="color: red">参数说明:</span>&nbsp;</strong></p><div class="tableWrapper"><table style="min-width: 75px;"><colgroup><col><col><col></colgroup><tbody><tr><th colspan="1" rowspan="1"><p style="text-align: center">字段名称</p></th><th colspan="1" rowspan="1"><p style="text-align: center">类型</p></th><th colspan="1" rowspan="1"><p style="text-align: center">描述</p></th></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">message</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center">返回验证码信息</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">success</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">布尔</p></td><td colspan="1" rowspan="1"><p style="text-align: center">返回获取验证码结果</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center">codeid</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">string</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">验证码id，校验时须同时携带id和验证码</p></td></tr></tbody></table></div><h5 style="line-height: 24px"><strong><span style="font-size: 20px">用户注册 (</span><span style="color: rgb(63, 63, 63)">Registe</span>)<span style="color: rgb(192, 0, 0); font-size: 12px">该接口用于手机号或邮箱注册</span></strong></h5><p><strong><span style="color: green">请求样例：</span><span style="font-family: -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif; color: rgb(77, 77, 77)">&nbsp;</span></strong></p><div class="aie-codeblock-wrapper">
+                <div class="aie-codeblock-tools" contenteditable="false">
+                    <div class="aie-codeblock-tools-lang" contenteditable="false"><span>示例代码</span><svg  viewBox="0 0 24 24" class="disable-cursor"><path d="M12 16L6 10H18L12 16Z"></path></svg></div>
+                </div>
+                <pre class="hljs"><code>“data”:{&nbsp;
+    "way":&nbsp;“register”,
+    "username":&nbsp;"xxx",
+    "password":&nbsp;"xxx",
+    "email":"xxx@xxx",(可选)
+    "phone”:"11111111111",(可选)
+    "codeid":&nbsp;"xxx",
+    "code":&nbsp;"xxx",
+}),</code></pre>
+                </div><p><br class="ProseMirror-trailingBreak"></p><p style="line-height: 26px"><strong><span style="color: red">参数说明:</span>&nbsp;</strong></p><div class="tableWrapper"><table style="min-width: 100px;"><colgroup><col><col><col><col></colgroup><tbody><tr><th colspan="1" rowspan="1"><p style="text-align: center">字段名称</p></th><th colspan="1" rowspan="1"><p style="text-align: center">类型</p></th><th colspan="1" rowspan="1"><p style="text-align: center">必须</p></th><th colspan="1" rowspan="1"><p style="text-align: center">描述</p></th></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">way</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">是(register)</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">请求标识</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">username</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center">是</p></td><td colspan="1" rowspan="1"><p style="text-align: center">用户名</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">password</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center">是</p></td><td colspan="1" rowspan="1"><p style="text-align: center">用户密码</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(147, 137, 83)">email</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center">可选</p></td><td colspan="1" rowspan="1"><p style="text-align: center">用户邮箱(二选一)</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(147, 137, 83)">phone</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center">可选</p></td><td colspan="1" rowspan="1"><p style="text-align: center">手机号码(二选一)</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">codeid</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center">是</p></td><td colspan="1" rowspan="1"><p style="text-align: center">验证码id，鉴权使用</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">code</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center">是</p></td><td colspan="1" rowspan="1"><p style="text-align: center">邮箱验证码，验证邮箱</p></td></tr></tbody></table></div><p><strong><span style="color: green">返回样例：(成功)</span><span style="font-family: -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif; color: rgb(77, 77, 77)">&nbsp;</span></strong></p><div class="aie-codeblock-wrapper">
+                <div class="aie-codeblock-tools" contenteditable="false">
+                    <div class="aie-codeblock-tools-lang" contenteditable="false"><span>示例代码</span><svg  viewBox="0 0 24 24" class="disable-cursor"><path d="M12 16L6 10H18L12 16Z"></path></svg></div>
+                </div>
+                <pre class="hljs"><code>{&nbsp;
+&nbsp;&nbsp;&nbsp;message:"注册成功！"
+&nbsp;&nbsp;&nbsp;success:&nbsp;true
+}</code></pre>
+                </div><p style="line-height: 26px"><br class="ProseMirror-trailingBreak"></p><p><strong><span style="color: green">返回样例：(失败)</span><span style="font-family: -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif; color: rgb(77, 77, 77)">&nbsp;</span></strong></p><div class="aie-codeblock-wrapper">
+                <div class="aie-codeblock-tools" contenteditable="false">
+                    <div class="aie-codeblock-tools-lang" contenteditable="false"><span>示例代码</span><svg  viewBox="0 0 24 24" class="disable-cursor"><path d="M12 16L6 10H18L12 16Z"></path></svg></div>
+                </div>
+                <pre class="hljs"><code>{&nbsp;
+&nbsp;&nbsp;&nbsp;message:"用户名已存在！"
+&nbsp;&nbsp;&nbsp;success:&nbsp;false
+}</code></pre>
+                </div><p style="line-height: 26px"><strong><span style="color: red">参数说明:</span>&nbsp;</strong></p><div class="tableWrapper"><table style="min-width: 75px;"><colgroup><col><col><col></colgroup><tbody><tr><th colspan="1" rowspan="1"><p style="text-align: center">字段名称</p></th><th colspan="1" rowspan="1"><p style="text-align: center">类型</p></th><th colspan="1" rowspan="1"><p style="text-align: center">描述</p></th></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">message</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center">返回注册信息</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">success</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">布尔</p></td><td colspan="1" rowspan="1"><p style="text-align: center">返回注册结果</p></td></tr></tbody></table></div><h5 style="line-height: 24px"><strong><span style="font-size: 20px">用户登录 (</span><span style="color: rgb(63, 63, 63)">Registe</span>)<span style="color: rgb(192, 0, 0); font-size: 12px">该接口用于进行用户名+密码或邮箱+密码登录</span></strong></h5><p><strong><span style="color: green">请求样例：</span><span style="font-family: -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif; color: rgb(77, 77, 77)">&nbsp;</span></strong></p><div class="aie-codeblock-wrapper">
+                <div class="aie-codeblock-tools" contenteditable="false">
+                    <div class="aie-codeblock-tools-lang" contenteditable="false"><span>示例代码</span><svg  viewBox="0 0 24 24" class="disable-cursor"><path d="M12 16L6 10H18L12 16Z"></path></svg></div>
+                </div>
+                <pre class="hljs"><code>“data”:{&nbsp;
+    "way":&nbsp;“login”,
+    "username":&nbsp;"xxx",
+    "password":&nbsp;"xxx",
+    "codeid":&nbsp;"xxx",
+    "code":&nbsp;"xxx",
+}),</code></pre>
+                </div><p><br class="ProseMirror-trailingBreak"></p><p style="line-height: 26px"><strong><span style="color: red">参数说明:</span>&nbsp;</strong></p><div class="tableWrapper"><table style="min-width: 100px;"><colgroup><col><col><col><col></colgroup><tbody><tr><th colspan="1" rowspan="1"><p style="text-align: center">字段名称</p></th><th colspan="1" rowspan="1"><p style="text-align: center">类型</p></th><th colspan="1" rowspan="1"><p style="text-align: center">必须</p></th><th colspan="1" rowspan="1"><p style="text-align: center">描述</p></th></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">way</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">是 (login)</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">请求标识</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">username</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center">是</p></td><td colspan="1" rowspan="1"><p style="text-align: center">用户名/邮箱</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">password</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center">是</p></td><td colspan="1" rowspan="1"><p style="text-align: center">用户密码</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">codeid</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center">是</p></td><td colspan="1" rowspan="1"><p style="text-align: center">验证码id，鉴权使用</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">code</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center">是</p></td><td colspan="1" rowspan="1"><p style="text-align: center">验证码，人机检测</p></td></tr></tbody></table></div><p><strong><span style="color: green">返回样例：(成功)</span><span style="font-family: -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif; color: rgb(77, 77, 77)">&nbsp;</span></strong></p><div class="aie-codeblock-wrapper">
+                <div class="aie-codeblock-tools" contenteditable="false">
+                    <div class="aie-codeblock-tools-lang" contenteditable="false"><span>示例代码</span><svg  viewBox="0 0 24 24" class="disable-cursor"><path d="M12 16L6 10H18L12 16Z"></path></svg></div>
+                </div>
+                <pre class="hljs"><code>{&nbsp;
+&nbsp;&nbsp;&nbsp;message:"登录成功！"
+&nbsp;&nbsp;&nbsp;success:&nbsp;true
+ &nbsp;   token: "f98545fa6fb3a191d8ea26c1eee20e41753cf995daa65150f3e10f8a216b72e9769924df94238"
+}</code></pre>
+                </div><p style="line-height: 26px"><br class="ProseMirror-trailingBreak"></p><p><strong><span style="color: green">返回样例：(失败)</span><span style="font-family: -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif; color: rgb(77, 77, 77)">&nbsp;</span></strong></p><div class="aie-codeblock-wrapper">
+                <div class="aie-codeblock-tools" contenteditable="false">
+                    <div class="aie-codeblock-tools-lang" contenteditable="false"><span>示例代码</span><svg  viewBox="0 0 24 24" class="disable-cursor"><path d="M12 16L6 10H18L12 16Z"></path></svg></div>
+                </div>
+                <pre class="hljs"><code>{&nbsp;
+&nbsp;&nbsp;&nbsp;message:"用户名或密码错误！"
+&nbsp;&nbsp;&nbsp;success:&nbsp;false
+}</code></pre>
+                </div><p style="line-height: 26px"><strong><span style="color: red">参数说明:</span>&nbsp;</strong></p><div class="tableWrapper"><table style="min-width: 75px;"><colgroup><col><col><col></colgroup><tbody><tr><th colspan="1" rowspan="1"><p style="text-align: center">字段名称</p></th><th colspan="1" rowspan="1"><p style="text-align: center">类型</p></th><th colspan="1" rowspan="1"><p style="text-align: center">描述</p></th></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">message</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">string</p></td><td colspan="1" rowspan="1"><p style="text-align: center">返回登录信息</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="font-family: Consolas, Courier New, Courier, mono, serif; color: rgb(63, 63, 63)">success</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center">布尔</p></td><td colspan="1" rowspan="1"><p style="text-align: center">返回登录结果</p></td></tr><tr><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">token</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">string</span></p></td><td colspan="1" rowspan="1"><p style="text-align: center"><span style="color: rgb(192, 0, 0)">返回用户令牌（唯一令牌，鉴权使用）</span></p></td></tr></tbody></table></div><h5 style="line-height: 24px"><strong><span style="font-size: 20px">找回密码 (</span><span style="color: rgb(63, 63, 63)">ForgotPassword</span>)<span style="color: rgb(192, 0, 0); font-size: 12px">该接口用于用户忘记密码时找回</span></strong></h5><p><br class="ProseMirror-trailingBreak"></p><h5 style="line-height: 24px"><strong><span style="font-size: 20px">修改密码 (</span><span style="color: rgb(63, 63, 63)">UpdatePassword</span>)<span style="color: rgb(192, 0, 0); font-size: 12px">该接口用于用户修改用户密码</span></strong></h5><p><br class="ProseMirror-trailingBreak"></p><h5 style="line-height: 24px"><strong><span style="font-size: 20px">状态检查 (</span><span style="color: rgb(63, 63, 63)">TokenVerify</span>)<span style="color: rgb(192, 0, 0); font-size: 12px">该接口用于前端token校验，登录过期判断</span></strong></h5><p><br class="ProseMirror-trailingBreak"></p></div></div><aie-footer>
+        <div style="display: flex"> 
+            <span> 此api为测试阶段提供参考，生产环境中可能会有所改动 </span>
+            <div style="width: 20px;height: 20px" >
+                <svg  viewBox="0 0 24 24" class="disable-cursor"><path d="M12 16L6 10H18L12 16Z"></path></svg>
+            </div>
+        </div>
+        </aie-footer></div></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+  </section>
+
+  <section id="endpoint3" class="endpoint">
+    <h2>数据库系统</h2>
+    
+    <pre><center>创建用户表</center>
+      <code class="language-sql">
+      -- 创建用户表
+      CREATE TABLE user (
+          user_id INT PRIMARY KEY AUTO_INCREMENT, -- 用户ID
+          username VARCHAR(50) UNIQUE NOT NULL, -- 用户名，唯一且不能为空
+          email VARCHAR(100) COMMENT '电子邮件', -- 电子邮件
+          phone_number VARCHAR(20) COMMENT '电话号码', -- 电话号码
+          password VARCHAR(100) NOT NULL -- 密码，不能为空
+      );
+    </code></pre><pre>
+      <center>创建用户信息表</center>
+      <code class="language-sql"></code>
+      -- 创建用户信息表
+      CREATE TABLE user_info (
+          user_info_id INT PRIMARY KEY AUTO_INCREMENT, -- 用户信息ID
+          user_id INT UNIQUE COMMENT '用户ID', -- 关联的用户ID，唯一
+          full_name VARCHAR(100) COMMENT '全名', -- 全名
+          FOREIGN KEY (user_id) REFERENCES user(user_id) -- 外键，关联用户表中的用户ID
+      );
+    </code></pre><pre>
+      <center>创建用户验证表</center>
+      <code class="language-sql"></code>  
+      -- 创建用户验证表
+      CREATE TABLE user_verification (
+          verification_id INT PRIMARY KEY AUTO_INCREMENT, -- 验证ID
+          user_id INT UNIQUE COMMENT '用户ID', -- 关联的用户ID，唯一
+          token VARCHAR(100) COMMENT '验证令牌', -- 验证令牌
+          expiration DATETIME NOT NULL COMMENT '过期时间', -- 过期时间
+          FOREIGN KEY (user_id) REFERENCES user(user_id) -- 外键，关联用户表中的用户ID
+      );
+    </code></pre><pre>
+      <center>创建验证码对照表</center>
+      <code class="language-sql">
+      -- 创建验证码对照表
+      CREATE TABLE VerificationCodes (
+          id INT AUTO_INCREMENT PRIMARY KEY, -- 验证码ID
+          code VARCHAR(10) NOT NULL COMMENT '验证码', -- 验证码
+          user_id INT NOT NULL COMMENT '用户ID',  -- 用户ID
+          creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '验证码写入时间' -- 验证码写入时间
+      );
+      </code></pre>
+      
+  </section>
+
+  
+  <footer>
+    <p>&copy; 2024 API Documentation 七零网络</p>
+  </footer>
+</body>
+</html>

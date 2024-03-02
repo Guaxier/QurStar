@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>AiEditor Demo</title>
+    <link type="text/css" rel="stylesheet" href="./aieditor/style.css">
+    <script type="module">
+        import {AiEditor} from './aieditor/index.js'
+
+        new AiEditor({
+            element: "#aiEditor",
+            placeholder: "点击输入内容...",
+            content: 'sdsd',
+            onMentionQuery: (query) => {
+                return [
+                    'Michael Yang', 'Jean Zhou', 'Tom Cruise', 'Madonna', 'Jerry Hall', 'Joan Collins', 'Winona Ryder'
+                    , 'Christina Applegate', 'Alyssa Milano', 'Molly Ringwald', 'Ally Sheedy', 'Debbie Harry', 'Olivia Newton-John'
+                    , 'Elton John', 'Michael J. Fox', 'Axl Rose', 'Emilio Estevez', 'Ralph Macchio', 'Rob Lowe', 'Jennifer Grey'
+                    , 'Mickey Rourke', 'John Cusack', 'Matthew Broderick', 'Justine Bateman', 'Lisa Bonet',
+                ].filter(item => item.toLowerCase().startsWith(query.toLowerCase())).slice(0, 5)
+            },
+            ai: {
+                models: {
+                    spark: {
+                        appId: "***",
+                        apiKey: "***",
+                        apiSecret: "***",
+                    }
+                }
+            },
+        })
+    </script>
+
+    <script>
+        let isDark = false;
+
+        function dark() {
+            if (!isDark) {
+                document.body.style.background = "#1a1b1e"
+                document.querySelector("#title").style.color = "#eee"
+                document.querySelector("#aiEditor").classList.remove("aie-theme-light");
+                document.querySelector("#aiEditor").classList.add("aie-theme-dark");
+            } else {
+                document.body.style.background = ""
+                document.querySelector("#title").style.color = ""
+                document.querySelector("#aiEditor").classList.remove("aie-theme-dark");
+                document.querySelector("#aiEditor").classList.add("aie-theme-light");
+            }
+            isDark = !isDark;
+        }
+
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?9fd447a0f9e62a84d1b752a2cacb2c6b";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</head>
+<body>
+
+<div id="aiEditor" style="height: 550px;  margin: 20px"></div>
+
+</body>
+</html>
