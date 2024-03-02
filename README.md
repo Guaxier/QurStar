@@ -1,5 +1,5 @@
 
-/****
+
 
     * 系统名称: 齐心创艺礼物系统（API部分）
     * 作者信息: 郭影（www.qilingwl.com）
@@ -15,16 +15,19 @@
     
     * 依赖环境：Nginx1.24,PHP8.3,Mysql5.7,Vue3
                 ----php模块：PHPMailer.php,SMTP.php
-                ----Vue模块:
+                ----Vue模块:;
 
-****/
+---
+---
 
-【API接口】
-
+API接口:
+```
 具体的API调用方法请参照docs/index.html
+```
+项目结构:
 
-【项目结构】
 
+```
 project/
 │
 ├── api/                        # API 路径
@@ -61,10 +64,10 @@ project/
 │
 ├── .gitignore                  # Git 忽略配置文件
 └── README.md                   # 项目说明文档
+```
 
-
-【结构说明】
-
+结构说明：
+```
 api/ 目录包含所有的 API 脚本。
 auth/ 子目录包含处理身份验证相关功能的脚本，如登录、注册和忘记密码。
 includes/ 目录包含共享的配置和功能文件。
