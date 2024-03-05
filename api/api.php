@@ -7,7 +7,8 @@
 //统一引入处理函数文件
 require_once 'includes/functions.php'; // 导入共享函数文件
 require_once 'includes/CaptchaManager.php'; // 导入验证码管理类
-require_once 'includes/emailspend.php';//邮件设置
+require_once 'includes/emailspend.php';//邮件发送
+require_once 'includes/smspend.php';//短信发送
 
 //统一引入处理api文件
 require_once 'auth/login.php';//登录及其token验证api
@@ -64,7 +65,7 @@ if (empty($way)) {
 // 根据传入的way参数，调用不同的api函数
 if ($way) {
     switch ($way) {
-        // 请求验证码(getcode)
+        // 请求图形验证码(getcode)
         case 'getcode':
             getcode();//获取验证码
             break;
@@ -76,6 +77,14 @@ if ($way) {
         case 'getemailcode':
             $toEmail = $post_data["email"];//邮箱
             getemailcode($toEmail);//发送邮箱验证码
+            break;
+
+        
+
+        //请求手机验证码
+        case 'getphonecode':
+            $toPhone = $post_data["phone"];//手机号
+            getphonecode($toPhone);//发送手机验证码
             break;
 
 
@@ -107,6 +116,15 @@ if ($way) {
 
 
 
+        //找回密码
+/*        case 'forgetpassword':
+            $toEmail = $post_data["email"];//邮箱
+            $toPhone = $post_data["phone"];//手机号
+            $code = $post_data["code"];//验证码
+            $codeid = $post_data["codeid"];//验证码id
+            forgetpassword($toEmail,$toPhone,$code,$codeid);//找回密码验证函数
+            break;
+*/
         //状态检查
         case 'state':
             state();//状态检查
@@ -132,7 +150,7 @@ if ($way) {
 }
 
 
-//请求验证码函数
+//请求图形验证码函数
 function getcode(){
     // 初始化结果数组
     $result = array();
@@ -162,7 +180,7 @@ function getemailcode($toEmail) {
             // 处理验证码请求
             $result = $captcha_manager->handle_captcha_request(2, $toEmail);
         }else{
-            $result = array('message' => '邮箱已存在!', 'success' => false);
+            $result = array('message' => '邮箱已存在!请直接登陆！', 'success' => false);
         }
     } else {
         $result = array('message' => '邮箱格式错误!', 'success' => false);
@@ -176,14 +194,43 @@ function getemailcode($toEmail) {
     mysqli_close($mysqli);
 }
 
+//请求手机验证码函数
+function getphonecode($toPhone) {
+    // 初始化结果数组
+    $result = array();
+
+    // 验证手机号是否合法
+    if (validateInput($toPhone, 'phone')) {
+        // 判断手机号是否存在
+        if (phoneNumberExists($toPhone)) {
+            // 创建 CaptchaManager 验证码 实例
+            $captcha_manager = new CaptchaManager();
+            //处理验证码请求
+            $result = $captcha_manager->handle_captcha_request(3,$toPhone);
+        }else{
+            $result = array('message' => '手机号已存在!', 'success' => false);
+        }
+    }else{
+        $result = array('message' => '手机号格式错误!', 'success' => false);
+    }
+}
+
 
 //登录函数
 function login($username,$password,$codeid,$code){
     // 初始化结果数组
     $result = array();
+    if (validateInput($username, 'email')) {
+        // 调用登录获取token(邮箱+密码登陆)
+        $result = login_verification_email($username, $password,$codeid,$code);
+    }elseif(phoneNumberExists($username)){
+        // 调用登录获取token(手机号+密码登陆)
+        $result = login_verification_phone($username, $password,$codeid,$code);
+    }else{
+        // 调用登录获取token(账号+密码登陆)
+        $result = login_verification($username, $password,$codeid,$code);
+    }
 
-    // 调用登录获取token
-    $result = login_verification($username, $password,$codeid,$code);
     //返回token
     echo json_encode($result);
     // 关闭数据库连接

@@ -171,8 +171,21 @@ public function getcode_email($toEmail) {
     return [$code,$verification_code]; // 验证码和验证码ID
 }
 
+// 生成手机验证码
+public function getcode_phone($toPhone) {
+    $characters = '0123456789';
+    $code = '';
+    $max = strlen($characters) - 1;
+    for ($i = 0; $i < 6; $i++) {
+        $code .= $characters[mt_rand(0, $max)];
+    }
+    // 将验证码写入数据库
+    $verification_code = $this->generate_verification_code($code,$toPhone);
+    return [$code,$verification_code];
+}
+
 // 处理验证码请求
-public function handle_captcha_request($codetype = '1',$toEmail = null) {
+public function handle_captcha_request($codetype = '1',$toEmail = null,$toPhone = null) {
     //创建一个switch
     switch ($codetype) {
         case '1'://为默认值，生成普通验证码
@@ -199,7 +212,7 @@ public function handle_captcha_request($codetype = '1',$toEmail = null) {
                 
             );
         case '2'://获取邮箱验证码
-            list($result,$verification_code_id,) = $this->getcode_email($toEmail);
+            list($result,$verification_code_id) = $this->getcode_email($toEmail);
             // 验证码状态
             if (!$result) {
                 return array('success' => false,'message' => '获取验证码失败！');
@@ -210,7 +223,18 @@ public function handle_captcha_request($codetype = '1',$toEmail = null) {
             } else {
                 return array('success' => false,'codeid' => $verification_code_id,'message' => '邮件服务器异常！');
             }
-            
+        case '3'://获取短信验证码
+            list($result,$verification_code_id) = $this->getcode_phone($toPhone);
+            // 验证码状态
+            if (!$result) {
+                return array('success' => false,'message' => '获取验证码失败！');
+            }
+            // 发送短信
+            if (sendSMS($toPhone, $result)) {
+                return array('success' => true,'codeid' => $verification_code_id,'message' => '短信已发送！');
+            } else {
+                return array('success' => false,'codeid' => $verification_code_id,'message' => '短信服务器异常！');
+            }
         default:
             return array('success' => false,'message' => '获取验证码失败！');
     }

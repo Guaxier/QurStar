@@ -1,5 +1,5 @@
 <?php
-// 本php为数据库配置文件，用于配置数据库的连接信息
+// 本php为中心数据配置文件，用于配置各种常量
 
 
 // 数据库连接配置
@@ -15,3 +15,16 @@ $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 if ($mysqli->connect_error) {
     die("连接失败: " . $mysqli->connect_error);
 }
+
+
+
+
+
+
+
+
+
+//smspend.php
+define('ACCESS_KEY_ID', '111'); // 阿里云短信accessKeyId
+define('ACCESS_KEY_SECRET', '222'); // 阿里云短信accessKeySecret
+define('SECURITY_TOKEN', '333'); // 阿里云短信securityToken
