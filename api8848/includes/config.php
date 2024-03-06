@@ -25,6 +25,3 @@ if ($mysqli->connect_error) {
 
 
 //smspend.php
-define('ACCESS_KEY_ID', 'LTAI5tGKBGqEwjC77Uso12is'); // 阿里云accessKeyId
-define('ACCESS_KEY_SECRET', '3ih7UblqogEmxV5weu1jlXgVGa9fkU'); // 阿里云accessKeySecret
-//define('SECURITY_TOKEN', '333'); // 阿里云securityToken
