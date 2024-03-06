@@ -165,7 +165,7 @@
           </div>
           <div>
               <label for="phone">手机：</label>
-              <input type="text" id="email">
+              <input type="text" id="phone">
           </div>
           <div>
               <label for="verificationCode">验证码：</label>
@@ -174,15 +174,18 @@
           
           <button onclick="aaa4()">获取邮箱验证码</button>
           <button onclick="aaa1()">获取登录验证码</button>
-          <button onclick="aaa9()" class="NoOpenApi">获取手机验证码</button>
+          <button onclick="aaa6()">获取手机验证码</button>
 
+          
+          <button onclick="aaa8()">提交登录(邮箱+密码）</button>
+          <button onclick="aaa11()">提交登录(手机+密码）</button>
           <button onclick="aaa5()">提交邮箱注册</button>
-          <button onclick="aaa2()">提交用户登录</button>
-          <button onclick="aaa9()" class="NoOpenApi">提交手机注册</button>
+          <button onclick="aaa2()">提交登录(账号+密码）</button>
+          <button onclick="aaa3()" >提交手机注册</button>
           
           <button onclick="aaa9()" class="NoOpenApi">找回密码</button>
-          <button onclick="aaa9()" class="NoOpenApi">修改密码</button>
           <button onclick="aaa9()" class="NoOpenApi">状态检查</button>
+          <button onclick="aaa9()" class="NoOpenApi">修改密码</button>
           <div>
               <div id="message" style="word-wrap: break-word;overflow-wrap: break-word;"></div>
               <img id="captchaImage" src="" alt="验证码">
@@ -197,14 +200,16 @@
 
   <script>
     let currentCodeId = ""; // 用于存储当前的codeid
+
     function aaa9() {
         alert("接口未开放！");
     }
+
     function aaa1() {
         // 发送请求获取新的验证码图片
         fetch('https://video.qilingwl.com/api', {
             method: 'POST',
-            body: JSON.stringify({ way: 'getcode' }),
+            body: JSON.stringify({ way: 'getcode',codetype: 'image' }),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -236,6 +241,7 @@
         });
     }
 
+    // 账号+密码 登录
     function aaa2() {
         // 获取用户名、密码和验证码输入框的值
         const username = document.getElementById('username').value;
@@ -288,16 +294,67 @@
 
 
 
+    //手机注册
+    function aaa3() {
+        // 获取用户名、密码和验证码输入框的值
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const phone = document.getElementById('phone').value;
+        const code = document.getElementById('verificationCode').value;
+
+        // 发送请求提交验证码
+        fetch('https://video.qilingwl.com/api', {
+            method: 'POST',
+            body: JSON.stringify({ way: 'register', codeid: currentCodeId, code: code, username: username, password: password,phone: phone}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            // 检查响应的内容类型
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                return response.json();
+            } else {
+                // 如果返回的数据不是JSON，直接返回响应的文本
+                return response.text();
+            }
+        })
+        .then(data => {
+            // 解析JSON数据
+            const jsonData = JSON.parse(data);
+            // 获取消息字段
+            const message = jsonData.message;
+            // 检查是否存在token字段
+            const token = jsonData.hasOwnProperty('token') ? jsonData.token : null;
+            
+            // 构建要显示的消息字符串
+            let displayMessage = `${message}`;
+            if(token !== null) {
+                displayMessage += `\n token: ${token}`;
+            }
+            
+            // 将消息显示在页面上
+            document.getElementById('message').innerText = displayMessage;
+        })
+
+
+        
+        .catch(error => {
+            // 处理错误
+            console.error('错误:', error);
+        });
+    }
 
 
 
-
+    //邮箱验证码获取
     function aaa4() {
         const email = document.getElementById('email').value;
         // 发送请求获取新的验证码图片
         fetch('https://video.qilingwl.com/api', {
             method: 'POST',
-            body: JSON.stringify({ way: 'getemailcode',email : email }),
+            body: JSON.stringify({ way: 'getcode', codetype: 'email',email : email }),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -321,11 +378,7 @@
 
 
 
-
-
-
-
-
+    //邮箱注册
     function aaa5() {
         // 获取用户名、密码和验证码输入框的值
         const username = document.getElementById('username').value;
@@ -376,6 +429,149 @@
             console.error('错误:', error);
         });
     }
+
+
+
+
+    //手机+密码 登录验证
+    function aaa11() {
+        // 获取用户名、密码和验证码输入框的值
+        const phone = document.getElementById('phone').value;
+        const password = document.getElementById('password').value;
+        const code = document.getElementById('verificationCode').value;
+
+        // 发送请求提交验证码
+        fetch('https://video.qilingwl.com/api', {
+            method: 'POST',
+            body: JSON.stringify({ way: 'login', codeid: currentCodeId, code: code, password: password, phone: phone}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            // 检查响应的内容类型
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                return response.json();
+            } else {
+                // 如果返回的数据不是JSON，直接返回响应的文本
+                return response.text();
+            }
+        })
+        .then(data => {
+            // 解析JSON数据
+            const jsonData = JSON.parse(data);
+            // 获取消息字段
+            const message = jsonData.message;
+            // 检查是否存在token字段
+            const token = jsonData.hasOwnProperty('token') ? jsonData.token : null;
+            
+            // 构建要显示的消息字符串
+            let displayMessage = `${message}`;
+            if(token !== null) {
+                displayMessage += `\n token: ${token}`;
+            }
+            
+            // 将消息显示在页面上
+            document.getElementById('message').innerText = displayMessage;
+        })
+
+
+        
+        .catch(error => {
+            // 处理错误
+            console.error('错误:', error);
+        });
+    }
+
+
+    //手机验证码获取
+    function aaa6() {
+        const phone = document.getElementById('phone').value;
+        // 发送请求获取新的验证码图片
+        fetch('https://video.qilingwl.com/api', {
+            method: 'POST',
+            body: JSON.stringify({ way: 'getcode',codetype: 'phone',phone : phone }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+                // 获取消息字段
+                const message = data.message;
+                // 构建要显示的消息字符串
+                let displayMessage = `${message}`;
+                // 将消息显示在页面上
+                document.getElementById('message').innerText = displayMessage;
+                // 保存当前codeid的值
+                currentCodeId = data.codeid;
+        })
+        .catch(error => {
+            // 处理错误
+            console.error('错误:', error);
+        });
+    }
+
+
+
+
+
+
+
+
+        //邮箱+密码 登录验证
+        function aaa8() {
+        // 获取用户名、密码和验证码输入框的值
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const code = document.getElementById('verificationCode').value;
+
+        // 发送请求提交验证码
+        fetch('https://video.qilingwl.com/api', {
+            method: 'POST',
+            body: JSON.stringify({ way: 'login', codeid: currentCodeId, code: code,password: password,email: email}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            // 检查响应的内容类型
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                return response.json();
+            } else {
+                // 如果返回的数据不是JSON，直接返回响应的文本
+                return response.text();
+            }
+        })
+        .then(data => {
+            // 解析JSON数据
+            const jsonData = JSON.parse(data);
+            // 获取消息字段
+            const message = jsonData.message;
+            // 检查是否存在token字段
+            const token = jsonData.hasOwnProperty('token') ? jsonData.token : null;
+            
+            // 构建要显示的消息字符串
+            let displayMessage = `${message}`;
+            if(token !== null) {
+                displayMessage += `\n token: ${token}`;
+            }
+            
+            // 将消息显示在页面上
+            document.getElementById('message').innerText = displayMessage;
+        })
+
+
+        
+        .catch(error => {
+            // 处理错误
+            console.error('错误:', error);
+        });
+    }
+
+
 
 
     // 页面加载时自动刷新验证码

@@ -8,7 +8,12 @@
 require_once 'includes/functions.php'; // 导入共享函数文件
 require_once 'includes/CaptchaManager.php'; // 导入验证码管理类
 require_once 'includes/emailspend.php';//邮件发送
-require_once 'includes/smspend.php';//短信发送
+require_once 'includes/smsspend.php';//短信发送
+
+require_once 'includes/depend/SMSALI/vendor/autoload.php'; // 确保引入了自动加载文件
+
+use AlibabaCloud\SDK\Sample\Sample;
+
 
 //统一引入处理api文件
 require_once 'auth/login.php';//登录及其token验证api
@@ -65,9 +70,12 @@ if (empty($way)) {
 // 根据传入的way参数，调用不同的api函数
 if ($way) {
     switch ($way) {
-        // 请求图形验证码(getcode)
+        // 请求验证码(getcode)
         case 'getcode':
-            getcode();//获取验证码
+            $toEmail = $post_data["email"] ?? null;//邮箱
+            $toPhone = $post_data["phone"] ?? null;//手机号
+            $codetype = $post_data["codetype"];//验证码
+            getcode($codetype,$toEmail,$toPhone);//获取验证码
             break;
 
 
@@ -75,16 +83,16 @@ if ($way) {
 
         //请求邮箱验证码
         case 'getemailcode':
-            $toEmail = $post_data["email"];//邮箱
-            getemailcode($toEmail);//发送邮箱验证码
+            
+            
             break;
 
         
 
         //请求手机验证码
         case 'getphonecode':
-            $toPhone = $post_data["phone"];//手机号
-            getphonecode($toPhone);//发送手机验证码
+            
+            
             break;
 
 
@@ -151,14 +159,29 @@ if ($way) {
 
 
 //请求图形验证码函数
-function getcode(){
+function getcode($codetype, $toEmail, $toPhone){
     // 初始化结果数组
     $result = array();
-
-    // 创建 CaptchaManager 验证码 实例
-    $captcha_manager = new CaptchaManager();
-    // 处理验证码请求
-    $result = $captcha_manager->handle_captcha_request();
+    
+        if ($codetype === 'email') {// 验证码类型：邮箱注册
+            
+            
+            $result = getemailcode($toEmail);//发送邮箱验证码
+        }
+        elseif ($codetype === 'phone') {// 验证码类型:手机注册
+            
+            $result = getphonecode($toPhone);//发送手机验证码
+        }
+        elseif ($codetype === "image") {
+            // 创建 CaptchaManager 验证码 实例
+            $captcha_manager = new CaptchaManager();
+            // 处理验证码请求
+            $result = $captcha_manager->handle_captcha_request();
+        }
+        else {
+            $result = array('success' => false,'message' => '非法请求!');
+        }
+    
     // 返回 JSON 响应
     echo json_encode($result);
     // 关闭数据库连接
@@ -168,51 +191,34 @@ function getcode(){
 
 //请求邮箱验证码函数
 function getemailcode($toEmail) {
-    // 初始化结果数组
-    $result = array();
-
     // 验证邮箱是否合法
-    if (validateInput($toEmail, 'email')) {
-        // 判断邮箱是否存在
-        if (!emailExists($toEmail)) {
+    if (!validateInput($toEmail, 'email')) {
+        $result = array('message' => '邮箱格式错误!', 'success' => false);
+    }elseif (!emailExists($toEmail)) {// 判断邮箱是否存在
             // 创建 CaptchaManager 验证码 实例
             $captcha_manager = new CaptchaManager();
             // 处理验证码请求
-            $result = $captcha_manager->handle_captcha_request(2, $toEmail);
-        }else{
-            $result = array('message' => '邮箱已存在!请直接登陆！', 'success' => false);
+            $result = $captcha_manager->handle_captcha_request(2, $toEmail,null);
+    }else{
+            $result = array('message' => '邮箱已存在!请直接登陆!', 'success' => false);
         }
-    } else {
-        $result = array('message' => '邮箱格式错误!', 'success' => false);
-    }
-
-    // 返回 JSON 响应
-    echo json_encode($result);
-
-    // 关闭数据库连接
-    global $mysqli;
-    mysqli_close($mysqli);
+    return $result;
 }
 
 //请求手机验证码函数
 function getphonecode($toPhone) {
-    // 初始化结果数组
-    $result = array();
-
     // 验证手机号是否合法
-    if (validateInput($toPhone, 'phone')) {
-        // 判断手机号是否存在
-        if (phoneNumberExists($toPhone)) {
+    if (!validateInput($toPhone, 'phone')) {
+        $result = array('message' => '手机号格式错误!', 'success' => false);
+    }elseif (!phoneNumberExists($toPhone)) {// 判断手机号是否存在
             // 创建 CaptchaManager 验证码 实例
             $captcha_manager = new CaptchaManager();
             //处理验证码请求
-            $result = $captcha_manager->handle_captcha_request(3,$toPhone);
+            $result = $captcha_manager->handle_captcha_request(3,null,$toPhone);
         }else{
             $result = array('message' => '手机号已存在!', 'success' => false);
         }
-    }else{
-        $result = array('message' => '手机号格式错误!', 'success' => false);
-    }
+    return $result;
 }
 
 

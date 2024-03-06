@@ -3,17 +3,15 @@ CREATE TABLE user (
     user_id INT PRIMARY KEY AUTO_INCREMENT, -- 用户ID
     username VARCHAR(50) UNIQUE NOT NULL, -- 用户名，唯一且不能为空
     email VARCHAR(100) COMMENT '电子邮件', -- 电子邮件
-    phone VARCHAR(20) COMMENT '电话号码', -- 电话号码
-    salt VARCHAR(32), -- 盐值字段
+    phone_number VARCHAR(20) COMMENT '电话号码', -- 电话号码
     password VARCHAR(100) NOT NULL -- 密码，不能为空
 );
-
 
 -- 创建用户信息表
 CREATE TABLE user_info (
     user_info_id INT PRIMARY KEY AUTO_INCREMENT, -- 用户信息ID
     user_id INT UNIQUE COMMENT '用户ID', -- 关联的用户ID，唯一
-    full_name VARCHAR(100) COMMENT '全名', -- 全名
+    full_name VARCHAR(100) COMMENT '用户昵称', -- 昵称
     FOREIGN KEY (user_id) REFERENCES user(user_id) -- 外键，关联用户表中的用户ID
 );
 

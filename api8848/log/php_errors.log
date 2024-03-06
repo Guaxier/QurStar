@@ -1,0 +1,58 @@
+[06-Mar-2024 11:05:19 PRC] PHP Fatal error:  Uncaught Error: Call to undefined function sendSMS() in /www/wwwroot/video.qilingwl.com/api8848/includes/CaptchaManager.php:233
+Stack trace:
+#0 /www/wwwroot/video.qilingwl.com/api8848/api.php(213): CaptchaManager->handle_captcha_request()
+#1 /www/wwwroot/video.qilingwl.com/api8848/api.php(169): getphonecode()
+#2 /www/wwwroot/video.qilingwl.com/api8848/api.php(77): getcode()
+#3 {main}
+  thrown in /www/wwwroot/video.qilingwl.com/api8848/includes/CaptchaManager.php on line 233
+[06-Mar-2024 11:06:11 PRC] PHP Fatal error:  Uncaught Error: Class "Sample" not found in /www/wwwroot/video.qilingwl.com/api8848/includes/CaptchaManager.php:233
+Stack trace:
+#0 /www/wwwroot/video.qilingwl.com/api8848/api.php(213): CaptchaManager->handle_captcha_request()
+#1 /www/wwwroot/video.qilingwl.com/api8848/api.php(169): getphonecode()
+#2 /www/wwwroot/video.qilingwl.com/api8848/api.php(77): getcode()
+#3 {main}
+  thrown in /www/wwwroot/video.qilingwl.com/api8848/includes/CaptchaManager.php on line 233
+[06-Mar-2024 11:08:44 PRC] PHP Fatal error:  Uncaught Error: Call to undefined function sendSMS() in /www/wwwroot/video.qilingwl.com/api8848/includes/CaptchaManager.php:233
+Stack trace:
+#0 /www/wwwroot/video.qilingwl.com/api8848/api.php(213): CaptchaManager->handle_captcha_request()
+#1 /www/wwwroot/video.qilingwl.com/api8848/api.php(169): getphonecode()
+#2 /www/wwwroot/video.qilingwl.com/api8848/api.php(77): getcode()
+#3 {main}
+  thrown in /www/wwwroot/video.qilingwl.com/api8848/includes/CaptchaManager.php on line 233
+[06-Mar-2024 11:33:22 PRC] PHP Warning:  Undefined array key "username" in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 103
+[06-Mar-2024 11:39:36 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:39:36 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 172
+[06-Mar-2024 11:39:36 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:39:36 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 172
+[06-Mar-2024 11:39:47 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:39:47 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 172
+[06-Mar-2024 11:40:39 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:40:39 PRC] PHP Warning:  Undefined variable $image in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 172
+[06-Mar-2024 11:40:39 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 172
+[06-Mar-2024 11:47:38 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:47:38 PRC] PHP Fatal error:  Uncaught Error: Undefined constant "codetype" in /www/wwwroot/video.qilingwl.com/api8848/api.php:169
+Stack trace:
+#0 /www/wwwroot/video.qilingwl.com/api8848/api.php(78): getcode()
+#1 {main}
+  thrown in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 169
+[06-Mar-2024 11:48:33 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:48:33 PRC] PHP Warning:  Undefined variable $image in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 172
+[06-Mar-2024 11:48:39 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:48:39 PRC] PHP Warning:  Undefined variable $image in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 172
+[06-Mar-2024 11:48:48 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:48:48 PRC] PHP Warning:  Undefined variable $image in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 172
+[06-Mar-2024 11:49:18 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:49:21 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:49:47 PRC] PHP Warning:  Undefined array key "codetype" in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 77
+[06-Mar-2024 11:49:47 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:50:17 PRC] PHP Warning:  Undefined array key "codetype" in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 77
+[06-Mar-2024 11:50:17 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:50:19 PRC] PHP Warning:  Undefined array key "codetype" in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 77
+[06-Mar-2024 11:50:19 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:51:15 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:51:18 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:51:24 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:51:36 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:52:35 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:52:46 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+[06-Mar-2024 11:52:47 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78

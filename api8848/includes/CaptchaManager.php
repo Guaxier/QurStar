@@ -230,11 +230,15 @@ public function handle_captcha_request($codetype = '1',$toEmail = null,$toPhone 
                 return array('success' => false,'message' => '获取验证码失败！');
             }
             // 发送短信
-            if (sendSMS($toPhone, $result)) {
-                return array('success' => true,'codeid' => $verification_code_id,'message' => '短信已发送！');
+            $smsResponse = sendSMS($toPhone, $result);
+            
+            if ($smsResponse['success']) {
+                return array('success' => true, 'codeid' => $verification_code_id, 'message' => '短信已发送！');
             } else {
-                return array('success' => false,'codeid' => $verification_code_id,'message' => '短信服务器异常！');
+                $errorMessage = isset($smsResponse['message']) ? $smsResponse['message'] : '未知错误';
+                return array('success' => false, 'message' => '短信服务器异常，' . $errorMessage);
             }
+
         default:
             return array('success' => false,'message' => '获取验证码失败！');
     }

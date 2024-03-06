@@ -1,9 +1,0 @@
-RewriteEngine On
-RewriteBase /api/
-
-# 将 /login 请求重写到 login.php 文件
-RewriteRule ^login$ auth/login.php [L]
-# 将 /register 请求重写到 register.php 文件
-RewriteRule ^login$ auth/register.php [L]
-# 将 /forgot_password 请求重写到 forgot_password.php 文件
-RewriteRule ^forgot$ auth/forgot_password.php [L]

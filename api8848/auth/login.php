@@ -32,10 +32,11 @@ function login_verification($username, $password, $codeid, $code) {
             $stmt->fetch();
 
             // 对提供的密码和盐值生成哈希密码
-            $inputHashedPassword = generateHashedPassword($password, $salt);
+            //$inputHashedPassword = generateHashedPassword($password, $salt);
+            //password_verify($password, $hashedPassword)
 
             // 检查哈希密码是否与数据库中的哈希密码匹配
-            if ($inputHashedPassword = $hashedPassword) {
+            if (password_verify($password, $hashedPassword)) {
                 
                 // 查询token是否存在
                 $query = "SELECT token, expiration FROM user_verification WHERE user_id = ?";
@@ -108,10 +109,10 @@ function login_verification_email($username, $password, $codeid, $code) {
             $stmt->fetch();
 
             // 对提供的密码和盐值生成哈希密码
-            $inputHashedPassword = generateHashedPassword($password, $salt);
+            //$inputHashedPassword = generateHashedPassword($password, $salt);
 
             // 检查哈希密码是否与数据库中的哈希密码匹配
-            if ($inputHashedPassword = $hashedPassword) {
+            if (password_verify($password, $hashedPassword)) {
                 
                 // 查询token是否存在
                 $query = "SELECT token, expiration FROM user_verification WHERE user_id = ?";
@@ -184,10 +185,10 @@ function login_verification_phone($username, $password, $codeid, $code) {
             $stmt->fetch();
 
             // 对提供的密码和盐值生成哈希密码
-            $inputHashedPassword = generateHashedPassword($password, $salt);
+            //$inputHashedPassword = generateHashedPassword($password, $salt);
 
             // 检查哈希密码是否与数据库中的哈希密码匹配
-            if ($inputHashedPassword = $hashedPassword) {
+            if (password_verify($password, $hashedPassword)) {
                 
                 // 查询token是否存在
                 $query = "SELECT token, expiration FROM user_verification WHERE user_id = ?";
