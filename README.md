@@ -1,6 +1,6 @@
 
 
-
+/*** 
     * 系统名称: 齐心创艺礼物系统（API部分）
     * 作者信息: 郭影（www.qilingwl.com）
     * 最后修改: 2024/02/27
@@ -20,7 +20,7 @@
     * 依赖环境：Nginx1.24,PHP8.3,Mysql5.7,Vue3
                 ----php模块：PHPMailer.php,SMTP.php
                 ----Vue模块:;
-
+***/
 ---
 ---
 
