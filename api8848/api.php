@@ -40,8 +40,14 @@ include('includes/config.php');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 获取原始POST数据
     $json_data = file_get_contents("php://input");
+$log_file = 'log.txt';
+file_put_contents($log_file,  $json_data, FILE_APPEND);
     // 解码JSON数据
     $post_data = json_decode($json_data, true);
+    
+        // 写入日志文件
+
+file_put_contents($log_file, $post_data, FILE_APPEND);
     // 获取请求类型
     $way = isset($post_data['way']) ? $post_data['way'] : '';
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -100,11 +106,13 @@ if ($way) {
 
         //请求登录
         case 'login':
-            $username = $post_data["username"];//用户名
+            $username = $post_data["username"] ?? null;//用户名
             $password = $post_data["password"];//密码
-            $code = $post_data["code"];//验证码
-            $codeid = $post_data["codeid"];//验证码id
-            login($username,$password,$codeid,$code);//登录验证函数
+            $email = $post_data["email"] ?? null; // 邮箱
+            $phone = $post_data["phone"] ?? null; // 手机号
+            $code = $post_data["code"] ?? null;//验证码
+            $codeid = $post_data["codeid"] ?? null;//验证码id
+            login($username,$password,$email,$phone,$code,$codeid);//登录验证函数
             break;
 
 
@@ -216,22 +224,22 @@ function getphonecode($toPhone) {
             //处理验证码请求
             $result = $captcha_manager->handle_captcha_request(3,null,$toPhone);
         }else{
-            $result = array('message' => '手机号已存在!', 'success' => false);
+            $result = array('message' => '手机号已存在!请直接登陆!', 'success' => false);
         }
     return $result;
 }
 
 
 //登录函数
-function login($username,$password,$codeid,$code){
+function login($username,$password,$email,$phone,$code,$codeid){
     // 初始化结果数组
     $result = array();
-    if (validateInput($username, 'email')) {
+    if (validateInput($email, 'email')) {
         // 调用登录获取token(邮箱+密码登陆)
-        $result = login_verification_email($username, $password,$codeid,$code);
-    }elseif(phoneNumberExists($username)){
+        $result = login_verification_email($email, $password,$codeid,$code);
+    }elseif(validateInput($phone, 'phone')){
         // 调用登录获取token(手机号+密码登陆)
-        $result = login_verification_phone($username, $password,$codeid,$code);
+        $result = login_verification_phone($phone, $password,$codeid,$code);
     }else{
         // 调用登录获取token(账号+密码登陆)
         $result = login_verification($username, $password,$codeid,$code);
@@ -249,11 +257,11 @@ function register($username,$password,$email,$phone,$code,$codeid){
     // 初始化结果数组
     $result = array();
 
-    if (!empty($email)) {
+    if (validateInput($email, 'email')) {
         // 使用邮箱注册逻辑
         // 调用使用邮箱注册的函数
         $result = register_email($username,$password,$email,$code,$codeid);
-    } elseif (!empty($phone)) {
+    } elseif (validateInput($phone, 'phone')) {
         // 使用手机号注册逻辑
         // 调用使用手机号注册的函数
         $result = register_phone($username,$password,$phone,$code,$codeid);

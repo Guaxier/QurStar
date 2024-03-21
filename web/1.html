@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>弹窗</title>
+<style>
+/* CSS-in-JS 样式 */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.popup h2 {
+  margin-top: 0;
+}
+
+.popup-buttons {
+  margin-top: 20px;
+}
+
+.popup-button {
+  margin-right: 10px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<button id="showModalButton">显示弹窗</button>
+
+<script>
+// 弹窗方法
+function showModal(title, content, confirmText, cancelText, onConfirm, onCancel) {
+  const modal = document.createElement('div');
+  modal.classList.add('popup');
+  
+  modal.innerHTML = `
+    <h2>${title}</h2>
+    <p>${content}</p>
+    <div class="popup-buttons">
+      <button class="popup-button confirm">${confirmText}</button>
+      <button class="popup-button cancel">${cancelText}</button>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // 绑定确认按钮点击事件
+  modal.querySelector('.confirm').addEventListener('click', function() {
+    onConfirm();
+    closeModal();
+  });
+  
+  // 绑定取消按钮点击事件
+  modal.querySelector('.cancel').addEventListener('click', function() {
+    onCancel();
+    closeModal();
+  });
+  
+  // 关闭弹窗函数
+  function closeModal() {
+    document.body.removeChild(modal);
+  }
+}
+
+// 获取按钮元素
+const showModalButton = document.getElementById('showModalButton');
+
+// 添加点击事件监听器
+showModalButton.addEventListener('click', function() {
+  // 调用 showModal 方法
+  showModal(
+    '标题',
+    '这是弹窗的内容',
+    '确认',
+    '取消',
+    function() {
+      alert('点击了确认按钮');
+    },
+    function() {
+      alert('点击了取消按钮');
+    }
+  );
+});
+
+// 按钮事件集
+function button1() {
+document.body.removeChild(modal);
+}
+// 按钮事件集
+function button2() {
+document.body.removeChild(modal);
+}
+// 按钮事件集
+function button3() {
+document.body.removeChild(modal);
+}
+// 按钮事件集
+function button4() {
+document.body.removeChild(modal);
+}
+</script>
+
+</body>
+</html>

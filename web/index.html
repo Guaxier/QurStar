@@ -137,7 +137,7 @@
 
   <header>
     <h1>齐心创意API示例</h1>
-    <h7>此页面为api示例，详情请查看<a style="color: #007bff; text-decoration: none;" href="http://video.qilingwl.com/docs">API接口文档</a></h7>
+    <h7>此页面为api示例，详情请查看<a style="color: #007bff; text-decoration: none;" href="http://video.qilingwl.bt/docs">API接口文档</a></h7>
   </header>
   
     <nav>
@@ -183,12 +183,12 @@
           <button onclick="aaa2()">提交登录(账号+密码）</button>
           <button onclick="aaa3()" >提交手机注册</button>
           
-          <button onclick="aaa9()" class="NoOpenApi">找回密码</button>
-          <button onclick="aaa9()" class="NoOpenApi">状态检查</button>
-          <button onclick="aaa9()" class="NoOpenApi">修改密码</button>
+          <button onclick="showModalButton(2,'找回密码','账号绑定的邮箱','发送验证码','取消',function() { aaa9('获取验证码失败'); },button1)">找回密码</button>
+          <button onclick="showModalButton(3,'状态检查','token','检查认证','获取信息',function() { aaa9('检查认证失败'); },function() { aaa9('获取信息失败'); })">状态检查</button>
+          <button onclick="showModalButton(1,'修改密码API','修改密码API出现未知的风险，接口暂时不可用！','确定',null,button1,null)" class="NoOpenApi">修改密码</button>
           <div>
               <div id="message" style="word-wrap: break-word;overflow-wrap: break-word;"></div>
-              <img id="captchaImage" src="" alt="验证码">
+              <img id="captchaImage" src="" alt="图像验证码">
           </div>
       </div>
 
@@ -200,14 +200,15 @@
 
   <script>
     let currentCodeId = ""; // 用于存储当前的codeid
+    let urladdres = "http://video.qilingwl.bt/api";// api接口地址
 
-    function aaa9() {
-        alert("接口未开放！");
+    function aaa9(textmsg = "接口未开放！") {
+        alert(textmsg);
     }
 
     function aaa1() {
         // 发送请求获取新的验证码图片
-        fetch('https://video.qilingwl.com/api', {
+        fetch(urladdres, {
             method: 'POST',
             body: JSON.stringify({ way: 'getcode',codetype: 'image' }),
             headers: {
@@ -249,7 +250,7 @@
         const code = document.getElementById('verificationCode').value;
 
         // 发送请求提交验证码
-        fetch('https://video.qilingwl.com/api', {
+        fetch(urladdres, {
             method: 'POST',
             body: JSON.stringify({ way: 'login', codeid: currentCodeId, code: code, username: username, password: password}),
             headers: {
@@ -303,7 +304,7 @@
         const code = document.getElementById('verificationCode').value;
 
         // 发送请求提交验证码
-        fetch('https://video.qilingwl.com/api', {
+        fetch(urladdres, {
             method: 'POST',
             body: JSON.stringify({ way: 'register', codeid: currentCodeId, code: code, username: username, password: password,phone: phone}),
             headers: {
@@ -352,7 +353,7 @@
     function aaa4() {
         const email = document.getElementById('email').value;
         // 发送请求获取新的验证码图片
-        fetch('https://video.qilingwl.com/api', {
+        fetch(urladdres, {
             method: 'POST',
             body: JSON.stringify({ way: 'getcode', codetype: 'email',email : email }),
             headers: {
@@ -387,7 +388,7 @@
         const code = document.getElementById('verificationCode').value;
 
         // 发送请求提交验证码
-        fetch('https://video.qilingwl.com/api', {
+        fetch(urladdres, {
             method: 'POST',
             body: JSON.stringify({ way: 'register', codeid: currentCodeId, code: code, username: username, password: password,email: email}),
             headers: {
@@ -441,7 +442,7 @@
         const code = document.getElementById('verificationCode').value;
 
         // 发送请求提交验证码
-        fetch('https://video.qilingwl.com/api', {
+        fetch(urladdres, {
             method: 'POST',
             body: JSON.stringify({ way: 'login', codeid: currentCodeId, code: code, password: password, phone: phone}),
             headers: {
@@ -489,7 +490,7 @@
     function aaa6() {
         const phone = document.getElementById('phone').value;
         // 发送请求获取新的验证码图片
-        fetch('https://video.qilingwl.com/api', {
+        fetch(urladdres, {
             method: 'POST',
             body: JSON.stringify({ way: 'getcode',codetype: 'phone',phone : phone }),
             headers: {
@@ -528,7 +529,7 @@
         const code = document.getElementById('verificationCode').value;
 
         // 发送请求提交验证码
-        fetch('https://video.qilingwl.com/api', {
+        fetch(urladdres, {
             method: 'POST',
             body: JSON.stringify({ way: 'login', codeid: currentCodeId, code: code,password: password,email: email}),
             headers: {
@@ -579,5 +580,192 @@
         aaa1();
     };
 </script>
+
+
+
+<script>
+    // CSS样式
+    const cssStyles = `
+    .popup-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色背景 */
+      backdrop-filter: blur(10px); /* 高斯模糊效果 */
+    }
+    
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-image: url('your_background_image.jpg'); /* 替换为实际背景图片路径 */
+      background-color: #ffffff; /* 背景颜色 */
+      opacity: 0.9; /* 透明度 */
+      min-width: 400px; /* 最小宽度 */
+      max-width: 800px;
+      max-height: 80%; /* 最大高度 */
+      overflow-y: auto; /* 滚动条 */
+      padding: 20px;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-family: 'Arial', sans-serif; /* 设置字体 */
+    }
+    
+    .popup h2 {
+      margin-top: 0;
+      color: #343a40;
+    }
+    
+    .popup p {
+      color: #6c757d;
+    }
+    
+    .popup-buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .popup-button {
+      margin-right: 10px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      padding: 8px 16px;
+      transition: background-color 0.3s;
+    }
+    
+    .popup-button:last-child {
+      margin-right: 0;
+    }
+    
+    .popup-button:hover {
+      background-color: #0056b3;
+    }
+    `;
+    
+    // 创建style标签并添加CSS样式
+    const styleTag = document.createElement('style');
+    styleTag.textContent = cssStyles;
+    document.head.appendChild(styleTag);
+    
+    // 变量用于控制是否启用点击模态框外部关闭模态框的功能
+    let modalCloseEnabled = true;
+
+    // 弹窗方法
+    function showModal(type, title, content, confirmText, cancelText, onConfirm, onCancel) {
+      const modalBackground = document.createElement('div');
+      modalBackground.classList.add('popup-background');
+    
+
+    // 点击模态框外部关闭模态框
+    modalBackground.addEventListener('click', function(event) {
+        if (modalCloseEnabled && event.target === modalBackground) {
+        closeModal();
+        }
+    });
+      const modal = document.createElement('div');
+      modal.classList.add('popup');
+    
+    if (type === 1) {
+      modalCloseEnabled = false;
+        //内容展示框
+        let msg = '<p>' + content + '</p>';
+        modal.innerHTML = `
+        <h2>${title}</h2>
+        ${msg}
+        <div class="popup-buttons">
+          <button class="popup-button confirm">${confirmText}</button>
+        </div>
+      `;
+    } else if (type === 2) {
+      modalCloseEnabled = false;
+        //验证码
+        let code = '<input type="text" id="emailCode" placeholder="' + content + '">';
+        //邮箱输入框
+        let email = '<input type="text" id="fogetemail" placeholder= "验证码">';
+        modal.innerHTML = `
+        <h2>${title}</h2>
+        ${code + "<br>" + email}
+        <div class="popup-buttons">
+          <button class="popup-button confirm">${confirmText}</button>
+          <button class="popup-button cancel">${cancelText}</button>
+        </div>
+      `;
+    } else if (type === 3) {
+      modalCloseEnabled = true;
+        //验证码
+        let token = '<input type="text" id="emailCode" placeholder="' + content + '">';
+        modal.innerHTML = `
+        <h2>${title}</h2>
+        ${token}
+        <div class="popup-buttons">
+          <button class="popup-button confirm">${confirmText}</button>
+          <button class="popup-button cancel">${cancelText}</button>
+        </div>
+      `;
+    }
+      
+      document.body.appendChild(modalBackground);
+      document.body.appendChild(modal);
+    
+      // 绑定确认按钮点击事件
+      modal.querySelector('.confirm').addEventListener('click', function() {
+        onConfirm();
+      });
+      
+      // 绑定取消按钮点击事件
+      modal.querySelector('.cancel').addEventListener('click', function() {
+        onCancel();
+      });
+    }
+    
+    // 按钮事件集
+    function button1() {
+      closeModal();
+    }
+    // 按钮事件集
+    function button2() {
+      alert('点击了取消按钮');
+      closeModal();
+    }
+    // 按钮事件集
+    function button3() {
+      alert('点击了第三按钮');
+      closeModal();
+    }
+    // 按钮事件集
+    function button4() {
+      alert('点击了第四按钮');
+      closeModal();
+    }
+    // 关闭弹窗函数
+    function closeModal() {
+      const modalBackground = document.querySelector('.popup-background');
+      const modal = document.querySelector('.popup');
+      document.body.removeChild(modalBackground);
+      document.body.removeChild(modal);
+    }
+    
+    // 全局函数，用于点击按钮触发弹窗
+    function showModalButton(type = 1, title = '标题', content = '这是一个默认的通用模态框', confirmText = '确认', cancelText = '取消', onConfirm = button1, onCancel = button2) {
+      // 调用 showModal 方法，并指定按钮的回调函数
+      showModal(type, title, content, confirmText, cancelText, onConfirm, onCancel);
+    //    '标题',
+    //    '这是弹窗的内容这是弹窗的内容这是弹窗的内容这是弹窗的内容这是弹窗的内容这是弹窗的内容这是弹窗的内容',
+    //    '确认',
+    //    '取消',
+    //    button3,
+    //    button4
+    }
+    </script>
+    
 </body>
 </html>

@@ -1,0 +1,12 @@
+Caught exception: SMTP Error: Could not connect to SMTP host.
+Caught exception: SMTP Error: Could not connect to SMTP host.
+Caught exception: SMTP Error: Could not connect to SMTP host.
+Caught exception: SMTP Error: Could not connect to SMTP host.
+Caught exception: SMTP Error: Could not connect to SMTP host.
+Caught exception: SMTP Error: Could not connect to SMTP host. 
+Failed to connect to server
+Caught exception: SMTP Error: Could not authenticate.
+Caught exception: SMTP Error: Could not authenticate.
+Caught exception: SMTP Error: Could not authenticate.
+Caught exception: SMTP Error: Could not authenticate.
+Caught exception: SMTP Error: Could not authenticate.Caught exception: SMTP Error: Could not connect to SMTP host. Failed to connect to serverCaught exception: SMTP Error: Could not connect to SMTP host. Failed to connect to server

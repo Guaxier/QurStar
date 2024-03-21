@@ -69,7 +69,7 @@ function register_phone($username, $password, $phone, $code,$codeid) {
             $hashedPassword = generateHashedPassword($password);
             
             // 插入用户数据到数据库
-            $query = "INSERT INTO user (username, phone, password, salt) VALUES (?, ?, ?, ?)";
+            $query = "INSERT INTO user (username, phone_number, password, salt) VALUES (?, ?, ?, ?)";
             $stmt = $mysqli->prepare($query);
             $stmt->bind_param("ssss", $username, $phone, $hashedPassword, $salt);
             

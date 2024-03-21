@@ -28,7 +28,7 @@ CREATE TABLE user_verification (
 CREATE TABLE VerificationCodes (
     id INT AUTO_INCREMENT PRIMARY KEY, -- 验证码ID
     code VARCHAR(10) NOT NULL COMMENT '验证码', -- 验证码
-    user_id INT NOT NULL COMMENT '用户ID',  -- 用户ID
+    user_id TEXT COMMENT '用户ID',  -- 用户ID
     creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '验证码写入时间' -- 验证码写入时间
 );
 

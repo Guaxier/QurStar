@@ -1,58 +1,31 @@
-[06-Mar-2024 11:05:19 PRC] PHP Fatal error:  Uncaught Error: Call to undefined function sendSMS() in /www/wwwroot/video.qilingwl.com/api8848/includes/CaptchaManager.php:233
+[21-Mar-2024 23:25:30 PRC] PHP Fatal error:  Uncaught mysqli_sql_exception: Field 'user_id' doesn't have a default value in /www/wwwroot/video.qilingwl.bt/api8848/includes/CaptchaManager.php:274
 Stack trace:
-#0 /www/wwwroot/video.qilingwl.com/api8848/api.php(213): CaptchaManager->handle_captcha_request()
-#1 /www/wwwroot/video.qilingwl.com/api8848/api.php(169): getphonecode()
-#2 /www/wwwroot/video.qilingwl.com/api8848/api.php(77): getcode()
-#3 {main}
-  thrown in /www/wwwroot/video.qilingwl.com/api8848/includes/CaptchaManager.php on line 233
-[06-Mar-2024 11:06:11 PRC] PHP Fatal error:  Uncaught Error: Class "Sample" not found in /www/wwwroot/video.qilingwl.com/api8848/includes/CaptchaManager.php:233
+#0 /www/wwwroot/video.qilingwl.bt/api8848/includes/CaptchaManager.php(274): mysqli_stmt->execute()
+#1 /www/wwwroot/video.qilingwl.bt/api8848/includes/CaptchaManager.php(157): CaptchaManager->generate_verification_code()
+#2 /www/wwwroot/video.qilingwl.bt/api8848/includes/CaptchaManager.php(193): CaptchaManager->generate_captcha()
+#3 /www/wwwroot/video.qilingwl.bt/api8848/api.php(187): CaptchaManager->handle_captcha_request()
+#4 /www/wwwroot/video.qilingwl.bt/api8848/api.php(84): getcode()
+#5 {main}
+  thrown in /www/wwwroot/video.qilingwl.bt/api8848/includes/CaptchaManager.php on line 274
+[21-Mar-2024 23:27:19 PRC] PHP Fatal error:  Uncaught mysqli_sql_exception: Out of range value for column 'user_id' at row 1 in /www/wwwroot/video.qilingwl.bt/api8848/includes/CaptchaManager.php:274
 Stack trace:
-#0 /www/wwwroot/video.qilingwl.com/api8848/api.php(213): CaptchaManager->handle_captcha_request()
-#1 /www/wwwroot/video.qilingwl.com/api8848/api.php(169): getphonecode()
-#2 /www/wwwroot/video.qilingwl.com/api8848/api.php(77): getcode()
-#3 {main}
-  thrown in /www/wwwroot/video.qilingwl.com/api8848/includes/CaptchaManager.php on line 233
-[06-Mar-2024 11:08:44 PRC] PHP Fatal error:  Uncaught Error: Call to undefined function sendSMS() in /www/wwwroot/video.qilingwl.com/api8848/includes/CaptchaManager.php:233
+#0 /www/wwwroot/video.qilingwl.bt/api8848/includes/CaptchaManager.php(274): mysqli_stmt->execute()
+#1 /www/wwwroot/video.qilingwl.bt/api8848/includes/CaptchaManager.php(170): CaptchaManager->generate_verification_code()
+#2 /www/wwwroot/video.qilingwl.bt/api8848/includes/CaptchaManager.php(215): CaptchaManager->getcode_email()
+#3 /www/wwwroot/video.qilingwl.bt/api8848/api.php(209): CaptchaManager->handle_captcha_request()
+#4 /www/wwwroot/video.qilingwl.bt/api8848/api.php(177): getemailcode()
+#5 /www/wwwroot/video.qilingwl.bt/api8848/api.php(84): getcode()
+#6 {main}
+  thrown in /www/wwwroot/video.qilingwl.bt/api8848/includes/CaptchaManager.php on line 274
+[21-Mar-2024 23:29:10 PRC] PHP Fatal error:  Uncaught Error: Undefined constant "AlibabaCloud\SDK\Sample\ACCESS_KEY_ID" in /www/wwwroot/video.qilingwl.bt/api8848/includes/depend/SMSALI/src/Sample.php:28
 Stack trace:
-#0 /www/wwwroot/video.qilingwl.com/api8848/api.php(213): CaptchaManager->handle_captcha_request()
-#1 /www/wwwroot/video.qilingwl.com/api8848/api.php(169): getphonecode()
-#2 /www/wwwroot/video.qilingwl.com/api8848/api.php(77): getcode()
-#3 {main}
-  thrown in /www/wwwroot/video.qilingwl.com/api8848/includes/CaptchaManager.php on line 233
-[06-Mar-2024 11:33:22 PRC] PHP Warning:  Undefined array key "username" in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 103
-[06-Mar-2024 11:39:36 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:39:36 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 172
-[06-Mar-2024 11:39:36 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:39:36 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 172
-[06-Mar-2024 11:39:47 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:39:47 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 172
-[06-Mar-2024 11:40:39 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:40:39 PRC] PHP Warning:  Undefined variable $image in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 172
-[06-Mar-2024 11:40:39 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 172
-[06-Mar-2024 11:47:38 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:47:38 PRC] PHP Fatal error:  Uncaught Error: Undefined constant "codetype" in /www/wwwroot/video.qilingwl.com/api8848/api.php:169
-Stack trace:
-#0 /www/wwwroot/video.qilingwl.com/api8848/api.php(78): getcode()
-#1 {main}
-  thrown in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 169
-[06-Mar-2024 11:48:33 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:48:33 PRC] PHP Warning:  Undefined variable $image in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 172
-[06-Mar-2024 11:48:39 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:48:39 PRC] PHP Warning:  Undefined variable $image in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 172
-[06-Mar-2024 11:48:48 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:48:48 PRC] PHP Warning:  Undefined variable $image in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 172
-[06-Mar-2024 11:49:18 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:49:21 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:49:47 PRC] PHP Warning:  Undefined array key "codetype" in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 77
-[06-Mar-2024 11:49:47 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:50:17 PRC] PHP Warning:  Undefined array key "codetype" in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 77
-[06-Mar-2024 11:50:17 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:50:19 PRC] PHP Warning:  Undefined array key "codetype" in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 77
-[06-Mar-2024 11:50:19 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:51:15 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:51:18 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:51:24 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:51:36 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:52:35 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:52:46 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
-[06-Mar-2024 11:52:47 PRC] PHP Warning:  Undefined variable $imagecode in /www/wwwroot/video.qilingwl.com/api8848/api.php on line 78
+#0 /www/wwwroot/video.qilingwl.bt/api8848/includes/depend/SMSALI/src/Sample.php(48): AlibabaCloud\SDK\Sample\Sample::createClientWithSTS()
+#1 /www/wwwroot/video.qilingwl.bt/api8848/includes/smsspend.php(16): AlibabaCloud\SDK\Sample\Sample::sendSMS()
+#2 /www/wwwroot/video.qilingwl.bt/api8848/includes/CaptchaManager.php(233): sendSMS()
+#3 /www/wwwroot/video.qilingwl.bt/api8848/api.php(225): CaptchaManager->handle_captcha_request()
+#4 /www/wwwroot/video.qilingwl.bt/api8848/api.php(181): getphonecode()
+#5 /www/wwwroot/video.qilingwl.bt/api8848/api.php(84): getcode()
+#6 {main}
+  thrown in /www/wwwroot/video.qilingwl.bt/api8848/includes/depend/SMSALI/src/Sample.php on line 28
+[21-Mar-2024 23:44:18 PRC] PHP Warning:  Undefined array key "codeid" in /www/wwwroot/video.qilingwl.bt/api8848/api.php on line 129
+[21-Mar-2024 23:44:19 PRC] PHP Warning:  Undefined array key "codeid" in /www/wwwroot/video.qilingwl.bt/api8848/api.php on line 129

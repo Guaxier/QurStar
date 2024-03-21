@@ -10,11 +10,12 @@
 //登录验证(账号+密码)
 function login_verification($username, $password, $codeid, $code) {
     // 参数校验
-    if (empty($username) || empty($password) || empty($code) || empty($codeid)) {
-        return array("success" => false, "message" => "用户名、密码、验证码不能为空");
+    if (empty($username) || empty($password)) {
+        return array("success" => false, "message" => "用户名、密码不能为空");
     }
     //验证码校验
-    $result = verifyCode($codeid, $code);
+    //$result = verifyCode($codeid, $code);
+    $result = array('message' => '登录测试代码，生产环境请注释','success' => true,);
     if ($result['success']) {
         // 引入数据库信息
         global $mysqli;
@@ -87,11 +88,12 @@ function login_verification($username, $password, $codeid, $code) {
 //登录验证(邮箱+密码)
 function login_verification_email($username, $password, $codeid, $code) {
     // 参数校验
-    if (empty($username) || empty($password) || empty($code) || empty($codeid)) {
-        return array("success" => false, "message" => "用户名、密码、验证码不能为空");
+    if (empty($username) || empty($password)) {
+        return array("success" => false, "message" => "邮箱、密码不能为空");
     }
     //验证码校验
-    $result = verifyCode($codeid, $code);
+    //$result = verifyCode($codeid, $code);
+    $result = array('message' => '登录测试代码，生产环境请注释','success' => true,);
     if ($result['success']) {
         // 引入数据库信息
         global $mysqli;
@@ -163,11 +165,12 @@ function login_verification_email($username, $password, $codeid, $code) {
 //登陆验证(手机+密码)
 function login_verification_phone($username, $password, $codeid, $code) {
     // 参数校验
-    if (empty($username) || empty($password) || empty($code) || empty($codeid)) {
-        return array("success" => false, "message" => "用户名、密码、验证码不能为空");
+    if (empty($username) || empty($password)) {
+        return array("success" => false, "message" => "手机号、密码不能为空");
     }
     //验证码校验
-    $result = verifyCode($codeid, $code);
+    //$result = verifyCode($codeid, $code);
+    $result = array('message' => '登录测试代码，生产环境请注释','success' => true,);
     if ($result['success']) {
         // 引入数据库信息
         global $mysqli;
