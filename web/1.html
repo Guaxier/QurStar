@@ -3,109 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>弹窗</title>
+<title>播放测试</title>
 <style>
-/* CSS-in-JS 样式 */
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border: 1px solid #ccc;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.popup h2 {
-  margin-top: 0;
-}
-
-.popup-buttons {
-  margin-top: 20px;
-}
-
-.popup-button {
-  margin-right: 10px;
-  cursor: pointer;
-}
+    #video-container {
+        position: relative;
+        width: 600px; /* 设置视频容器的宽度 */
+        height: 300px; /* 设置视频容器的高度 */
+    }
+    #play-button,
+    #video-cover {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+    }
+    #play-button {
+        z-index: 1; /* 播放按钮在封面上方 */
+    }
 </style>
 </head>
 <body>
 
-<button id="showModalButton">显示弹窗</button>
-
-<script>
-// 弹窗方法
-function showModal(title, content, confirmText, cancelText, onConfirm, onCancel) {
-  const modal = document.createElement('div');
-  modal.classList.add('popup');
-  
-  modal.innerHTML = `
-    <h2>${title}</h2>
-    <p>${content}</p>
-    <div class="popup-buttons">
-      <button class="popup-button confirm">${confirmText}</button>
-      <button class="popup-button cancel">${cancelText}</button>
+<div id="app">
+    <div id="video-container">
+        <!--封面图片链接-->
+        <video ref="video" width="100%" height="100%" controls>
+            <source src="http://video.qilingwl.bt/web/test.mp4" type="video/mp4">
+        </video>
+        <!--封面图片链接-->
+        <img id="video-cover" width="100%" height="100%" src="https://th.bing.com/th/id/OIP.CWsllA31AeFWCfwvWtAXjQHaF7?rs=1&pid=ImgDetMain" alt="视频封面">
+        <!--svg按钮，可以改为图片，自己改-->
+        <svg id="play-button" width="100" height="100" viewBox="0 0 64 64" fill="#000000" @click="togglePlay">
+            <path d="M64,32L64,32C64,49.7,49.7,64,32,64S0,49.7,0,32S14.3,0,32,0L32,0C49.7,0,64,14.3,64,32z"></path>
+            <path fill="#FFFFFF" d="M46,32L18,50V14L46,32z"></path>
+        </svg>
     </div>
-  `;
-  
-  document.body.appendChild(modal);
-  
-  // 绑定确认按钮点击事件
-  modal.querySelector('.confirm').addEventListener('click', function() {
-    onConfirm();
-    closeModal();
-  });
-  
-  // 绑定取消按钮点击事件
-  modal.querySelector('.cancel').addEventListener('click', function() {
-    onCancel();
-    closeModal();
-  });
-  
-  // 关闭弹窗函数
-  function closeModal() {
-    document.body.removeChild(modal);
-  }
-}
+</div>
 
-// 获取按钮元素
-const showModalButton = document.getElementById('showModalButton');
-
-// 添加点击事件监听器
-showModalButton.addEventListener('click', function() {
-  // 调用 showModal 方法
-  showModal(
-    '标题',
-    '这是弹窗的内容',
-    '确认',
-    '取消',
-    function() {
-      alert('点击了确认按钮');
-    },
-    function() {
-      alert('点击了取消按钮');
-    }
-  );
-});
-
-// 按钮事件集
-function button1() {
-document.body.removeChild(modal);
-}
-// 按钮事件集
-function button2() {
-document.body.removeChild(modal);
-}
-// 按钮事件集
-function button3() {
-document.body.removeChild(modal);
-}
-// 按钮事件集
-function button4() {
-document.body.removeChild(modal);
-}
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<script>
+    new Vue({
+        el: '#app',
+        methods: {
+            togglePlay() {
+                const video = this.$refs.video;
+                const videoCover = document.getElementById("video-cover");
+                const playButton = document.getElementById("play-button");
+                
+                if (video.paused) {
+                    video.play();
+                    playButton.style.display = "none"; // 隐藏播放按钮
+                    videoCover.style.display = "none"; // 隐藏视频封面
+                } else {
+                    video.pause();
+                }
+            }
+        },
+        mounted() {
+            const video = this.$refs.video;
+            const videoCover = document.getElementById("video-cover");
+            const playButton = document.getElementById("play-button");
+            
+            video.addEventListener("pause", () => {
+                videoCover.style.display = "block"; // 显示视频封面
+                playButton.style.display = "block"; // 显示播放按钮
+            });
+        }
+    });
 </script>
 
 </body>
