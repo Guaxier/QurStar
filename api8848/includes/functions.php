@@ -12,8 +12,8 @@ function validateInput($input, $type) {
             return filter_var($input, FILTER_VALIDATE_EMAIL) ? true : false;
         
         case 'username':
-            // 用户名验证，只能使用大小写字母和数字，长度大于7
-            return preg_match('/^[a-zA-Z0-9]{8,}$/', $input) ? true : false;
+            // 用户名验证，只能使用大小写字母和数字，长度大于6
+            return preg_match('/^[a-zA-Z0-9]{7,}$/', $input) ? true : false;
         
         case 'password':
             // 密码验证，必须包含字母和数字，长度大于8

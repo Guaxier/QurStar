@@ -23,10 +23,11 @@ if ($mysqli->connect_error) {
 $sqlStatements = [
     'CREATE TABLE IF NOT EXISTS user (
         user_id INT PRIMARY KEY AUTO_INCREMENT,
-        username VARCHAR(50) UNIQUE NOT NULL,
+        username VARCHAR(50) UNIQUE NOT NULL COMMENT \'用户名\',
         email VARCHAR(100) COMMENT \'电子邮件\',
         phone_number VARCHAR(20) COMMENT \'电话号码\',
-        password VARCHAR(100) NOT NULL
+        password VARCHAR(100) NOT NULL COMMENT \'密码\',
+        salt VARCHAR(256) COMMENT \'盐\'
     )',
 
     'CREATE TABLE IF NOT EXISTS user_info (

@@ -1,10 +1,10 @@
 -- 创建用户表
-CREATE TABLE user (
-    user_id INT PRIMARY KEY AUTO_INCREMENT, -- 用户ID
-    username VARCHAR(50) UNIQUE NOT NULL, -- 用户名，唯一且不能为空
+    user_id INT PRIMARY KEY AUTO_INCREMENT,-- 用户ID
+    username VARCHAR(50) UNIQUE NOT NULL COMMENT '用户名', -- 用户名，唯一且不能为空
     email VARCHAR(100) COMMENT '电子邮件', -- 电子邮件
     phone_number VARCHAR(20) COMMENT '电话号码', -- 电话号码
-    password VARCHAR(100) NOT NULL -- 密码，不能为空
+    password VARCHAR(100) NOT NULL COMMENT '密码', -- 密码，不能为空
+    salt VARCHAR(256) COMMENT '盐'
 );
 
 -- 创建用户信息表
