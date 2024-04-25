@@ -35,7 +35,7 @@ API接口:
 ```
 project/
 │
-├── api/                        # API 路径
+├── api8848/                    # API 路径
 │   ├── auth/                   # 用户认证相关脚本
 │   │   ├── login.php           # 处理用户登录的脚本
 │   │   ├── register.php        # 处理用户注册的脚本
@@ -57,7 +57,12 @@ project/
 │   │   └── php_errors.log      # PHP 错误日志
 │   │
 │   ├── api.php                 # API出口
+│   ├── log.txt                 # API错误日志    
 │   └── .htaccess               # Apache 配置文件，用于 URL 重写
+│
+├── test/                       # 安装目录
+│   ├──installconfig.html       # 应用安装界面
+│   ├──installconfig.php        # 应用安装接口  
 │
 ├── web/                        # 前端页面目录
 │   ├── index.html              # 主页   

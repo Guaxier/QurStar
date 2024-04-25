@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>数据库初始化配置</title>
+    <meta charset="UTF-8">
+    <!-- 引入 Vue.js 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <!-- 引入 jQuery 库 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        h2 {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        #app {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        h3 {
+            font-size: 20px;
+            color: #333;
+            margin-top: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 5px;
+        }
+        
+        form {
+            margin-top: 20px;
+        }
+        
+        label {
+            font-weight: bold;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+    </style>
+</head>
+<body>
+    <h2>数据库初始化配置</h2>
+
+    <div id="app">
+        <!-- 显示数据库表格 -->
+        <h3>数据库表格状态</h3>
+        <table id="tableStatus" border="1">
+            <tr>
+                <th>表名</th>
+                <th>状态</th>
+            </tr>
+            <tr v-for="(status, table) in tableStatus" :key="table">
+                <td>{{ table }}</td>
+                <td>{{ status }}</td>
+            </tr>
+        </table>
+
+        <!-- 显示执行情况 -->
+        <div>
+            <h3>执行情况</h3>
+            <ul>
+                <li v-for="log in logs" :key="log">{{ log }}</li>
+            </ul>
+        </div>
+
+        <!-- 表单 -->
+        <form @submit.prevent="initializeDatabase">
+            <label for="dbname">数据库名:</label>
+            <input type="text" id="dbname" name="dbname" v-model="dbname" required><br><br>
+            <label for="username">数据库账号:</label>
+            <input type="text" id="username" name="username" v-model="username" required><br><br>
+            <label for="password">数据库密码:</label>
+            <input type="password" id="password" name="password" v-model="password" required><br><br>
+            <button type="submit">提交</button>
+        </form>
+    </div>
+
+<script>
+const API_URL = 'installconfig.php';
+new Vue({
+    el: '#app',
+    data: {
+        dbname: '',
+        username: '',
+        password: '',
+        tableStatus: {
+            'user': '未创建',
+            'user_info': '未创建',
+            'user_verification': '未创建',
+            'VerificationCodes': '未创建'
+        },
+        logs: []
+    },
+    methods: {
+        initializeDatabase() {
+            this.logs = []; // 清空执行日志
+
+            const payload = {
+                dbname: this.dbname,
+                username: this.username,
+                password: this.password
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: API_URL,
+                data: JSON.stringify(payload),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: (response) => {
+                    this.logs.push(response.message); // 输出数据库连接状态
+
+                    response.tableResults.forEach((result) => {
+                        this.tableStatus[result.tableName] = result.status;
+                        this.logs.push(`${result.tableName}: ${result.status}`);
+                    });
+
+                    this.logs.push('初始化完成！'); // 输出初始化完成信息
+                },
+                error: (xhr, status, error) => {
+                    this.logs.push(`初始化失败: ${xhr.responseText || error}`);
+                }
+            });
+        }
+    }
+});
+</script>
+
+
+</body>
+</html>
