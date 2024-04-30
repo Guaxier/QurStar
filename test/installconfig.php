@@ -22,14 +22,46 @@ if ($mysqli->connect_error) {
 // SQL语句数组
 $sqlStatements = [
     'CREATE TABLE IF NOT EXISTS user (
-        user_id INT PRIMARY KEY AUTO_INCREMENT,
-        username VARCHAR(50) UNIQUE NOT NULL COMMENT \'用户名\',
-        email VARCHAR(100) COMMENT \'电子邮件\',
-        phone_number VARCHAR(20) COMMENT \'电话号码\',
-        password VARCHAR(100) NOT NULL COMMENT \'密码\',
-        salt VARCHAR(256) COMMENT \'盐\'
-    )',
-
+    -- 用户唯一标识符
+    user_id INT PRIMARY KEY AUTO_INCREMENT COMMENT \'用户ID\',
+    -- 用户的账号，用于系统登录，不可更改
+    username varchar(255) NOT NULL COMMENT \'账号\',
+    -- 经过hash加密的密码，非明文存储
+    password varchar(255) NOT NULL COMMENT \'密码\',
+    -- hash密码的盐值，用于登录时验证密码
+    salt varchar(255) NOT NULL COMMENT \'盐\',
+    -- 用户的用户名，区别于账号，可更改，无法用于登录
+    name varchar(255) COMMENT \'用户名\',
+    -- 用户绑定的邮箱账号
+    email varchar(255) COMMENT \'邮箱\',
+    -- 用户绑定的手机号码
+    phone_number varchar(15) COMMENT \'手机号\', -- 使用 char(10)/varchar(15)
+    -- 用户账号状态:0-正常1-禁言2-封禁
+    is_active tinyint(4) UNSIGNED NOT NULL DEFAULT 0 COMMENT \'用户状态\',
+    -- 用户权限类型:0-普通用户1-会员用户2.高级会3.普通管理4.高级管理
+    user_role tinyint(4) UNSIGNED NOT NULL DEFAULT 0 COMMENT \'用户类型\',
+    -- 是否已经完成实名验证:0-未验证1-已验证
+    real_name_verified tinyint(4) UNSIGNED NOT NULL DEFAULT 0 COMMENT \'实名状态\',
+    -- 用户的真实姓名和实名认证保持一致，系统获取
+    full_name varchar(255) COMMENT \'真实姓名\',
+    -- 用户常用的登录地址，判断用户的IP归属
+    location varchar(255) COMMENT \'常用地址\',
+    -- 用户的登录标志，登录时系统自动写入，过期后删除
+    token varchar(255) COMMENT \'用户token\',
+    -- 鉴权token的过期时间，系统自动写入，出现请求后自动续期
+    token_expires_at datetime COMMENT \'token过期时间\',
+    -- 用户进行密码重置时系统自动写入，过期和完成后删除
+    reset_password_token varchar(255) COMMENT \'密码重置token\',
+    -- 重置密码时有效，用户重置密码时系统写入
+    reset_password_token_expires_at datetime COMMENT \'重置token过期时间\',
+    -- 用户账号的注册时间，系统写入
+    created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT \'注册时间\',
+    -- 最后一次修改账号信息的时间，系统自动写入
+    updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT \'最后一次更新时间\',
+    -- 上一次登录的时间，系统自动写入
+    last_login_at datetime COMMENT \'最后一次登录时间\'
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=\'用户信息表\';
+    ',
     'CREATE TABLE IF NOT EXISTS user_info (
         user_info_id INT PRIMARY KEY AUTO_INCREMENT,
         user_id INT UNIQUE COMMENT \'用户ID\',

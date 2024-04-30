@@ -86,3 +86,7 @@ includes/ 目录包含共享的配置和功能文件。
 docs/ 目录用于存放 API 文档，其中 index.html 可以作为项目文档的入口。
 .gitignore 用于 Git 版本控制时指定不需要追踪的文件和目录。
 README.md 是项目的说明文档，可以包含项目的介绍、安装和使用说明等信息。
+
+PS:
+使用 composer 安装邮件服务，终端:
+composer require phpmailer/phpmailer
