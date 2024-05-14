@@ -31,6 +31,8 @@ ini_set('error_log', 'log/php_errors.log');
 session_start(); 
 // 数据库信息引入
 include('includes/config.php');
+include('includes/PDO.php');
+include('includes/MYSQLI.php');
 
 
 
@@ -199,10 +201,12 @@ function getcode($codetype, $toEmail, $toPhone){
 
 //请求邮箱验证码函数
 function getemailcode($toEmail) {
+    //引入数据库信息
+    global $pdo;
     // 验证邮箱是否合法
     if (!validateInput($toEmail, 'email')) {
         $result = array('message' => '邮箱格式错误!', 'success' => false);
-    }elseif (!emailExists($toEmail)) {// 判断邮箱是否存在
+    }elseif (isEmailExist($pdo,$toEmail)) {// 判断邮箱是否存在
             // 创建 CaptchaManager 验证码 实例
             $captcha_manager = new CaptchaManager();
             // 处理验证码请求
@@ -215,10 +219,12 @@ function getemailcode($toEmail) {
 
 //请求手机验证码函数
 function getphonecode($toPhone) {
+    //引入数据库信息
+    global $pdo;
     // 验证手机号是否合法
     if (!validateInput($toPhone, 'phone')) {
         $result = array('message' => '手机号格式错误!', 'success' => false);
-    }elseif (!phoneNumberExists($toPhone)) {// 判断手机号是否存在
+    }elseif (isPhoneNumberExist($pdo,$toPhone)) {// 判断手机号是否存在
             // 创建 CaptchaManager 验证码 实例
             $captcha_manager = new CaptchaManager();
             //处理验证码请求

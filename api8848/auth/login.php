@@ -18,252 +18,71 @@ function login_verification($username, $password, $codeid, $code)
     //$result = verifyCode($codeid, $code);
     $result = array('message' => '登录测试代码，生产环境请注释', 'success' => true, );
     if ($result['success']) {
-        // 引入数据库信息
-        global $mysqli;
-        // 准备 SQL 查询语句，检查用户名是否存在并获取盐值
-        $query = "SELECT user_id, password, salt FROM user WHERE username = ?";
-        $stmt = $mysqli->prepare($query);
-
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $stmt->store_result();
-
-        if ($stmt->num_rows === 1) {
-            // 如果用户存在，绑定结果
-            $stmt->bind_result($user_id, $hashedPassword, $salt);
-            $stmt->fetch();
-
-            // 对提供的密码和盐值生成哈希密码
-            //$inputHashedPassword = generateHashedPassword($password, $salt);
-            //password_verify($password, $hashedPassword)
-
-            // 检查哈希密码是否与数据库中的哈希密码匹配
-            if (password_verify($password, $hashedPassword)) {
-
-                // 查询token是否存在
-                $query = "SELECT token, token_expires_at FROM user WHERE user_id = ?";
-                $stmt = $mysqli->prepare($query);
-
-                $stmt->bind_param("i", $user_id);
-                $stmt->execute();
-
-
-                $stmt->store_result();
-
-                // 如果记录已经存在
-                if ($stmt->num_rows > 0) {
-                    $stmt->bind_result($token, $token_expires_at);
-                    $stmt->fetch(); // 获取结果
-
-                    // 检查token是否为空或token是否过期
-                    if (empty($token) || strtotime($token_expires_at) < time()) {
-
-                        // 生成一个新的token
-                        $token = generate_token();
-
-                        // 将token写入用户验证表，并设置过期时间为当前时间加七天
-                        $token_expires_at = date('Y-m-d H:i:s', strtotime('+7 days'));
-                        $insert_query = "UPDATE user SET token=?, token_expires_at = ? WHERE user_id = ?";
-                        $insert_stmt = $mysqli->prepare($insert_query);
-
-                        $insert_stmt->bind_param("ssi", $token, $token_expires_at, $user_id);
-                        $insert_stmt->execute();
-                        $insert_stmt->close(); // 关闭预处理语句
-                    } else {
-                        // 更新token的过期时间为当前时间加七天
-                        $token_expires_at = date('Y-m-d H:i:s', strtotime('+7 days'));
-                        $update_query = "UPDATE user SET token_expires_at = ? WHERE user_id = ?";
-                        $update_stmt = $mysqli->prepare($update_query);
-
-                        $update_stmt->bind_param("si", $token_expires_at, $user_id);
-                        $update_stmt->execute();
-                        $update_stmt->close(); // 关闭预处理语句
-                    }
-
-                } else {
-                    $token = "用户状态异常@！";
-                }
-                // 返回token以及登录成功消息
-                return array("success" => true, "message" => "登录成功！", "token" => $token);
-            } else {
-                return array("success" => false, "message" => "用户名或密码不正确！");
-            }
+        //引入pdo
+        global $pdo;
+        //调用登录验证获取用户ID
+        $userId = getUserIdByUsernameAndPassword($pdo,$username,$password);
+        if ($userId !== false) {
+            //获取新的token
+            $token = generateLoginToken($userId,DB_secretKey,7200);
+            // 返回token以及登录成功消息
+            return array("success" => true, "message" => "登录成功！", "token" => $token);
         } else {
-            return array("success" => false, "message" => "用户名或密码不正确！");
+            return array("success" => false, "message" => "账号或密码错误！");
         }
     }
     return array("success" => false, "message" => "验证码错误！");
 }
 
 //登录验证(邮箱+密码)
-function login_verification_email($username, $password, $codeid, $code)
+function login_verification_email($email, $password, $codeid, $code)
 {
     // 参数校验
-    if (empty($username) || empty($password)) {
+    if (empty($email) || empty($password)) {
         return array("success" => false, "message" => "邮箱、密码不能为空");
     }
     //验证码校验
     //$result = verifyCode($codeid, $code);
     $result = array('message' => '登录测试代码，生产环境请注释', 'success' => true, );
     if ($result['success']) {
-        // 引入数据库信息
-        global $mysqli;
-        // 准备 SQL 查询语句，检查用户名是否存在并获取盐值
-        $query = "SELECT user_id, password, salt FROM user WHERE email = ?";
-        $stmt = $mysqli->prepare($query);
-
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $stmt->store_result();
-
-        if ($stmt->num_rows === 1) {
-            // 如果用户存在，绑定结果
-            $stmt->bind_result($user_id, $hashedPassword, $salt);
-            $stmt->fetch();
-
-            // 对提供的密码和盐值生成哈希密码
-            //$inputHashedPassword = generateHashedPassword($password, $salt);
-
-            // 检查哈希密码是否与数据库中的哈希密码匹配
-            if (password_verify($password, $hashedPassword)) {
-
-                // 查询token是否存在
-                $query = "SELECT token, token_expires_at FROM user WHERE user_id = ?";
-                $stmt = $mysqli->prepare($query);
-
-                $stmt->bind_param("i", $user_id);
-                $stmt->execute();
-
-
-                $stmt->store_result();
-
-                // 如果记录已经存在
-                if ($stmt->num_rows > 0) {
-                    $stmt->bind_result($token, $token_expires_at);
-                    $stmt->fetch(); // 获取结果
-
-                    // 检查token是否为空或token是否过期
-                    if (empty($token) || strtotime($token_expires_at) < time()) {
-
-                        // 生成一个新的token
-                        $token = generate_token();
-
-                        // 将token写入用户验证表，并设置过期时间为当前时间加七天
-                        $token_expires_at = date('Y-m-d H:i:s', strtotime('+7 days'));
-                        $insert_query = "UPDATE user SET token=?, token_expires_at = ? WHERE user_id = ?";
-                        $insert_stmt = $mysqli->prepare($insert_query);
-
-                        $insert_stmt->bind_param("ssi", $token, $token_expires_at, $user_id);
-                        $insert_stmt->execute();
-                        $insert_stmt->close(); // 关闭预处理语句
-                    } else {
-                        // 更新token的过期时间为当前时间加七天
-                        $token_expires_at = date('Y-m-d H:i:s', strtotime('+7 days'));
-                        $update_query = "UPDATE user SET token_expires_at = ? WHERE user_id = ?";
-                        $update_stmt = $mysqli->prepare($update_query);
-
-                        $update_stmt->bind_param("si", $token_expires_at, $user_id);
-                        $update_stmt->execute();
-                        $update_stmt->close(); // 关闭预处理语句
-                    }
-
-                } else {
-                    $token = "用户状态异常@！";
-                }
-                // 返回token以及登录成功消息
-                return array("success" => true, "message" => "登录成功！", "token" => $token);
-            } else {
-                return array("success" => false, "message" => "邮箱或密码不正确！");
-            }
+        //引入pdo
+        global $pdo;
+        //调用登录验证获取用户ID
+        $userId = getUserIdByEmailAndPassword($pdo,$email,$password);
+        if ($userId !== false) {
+            //获取新的token
+            $token = generateLoginToken($userId,DB_secretKey,7200);
+            // 返回token以及登录成功消息
+            return array("success" => true, "message" => "登录成功！", "token" => $token);
         } else {
-            return array("success" => false, "message" => "邮箱或密码不正确！");
+            return array("success" => false, "message" => "账号或密码错误！");
         }
     }
     return array("success" => false, "message" => "验证码错误！");
 }
 
 //登陆验证(手机+密码)
-function login_verification_phone($username, $password, $codeid, $code)
+function login_verification_phone($phone, $password, $codeid, $code)
 {
     // 参数校验
-    if (empty($username) || empty($password)) {
+    if (empty($phone) || empty($password)) {
         return array("success" => false, "message" => "手机号、密码不能为空");
     }
     //验证码校验
     //$result = verifyCode($codeid, $code);
     $result = array('message' => '登录测试代码，生产环境请注释', 'success' => true, );
     if ($result['success']) {
-        // 引入数据库信息
-        global $mysqli;
-        // 准备 SQL 查询语句，检查用户名是否存在并获取盐值
-        $query = "SELECT user_id, password, salt FROM user WHERE phone_number = ?";
-        $stmt = $mysqli->prepare($query);
-
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $stmt->store_result();
-
-        if ($stmt->num_rows === 1) {
-            // 如果用户存在，绑定结果
-            $stmt->bind_result($user_id, $hashedPassword, $salt);
-            $stmt->fetch();
-
-            // 对提供的密码和盐值生成哈希密码
-            //$inputHashedPassword = generateHashedPassword($password, $salt);
-
-            // 检查哈希密码是否与数据库中的哈希密码匹配
-            if (password_verify($password, $hashedPassword)) {
-
-                // 查询token是否存在
-                $query = "SELECT token, token_expires_at FROM user WHERE user_id = ?";
-                $stmt = $mysqli->prepare($query);
-
-                $stmt->bind_param("i", $user_id);
-                $stmt->execute();
-
-
-                $stmt->store_result();
-
-                // 如果记录已经存在
-                if ($stmt->num_rows > 0) {
-                    $stmt->bind_result($token, $token_expires_at);
-                    $stmt->fetch(); // 获取结果
-
-                    // 检查token是否为空或token是否过期
-                    if (empty($token) || strtotime($token_expires_at) < time()) {
-
-                        // 生成一个新的token
-                        $token = generate_token();
-
-                        // 将token写入用户验证表，并设置过期时间为当前时间加七天
-                        $token_expires_at = date('Y-m-d H:i:s', strtotime('+7 days'));
-                        $insert_query = "UPDATE user SET token=?, token_expires_at = ? WHERE user_id = ?";
-                        $insert_stmt = $mysqli->prepare($insert_query);
-
-                        $insert_stmt->bind_param("ssi", $token, $token_expires_at, $user_id);
-                        $insert_stmt->execute();
-                        $insert_stmt->close(); // 关闭预处理语句
-                    } else {
-                        // 更新token的过期时间为当前时间加七天
-                        $token_expires_at = date('Y-m-d H:i:s', strtotime('+7 days'));
-                        $update_query = "UPDATE user SET token_expires_at = ? WHERE user_id = ?";
-                        $update_stmt = $mysqli->prepare($update_query);
-
-                        $update_stmt->bind_param("si", $token_expires_at, $user_id);
-                        $update_stmt->execute();
-                        $update_stmt->close(); // 关闭预处理语句
-                    }
-
-                } else {
-                    $token = "用户状态异常@！";
-                }
-                // 返回token以及登录成功消息
-                return array("success" => true, "message" => "登录成功！", "token" => $token);
-            } else {
-                return array("success" => false, "message" => "手机号或密码不正确！");
-            }
+        //引入pdo
+        global $pdo;
+        //调用登录验证获取用户ID
+        $userId = getUserIdByPhoneAndPassword($pdo,$phone,$password);
+        if ($userId !== false) {
+            //获取新的token
+            $token = generateLoginToken($userId,DB_secretKey,7200);
+            // 返回token以及登录成功消息
+            return array("success" => true, "message" => "登录成功！", "token" => $token);
         } else {
-            return array("success" => false, "message" => "手机号或密码不正确！");
+            return array("success" => false, "message" => "账号或密码错误！");
         }
     }
     return array("success" => false, "message" => "验证码错误！");

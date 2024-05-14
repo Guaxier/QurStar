@@ -8,17 +8,8 @@ define('DB_USER', 'videosql');
 define('DB_PASS', 'videosql');
 define('DB_NAME', 'videosql');
 
-// 连接数据库
-$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-// 检查连接是否成功
-if ($mysqli->connect_error) {
-    die("连接失败: " . $mysqli->connect_error);
-}
-
-
-
-
+//服务器配置信息
+define('DB_secretKey','这里填入Token的服务端验证秘钥，安全性要求较高，建议定期更换，防止出现泄漏风险！');
 
 
 
