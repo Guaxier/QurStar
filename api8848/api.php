@@ -21,6 +21,10 @@ require_once 'auth/login.php';//登录及其token验证api
 require_once 'auth/register.php';//注册api
 //require_once 'auth/forget.php';//找回密码api
 
+
+//统一引入数据库处理函数
+require_once 'auth/sqlapi/users.php';
+
 // 错误处理和日志记录
 error_reporting(E_ERROR | E_WARNING);
 ini_set('display_errors', 0);
@@ -80,8 +84,8 @@ if ($way) {
     switch ($way) {
         // 请求验证码(getcode)
         case 'getcode':
-            $toEmail = $post_data["email"] ?? null;//邮箱
-            $toPhone = $post_data["phone"] ?? null;//手机号
+            $toEmail = $post_data["email"] ?? '';//邮箱
+            $toPhone = $post_data["phone"] ?? '';//手机号
             $codetype = $post_data["codetype"];//验证码
             getcode($codetype,$toEmail,$toPhone);//获取验证码
             break;
@@ -108,12 +112,12 @@ if ($way) {
 
         //请求登录
         case 'login':
-            $username = $post_data["username"] ?? null;//用户名
+            $username = $post_data["username"] ?? '';//用户名
             $password = $post_data["password"];//密码
-            $email = $post_data["email"] ?? null; // 邮箱
-            $phone = $post_data["phone"] ?? null; // 手机号
-            $code = $post_data["code"] ?? null;//验证码
-            $codeid = $post_data["codeid"] ?? null;//验证码id
+            $email = $post_data["email"] ?? ''; // 邮箱
+            $phone = $post_data["phone"] ?? ''; // 手机号
+            $code = $post_data["code"] ?? '';//验证码
+            $codeid = $post_data["codeid"] ?? '';//验证码id
             login($username,$password,$email,$phone,$code,$codeid);//登录验证函数
             break;
 
@@ -125,8 +129,8 @@ if ($way) {
         case 'register':
             $username = $post_data["username"];//用户名
             $password = $post_data["password"];//密码
-            $email = $post_data["email"] ?? null; // 邮箱
-            $phone = $post_data["phone"] ?? null; // 手机号
+            $email = $post_data["email"] ?? ''; // 邮箱
+            $phone = $post_data["phone"] ?? ''; // 手机号
             $code = $post_data["code"];//验证码
             $codeid = $post_data["codeid"];//验证码id
             register($username,$password,$email,$phone,$code,$codeid);//注册验证函数
@@ -206,7 +210,7 @@ function getemailcode($toEmail) {
     // 验证邮箱是否合法
     if (!validateInput($toEmail, 'email')) {
         $result = array('message' => '邮箱格式错误!', 'success' => false);
-    }elseif (isEmailExist($pdo,$toEmail)) {// 判断邮箱是否存在
+    }elseif (!isEmailExist($pdo,$toEmail)) {// 判断邮箱是否存在
             // 创建 CaptchaManager 验证码 实例
             $captcha_manager = new CaptchaManager();
             // 处理验证码请求

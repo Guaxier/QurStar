@@ -302,8 +302,8 @@ function checkUserIsActive(PDO $pdo, int $userId): bool
 function isPhoneNumberExist(PDO $pdo, string $phoneNumber): bool 
 {
     try {
-        // SQL查询语句，检查users表中是否存在指定的phone_number
-        $sql = "SELECT COUNT(*) FROM users WHERE phone_number = :phoneNumber";
+        // SQL查询语句，检查users表中是否存在指定的phone
+        $sql = "SELECT COUNT(*) FROM users WHERE phone = :phoneNumber";
         
         // 准备语句并绑定参数
         $stmt = $pdo->prepare($sql);
@@ -773,8 +773,8 @@ function getEmailByUserId(PDO $pdo, int $userId): string|false
 function getPhoneNumberByUserId(PDO $pdo, int $userId): string|false 
 {
     try {
-        // SQL查询语句，根据user_id查询phone_number
-        $sql = "SELECT phone_number FROM users WHERE user_id = :userId";
+        // SQL查询语句，根据user_id查询phone
+        $sql = "SELECT phone FROM users WHERE user_id = :userId";
         
         // 准备语句并绑定参数
         $stmt = $pdo->prepare($sql);
@@ -875,7 +875,7 @@ function registerWithPhone(PDO $pdo, string $username, string $hashedPassword, s
 {
     try {
         // SQL插入语句，准备插入新用户数据
-        $sqlInsert = "INSERT INTO users (username, PASSWORD, phone_number) VALUES (:username, :hashedPassword, :phoneNumber)";
+        $sqlInsert = "INSERT INTO users (username, PASSWORD, phone) VALUES (:username, :hashedPassword, :phoneNumber)";
         
         // 准备语句并绑定参数
         $stmt = $pdo->prepare($sqlInsert);
