@@ -15,4 +15,9 @@ define('DB_secretKey','这里填入Token的服务端验证秘钥，安全性要�
 
 
 
-//smspend.php
+//smspend.php，阿里云短信发送配置
+
+define('ACCESS_KEY_ID', '您的 AccessKey ID');
+define('ACCESS_KEY_SECRET', '您的 AccessKey Secret');
+define('SECURITY_TOKEN','您的 Security Token');
+define('ACCESS_type', '鉴权方式，默认sts,表明使用 STS 方式');

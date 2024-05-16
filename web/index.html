@@ -131,6 +131,22 @@
     nav ul li a:hover {
       color: #ff7f50;
     }
+
+    .feedback {
+        font-size: 14px;
+        margin-top: 5px;
+    }
+    .feedback.available {
+        color: green;
+        display: inline;
+    }
+    .feedback.unavailable {
+        color: red;
+        display: inline;
+    }
+    .feedback.hidden {
+        display: none;
+    }
   </style>
 </head>
 <body>
@@ -152,25 +168,34 @@
   <section id="endpoint1" class="endpoint">
       <div id="app">
           <div>
-              <label for="username">用户名：</label>
-              <input type="text" id="username">
+              <label for="username">账号：</label>
+              <input type="text" id="username" placeholder="请输入账号" oninput="checkNameAvailability()">
+              <span id="selectname" class="feedback hidden"></span>
           </div>
           <div>
               <label for="password">密码：</label>
-              <input type="text" id="password">
+              <input type="text" id="password" placeholder="请输入密码" oninput="checkPasswordAvailability()">
+              <span id="selectpassword" class="feedback hidden"></span>
           </div>
           <div>
               <label for="email">邮箱：</label>
-              <input type="text" id="email">
+              <input type="text" id="email" placeholder="请输入用邮箱" oninput="checkEmailAvailability()">
+              <span id="selectemail" class="feedback hidden"></span>
           </div>
           <div>
               <label for="phone">手机：</label>
-              <input type="text" id="phone">
+              <input type="text" id="phone" placeholder="请输入手机号" oninput="checkPhoneAvailability()">
+              <span id="selectphone" class="feedback hidden"></span>
           </div>
           <div>
               <label for="verificationCode">验证码：</label>
-              <input type="text" id="verificationCode">
+              <input type="text" id="verificationCode" placeholder="请输入验证码">
           </div>
+          <div>
+            <label for="token">Token：</label>
+            <input type="text" id="token" placeholder="请输入Token">
+            <span id="selecttoken" class="feedback hidden"></span>
+        </div>
           
           <button onclick="aaa4()">获取邮箱验证码</button>
           <button onclick="aaa1()">获取登录验证码</button>
@@ -182,9 +207,12 @@
           <button onclick="aaa5()">提交邮箱注册</button>
           <button onclick="aaa2()">提交登录(账号+密码）</button>
           <button onclick="aaa3()" >提交手机注册</button>
+
+          <button onclick="checkTokenAvailability()" >状态检查（Token有效性）</button>
+          <button onclick="checkTokenMessage()" >状态检查（Token校验）</button>
           
           <button onclick="showModalButton(2,'找回密码','账号绑定的邮箱','发送验证码','取消',function() { aaa9('获取验证码失败'); },button1)">找回密码</button>
-          <button onclick="showModalButton(3,'状态检查','token','检查认证','获取信息',function() { aaa9('检查认证失败'); },function() { aaa9('获取信息失败'); })">状态检查</button>
+          <button onclick="showModalButton(3,'状态检查','token','检查认证','获取信息',function() { checkTokenAvailability(); },function() { checkTokenMessage(); })">状态检查</button>
           <button onclick="showModalButton(1,'修改密码API','修改密码API出现未知的风险，接口暂时不可用！','确定',null,button1,null)" class="NoOpenApi">修改密码</button>
           <div>
               <div id="message" style="word-wrap: break-word;overflow-wrap: break-word;"></div>
@@ -601,8 +629,9 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-image: url('your_background_image.jpg'); /* 替换为实际背景图片路径 */
+      background-image: url('https://api.kdcc.cn'); /* 替换为实际背景图片路径 */
       background-color: #ffffff; /* 背景颜色 */
+      background-size: cover;/*图片填充方式*/
       opacity: 0.9; /* 透明度 */
       min-width: 400px; /* 最小宽度 */
       max-width: 800px;
@@ -661,8 +690,8 @@
 
     // 弹窗方法
     function showModal(type, title, content, confirmText, cancelText, onConfirm, onCancel) {
-      const modalBackground = document.createElement('div');
-      modalBackground.classList.add('popup-background');
+        const modalBackground = document.createElement('div');
+        modalBackground.classList.add('popup-background');
     
 
     // 点击模态框外部关闭模态框
@@ -720,11 +749,14 @@
       modal.querySelector('.confirm').addEventListener('click', function() {
         onConfirm();
       });
+    // 绑定取消按钮点击事件（如果取消按钮存在）
+    const cancelButton = modal.querySelector('.cancel');
+    if (cancelButton) {
+        cancelButton.addEventListener('click', function() {
+            onCancel();
+        });
+    }
       
-      // 绑定取消按钮点击事件
-      modal.querySelector('.cancel').addEventListener('click', function() {
-        onCancel();
-      });
     }
     
     // 按钮事件集
@@ -765,6 +797,491 @@
     //    button3,
     //    button4
     }
+
+
+
+
+
+
+
+
+/**
+ * 名称：checkNameAvailability
+ * 时间：2024/05/14 创建
+ * 作者：Guaxier
+ * 功能： 检查账号是否可用
+ * 
+ * API参数:
+ * way: 'selectname'
+ * name: '需要查询的账号'
+ * 
+ * 此函数通过向服务器发送请求，验证输入的账号是否已经被注册。
+ * 基于服务器响应更新提示信息，指示账号是否可用。
+ *
+ * 返回：
+ * @returns {Promise<void>} 不直接返回值，但通过修改DOM元素显示结果。
+ *
+ * 示例：
+ * 
+ * 调用该函数以检查账号输入框中的账号是否可用
+ * checkNameAvailability();
+ * 
+ */
+ function isValidUsername(input) {
+    // 正则1: 以英文开头，包含大小写字母和数字，长度至少7
+    const regex1 = /^[a-zA-Z][a-zA-Z0-9]{6,}$/;
+    // 正则2: 只包含2-4个中文字符
+    const regex2 = /^[\u4e00-\u9fa5]{2,4}$/;
+    // 返回两个条件任一满足的结果
+    return regex1.test(input) || regex2.test(input);
+}
+
+async function checkNameAvailability() {
+    const nameInput = document.getElementById('username');
+    const feedback = document.getElementById('selectname');
+    const name = nameInput.value.trim();
+
+    if (!isValidUsername(name)) {
+        feedback.textContent = "⚠ 格式错误";
+        feedback.title = "本账号仅用于登录，不等于用户昵称，需满足以下规则之一：\n1. 以英文开头，包含大小写字母和数字，长度至少7\n2. 只包含2-6个中文字符";
+        //本用户名仅用于账号登录，不等于用户昵称，需满足以下规则之一：1.以英文开头，包含大小写字母和数字，长度至少72.只包含2-6个中文字符
+        feedback.className = 'feedback unavailable';
+        return;
+    }
+
+    try {
+        const urlAddress = 'https://video.qilingwl.com/api/'; // API地址
+        const response = await fetch(urlAddress, {
+            method: 'POST',
+            body: JSON.stringify({ way: 'selectname', name }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            feedback.textContent = data.exists ? '已存在' : '可使用';
+            feedback.className = data.exists ? 'feedback unavailable' : 'feedback available';
+        } else {
+            feedback.textContent = '检查过程中发生错误';
+            feedback.className = 'feedback unavailable';
+        }
+    } catch (error) {
+        console.error('请求错误:', error);
+        feedback.textContent = '网络错误';
+        feedback.className = 'feedback unavailable';
+    }
+}
+
+/**
+ * 名称：checkEmailAvailability
+ * 时间：2024/05/14 创建
+ * 作者：Guaxier
+ * 功能： 检查邮箱是否可用
+ * 
+ * API参数:
+ * way: 'selectname'
+ * email: '需要查询的邮箱'
+ * 
+ * 此函数通过向服务器发送请求，验证输入的邮箱是否已经被注册。
+ * 基于服务器响应更新提示信息，指示邮箱是否可用。
+ *
+ * 返回：
+ * @returns {Promise<void>} 不直接返回值，但通过修改DOM元素显示结果。
+ *
+ * 示例：
+ * 
+ * 调用该函数以检查用户名输入框中的邮箱是否可用
+ * checkEmailAvailability();
+ * 
+ */
+ async function checkEmailAvailability() {
+    const nameInput = document.getElementById('email');
+    const feedback = document.getElementById('selectemail');
+    const email = nameInput.value.trim();
+
+    // 使用正则表达式检查邮箱格式
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+        feedback.textContent = '邮箱格式错误';
+        feedback.className = 'feedback unavailable';
+        return;
+    }
+
+    try {
+        const urlAddress = 'https://video.qilingwl.com/api/'; // API地址
+        const response = await fetch(urlAddress, {
+            method: 'POST',
+            body: JSON.stringify({ way: 'selectname', email }), // 注意这里应该是'selectemail'，与题目要求检查邮箱相匹配
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            feedback.textContent = data.exists ? '已存在' : '可使用';
+            feedback.className = data.exists ? 'feedback unavailable' : 'feedback available';
+        } else {
+            feedback.textContent = '检查过程中发生错误';
+            feedback.className = 'feedback unavailable';
+        }
+    } catch (error) {
+        console.error('请求错误:', error);
+        feedback.textContent = '网络错误';
+        feedback.className = 'feedback unavailable';
+    }
+}
+
+/**
+ * 名称：checkPhoneAvailability
+ * 时间：2024/05/14 创建
+ * 作者：Guaxier
+ * 功能： 检查手机号是否可用
+ * 
+ * API参数:
+ * way: 'selectname'
+ * phone: '需要查询的手机号'
+ * 
+ * 此函数通过向服务器发送请求，验证输入的邮箱是否已经被注册。
+ * 基于服务器响应更新提示信息，指示邮箱是否可用。
+ *
+ * 返回：
+ * @returns {Promise<void>} 不直接返回值，但通过修改DOM元素显示结果。
+ *
+ * 示例：
+ * 
+ * 调用该函数以检查手机号输入框中的手机号是否可用
+ * checkPhoneAvailability();
+ * 
+ */
+ async function checkPhoneAvailability() {
+    const nameInput = document.getElementById('phone');
+    const feedback = document.getElementById('selectphone');
+    const phone = nameInput.value.trim();
+
+    // 使用正则表达式检查手机号格式
+    const phoneRegex = /^1[3-9]\d{9}$/; // 匹配中国手机号的常见格式
+    if (!phoneRegex.test(phone)) {
+        feedback.textContent = '手机号格式错误';
+        feedback.className = 'feedback unavailable';
+        return;
+    }
+
+    try {
+        const urlAddress = 'https://video.qilingwl.com/api/'; // API地址
+        const response = await fetch(urlAddress, {
+            method: 'POST',
+            body: JSON.stringify({ way: 'selectname', phone }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            feedback.textContent = data.exists ? '已存在' : '可使用';
+            feedback.className = data.exists ? 'feedback unavailable' : 'feedback available';
+        } else {
+            feedback.textContent = '检查过程中发生错误';
+            feedback.className = 'feedback unavailable';
+        }
+    } catch (error) {
+        console.error('请求错误:', error);
+        feedback.textContent = '网络错误';
+        feedback.className = 'feedback unavailable';
+    }
+}
+
+/**
+ * 名称：checkPasswordAvailability
+ * 时间：2024/05/14 创建
+ * 作者：Guaxier
+ * 功能： 检查密码是否合法
+ * 
+ * API参数:
+ * way: 'selectname'
+ * password: '需要查询的密码'
+ * 
+ * 此函数通过向服务器发送请求，验证输入的密码是否合法。
+ * 基于服务器响应更新提示信息，指示密码是否合法。
+ *
+ * 返回：
+ * @returns {Promise<void>} 不直接返回值，但通过修改DOM元素显示结果。
+ *
+ * 示例：
+ * 
+ * 调用该函数以检查密码是否合法
+ * checkPasswordAvailability();
+ * 
+ */
+ async function checkPasswordAvailability() {
+    const nameInput = document.getElementById('password');
+    const feedback = document.getElementById('selectpassword');
+    const password = nameInput.value.trim();
+
+    // 使用正则表达式检查手机号格式
+    const phoneRegex = /^(?:(?=.*[A-Za-z])(?=.*\d)|(?=.*[A-Za-z])(?=.*[@!#$%&*-_+=])|(?=.*\d)(?=.*[@!#$%&*-_+=]))[A-Za-z\d@!#$%&*-_+=]{8,}$/; 
+        /* 密码规则：
+        * 
+        * 至少一个字母和至少一个数字；
+        * 至少一个字母和至少一个特殊字符；
+        * 至少一个数字和至少一个特殊字符。
+        * 定义的特殊字符集为 @!#$%&*-_+=
+        * */
+    if (!phoneRegex.test(password)) {
+        feedback.textContent = '⚠ 格式错误';
+        feedback.title = "密码规则：\n 数字，字母，特殊字符（@!#$%&*-_+=）\n 中必须至少包含两项，且大于8位；";
+        feedback.className = 'feedback unavailable';
+        return;
+    }else{
+        feedback.textContent = '可用';
+    }
+/*
+    try {
+        const urlAddress = 'https://video.qilingwl.com/api/'; // API地址
+        const response = await fetch(urlAddress, {
+            method: 'POST',
+            body: JSON.stringify({ way: 'selectname', password }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            feedback.textContent = data.exists ? '格式错误' : '安全';
+            feedback.className = data.exists ? 'feedback unavailable' : 'feedback available';
+        } else {
+            feedback.textContent = '检查过程中发生错误';
+            feedback.className = 'feedback unavailable';
+        }
+    } catch (error) {
+        console.error('请求错误:', error);
+        feedback.textContent = '网络错误';
+        feedback.className = 'feedback unavailable';
+    }
+    */
+}
+
+/**
+ * 名称：checkTokenAvailability
+ * 时间：2024/05/14 创建
+ * 作者：Guaxier
+ * 功能： 检查token是否合法
+ * 
+ * API参数:
+ * way: 'selectname'
+ * token: '需要查询的token'
+ * 
+ * 此函数通过向服务器发送请求，验证输入的token是否合法。
+ * 基于服务器响应更新提示信息，指示token是否合法。
+ *
+ * 返回：
+ * @returns {Promise<void>} 不直接返回值，但通过修改DOM元素显示结果。
+ *
+ * 示例：
+ * 
+ * 调用该函数以检查token是否合法
+ * checkTokenAvailability();
+ * 
+ */
+/*
+async function checkTokenAvailability() {
+    const token = document.getElementById('emailCode').value; // 获取输入的token
+    const urlAddress = 'https://video.qilingwl.com/api/'; // API地址
+    closeModal(); // 关闭现有模态框
+    try {
+        const response = await fetch(urlAddress, {
+            method: 'POST',
+            body: JSON.stringify({ way: 'selectname', token: token }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const result = await response.json();
+
+        if (result.success) {
+            showModalButton(1, '检查认证', '当前token服务器认证通过！', '确定', null, button1, null);
+        } else {
+            showModalButton(1, '检查认证', '当前token服务器认证失败！token无效或过期', '确定', null, button1, null);
+        }
+    } catch (error) {
+        showModalButton(1, '检查认证', '当前token服务器认证失败！token无效或过期', '确定', null, button1, null);
+    }
+}
+*/
+
+/**
+     * 名称：checkTokenMessage
+     * 时间：2024/05/14 创建
+     * 作者：Guaxier
+     * 功能： 检查token是否合法
+     * 
+     * API参数:
+     * way: 'selectname'
+     * token: '需要查询的token'
+     * 
+     * 此函数通过向服务器发送请求，验证输入的token是否合法。
+     * 基于服务器响应更新提示信息，指示token是否合法。
+     *
+     * 返回：
+     * @returns {Promise<void>} 不直接返回值，但通过修改DOM元素显示结果。
+     *
+     * 示例：
+     * 
+     * 调用该函数以查看token的信息
+     * checkTokenMessage();
+     * 
+     */
+    /*
+     async function checkTokenMessage() {
+        const token = document.getElementById('emailCode').value; // 获取输入的token
+        const urlAddress = 'https://video.qilingwl.com/api/'; // API地址
+
+        // 解析Token
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            return JSON.parse(jsonPayload);
+        }
+        closeModal(); // 关闭现有模态框
+        try {
+            const tokenData = parseJwt(token);
+            const userId = tokenData.userId;
+            const iat = new Date(tokenData.iat * 1000);
+            const exp = new Date(tokenData.exp * 1000);
+
+            const response = await fetch(urlAddress, {
+                method: 'POST',
+                body: JSON.stringify({ way: 'selectname', token: token }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const result = await response.json();
+
+            let statusMessage = '无效或过期';
+            if (result.success) {
+                statusMessage = '有效';
+            }
+
+            const content = `
+                用户ID: ${userId}<br>
+                生效时间: ${iat}<br>
+                过期时间: ${exp}<br>
+                当前状态: ${statusMessage}
+            `;
+
+            showModalButton(1, '检查认证', content, '确定', null, button1, null);
+
+        } catch (error) {
+            showModalButton(1, '检查认证', '当前token服务器认证失败！token无效或过期', '确定', null, button1, null);
+        }
+    }*/
+
+    async function checkTokenAvailability() {
+        const nameInput = document.getElementById('token');
+        const feedback = document.getElementById('selecttoken');
+        const token = nameInput.value.trim();
+
+    try {
+        const urlAddress = 'https://video.qilingwl.com/api/'; // API地址
+        const response = await fetch(urlAddress, {
+            method: 'POST',
+            body: JSON.stringify({ way: 'selectname', token }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            feedback.textContent = data.exists ? '有效' : '无效';
+            feedback.className = data.exists ? 'feedback unavailable' : 'feedback available';
+        } else {
+            feedback.textContent = '检查过程中发生错误';
+            feedback.className = 'feedback unavailable';
+        }
+    } catch (error) {
+        console.error('请求错误:', error);
+        feedback.textContent = '网络错误';
+        feedback.className = 'feedback unavailable';
+    }
+
+    }
+
+    async function checkTokenMessage() {
+    const nameInput = document.getElementById('token');
+    const feedback = document.getElementById('selecttoken');
+    const token = nameInput.value.trim();
+    try {
+        const urlAddress = 'https://video.qilingwl.com/api/'; // API地址
+        const response = await fetch(urlAddress, {
+            method: 'POST',
+            body: JSON.stringify({ way: 'selectname', token }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            let statusMessage = data.exists ? '有效' : '无效';
+            parseJwt(token,statusMessage);
+        } else {
+            feedback.textContent = '检查过程中发生错误';
+            feedback.className = 'feedback unavailable';
+        }
+    } catch (error) {
+        console.error('请求错误:', error);
+        feedback.textContent = '网络错误';
+        feedback.className = 'feedback unavailable';
+    }
+}
+
+// 解析Token
+function parseJwt(token,statusMessage) {
+    try {
+        const parts = token.split('.');
+        let userId = "404";
+        let iat = '1999-12-31';
+        let exp = '1999-12-31<br>Token格式错误！';
+
+        if (parts.length === 2) {
+            const base64Url = parts[0]; // Payload 部分
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+        
+            try {
+                const tokenData = JSON.parse(jsonPayload);
+                userId = tokenData.userId;
+                iat = new Date(tokenData.iat * 1000);
+                exp = new Date(tokenData.exp * 1000);
+            } catch (e) {
+                console.error("Invalid token data", e);
+            }
+        }
+        const content = `
+            用户ID: ${userId}<br>
+            生效时间: <br>${iat}<br>
+            过期时间: <br>${exp}<br>
+            当前状态: ${statusMessage}
+        `;
+        showModalButton(1, '检查认证', content, '确定', null, button1, null);
+    } catch (error) {
+        console.error('解析Token错误:', error);
+        feedback.textContent = '解析Token错误';
+        feedback.className = 'feedback unavailable';
+    }
+}
     </script>
     
 </body>

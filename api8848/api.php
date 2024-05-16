@@ -22,8 +22,8 @@ require_once 'auth/register.php';//注册api
 //require_once 'auth/forget.php';//找回密码api
 
 
-//统一引入数据库处理函数
-require_once 'auth/sqlapi/users.php';
+//统一引入数据库处理函数（调试）
+//require_once 'auth/sqlapi/users.php';
 
 // 错误处理和日志记录
 error_reporting(E_ERROR | E_WARNING);
@@ -149,8 +149,20 @@ if ($way) {
 */
         //状态检查
         case 'state':
-            state();//状态检查
             break;
+
+
+
+        //用户查重处理/token状态检查
+        case 'selectname':
+            // 从POST数据获取参数
+            $name = isset($post_data["name"]) ? $post_data["name"] : null;
+            $email = isset($post_data["email"]) ? $post_data["email"] : null;
+            $phone = isset($post_data["phone"]) ? $post_data["phone"] : null;
+            $token = isset($post_data["token"]) ? $post_data["token"] : null;;
+            //调用方法
+            selectmessage($name,$email,$phone,$token);
+
 
 
 
@@ -288,28 +300,6 @@ function register($username,$password,$email,$phone,$code,$codeid){
     global $mysqli;
     mysqli_close($mysqli);
 }
-
-    
-
-
-//状态检查函数
-function state(){
-    //状态检查
-    $username = "666666";// 用户名
-    $token = "666666";// token
-    $result = verify_token($username, $token);
-
-    if ($result) {
-        echo "登录成功";
-    } else {
-        echo "登录失败";
-    }
-    // 关闭数据库连接
-    global $mysqli;
-    mysqli_close($mysqli);
-}
-
-
 
 
 

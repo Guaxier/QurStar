@@ -192,11 +192,11 @@ function isUsernameExist(PDO $pdo, string $username): bool
  * 名称：isFullNameExist
  * 时间：2024/05/10 创建
  * 作者：Guaxier
- * 功能：根据用户名查询用户名是否存在
- * 说明：通过full_name查询users表，判断指定用户名是否存在。
+ * 功能：根据用户名查询用户真实姓名是否存在
+ * 说明：通过full_name查询users表，判断指定用户是否存在。
  * 参数:
  * @param PDO $pdo 数据库连接实例
- * @param string $fullName 要查询的用户名（全名）
+ * @param string $fullName 要查询的真实姓名（全名）
  * 
  * 返回:
  * @return bool 用户名存在返回true，否则返回false
@@ -204,9 +204,9 @@ function isUsernameExist(PDO $pdo, string $username): bool
  * 示例:
  * 
  * if (isFullNameExist($pdo, '张三')) {
- *     echo '用户名存在';
+ *     echo '用户存在';
  * } else {
- *     echo '用户名不存在';
+ *     echo '用户存在';
  * }
  * 
  */
@@ -1003,13 +1003,14 @@ function generateLoginToken($userId, $secretKey, $expiryTimeInSeconds = 3600) {
     // 将荷载转换为JSON字符串
     $payloadJson = json_encode($payload);
     
-    // 使用HMAC-SHA256算法和密钥对荷载进行签名
-    $signature = hash_hmac('sha256', $payloadJson, $secretKey, true);
-    
-    // 对荷载和签名进行Base64Url编码，组成JWT
+    // 对荷载进行Base64Url编码
     $encodedPayload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($payloadJson));
+    
+    // 使用HMAC-SHA256算法和密钥对编码后的荷载进行签名
+    $signature = hash_hmac('sha256', $encodedPayload, $secretKey, true);
     $encodedSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
     
+    file_put_contents('1.txt', '原token' . $encodedPayload . '.' . $encodedSignature, FILE_APPEND); // 调试
     // 返回JWT格式的Token字符串
     return $encodedPayload . '.' . $encodedSignature;
 }
@@ -1082,7 +1083,7 @@ function extendTokenExpiration($token, $secretKey, $additionalExpiryTimeInSecond
  * }
  * 
  */
-function validateLoginToken($token, $secretKey) {
+function validateLoginToken($token, $secretKey = DB_secretKey) {
     // 分割JWT的两部分：荷载与签名
     list($encodedPayload, $encodedSignature) = explode('.', $token);
     if (count([$encodedPayload, $encodedSignature]) !== 2) {
@@ -1108,8 +1109,8 @@ function validateLoginToken($token, $secretKey) {
     
     // 重新计算签名进行比较
     $expectedSignature = hash_hmac('sha256', $encodedPayload, $secretKey, true);
-    $actualSignature = base64_decode(strtr($encodedSignature, '-_', '+/'), true);
-    if ($actualSignature === false || !hash_equals($expectedSignature, $actualSignature)) {
+    $expectedSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($expectedSignature));
+    if (!hash_equals($expectedSignature, $encodedSignature)) {
         return false; // 签名不匹配
     }
     

@@ -7,13 +7,13 @@ function register_email($username, $password, $email, $code,$codeid) {
     global $pdo;
     // 验证用户名、密码、邮箱
     if (!validateInput($username, 'username')) {
-        return array('message' => '用户名格式错误!','success' => false);
+        return array('message' => '账号格式错误!','success' => false);
     } elseif (!validateInput($password, 'password')) {
         return array('message' => '密码格式错误!','success' => false);
     } elseif (!validateInput($email, 'email')) {
         return array('message' => '邮箱格式错误!','success' => false);
-    } elseif (isFullNameExist($pdo,$username)) {
-        return array('message' => '用户名已存在!','success' => false);
+    } elseif (isUsernameExist($pdo,$username)) {
+        return array('message' => '账号已存在!','success' => false);
     }elseif (isEmailExist($pdo,$email)) {
         return array('message' => '邮箱已存在!','success' => false);
     }else {
@@ -43,13 +43,13 @@ function register_phone($username, $password, $phone, $code,$codeid) {
     global $pdo;
     // 验证用户名、密码、邮箱
     if (!validateInput($username, 'username')) {
-        return array('message' => '用户名格式错误!','success' => false);
+        return array('message' => '账号格式错误!','success' => false);
     } elseif (!validateInput($password, 'password')) {
         return array('message' => '密码格式错误!','success' => false);
     } elseif (!validateInput($phone, 'phone')) {
         return array('message' => '手机号格式错误!','success' => false);
-    } elseif (isFullNameExist($pdo,$username)) {
-        return array('message' => '用户名已存在!','success' => false);
+    } elseif (isUsernameExist($pdo,$username)) {
+        return array('message' => '账号已存在!','success' => false);
     }elseif (isPhoneNumberExist($pdo,$phone)) {
         return array('message' => '手机号已存在!','success' => false);
     }else {
