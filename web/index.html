@@ -10,7 +10,6 @@
       margin: 0;
       padding: 0;
       background-color: #f9f9f9;
-      color: #444;
     }
     
     header {
@@ -52,7 +51,7 @@
       color: #fff;
       padding: 10px;
       text-align: center;
-      position: fixed;
+      /*position: fixed;*/
       bottom: 0;
       width: 100%;
     }
@@ -149,7 +148,7 @@
     }
   </style>
 </head>
-<body>
+<body id="myElement">
 
   <header>
     <h1>齐心创意API示例</h1>
@@ -164,7 +163,7 @@
       <!-- Add more endpoints here -->
     </ul>
   </nav>
-  
+
   <section id="endpoint1" class="endpoint">
       <div id="app">
           <div>
@@ -221,12 +220,39 @@
       </div>
 
   </section>
+
+    <section id="endpoint2" class="endpoint">
+        <h2>安装系统</h2>
+        <p>自动化部署测试：</p>
+        <h7>由于技术原因，本页面未提供演示方法，我们为安装系统部署了一个单独的示例，请前往<a href="https://video.qilingwl.com/test/installconfig.html" style="color: #007bff; text-decoration: none;">安装系统</a></h7>
+    </section>
   
-  <footer>
+    <section id="endpoint2" class="endpoint">
+        <h2>礼物系统</h2>
+        <p>通用API测试：</p>
+        <h7>零星礼物WEB已经完成部署，示例请前往<a href="https://video.qilingwl.com/test/installconfig.html" style="color: #007bff; text-decoration: none;">奇幻星</a></h7>
+    </section>
+    <section id="endpoint2" class="endpoint">
+        <h2>物联网系统</h2>
+        <p>物联网控制API测试：</p>
+        <h7>零星娱乐WEB已经完成部署，示例请前往<a href="https://video.qilingwl.com/test/installconfig.html" style="color: #007bff; text-decoration: none;">零星娱乐</a></h7>
+    </section>
+  <footer style="color: #f9f9f9; background-color: #f9f9f9;"> 
+    <p> </p>
+    <p>&nbsp; </p>
+  </footer>
+  <footer style="position: fixed;">
     <p>© 2024 API Demonstrate 七零网络</p>
   </footer>
 
   <script>
+    // 获取当前视口高度
+    var windowHeight = Math.max(document.documentElement.clientHeight, document.body.clientHeight);
+    // 计算出目标高度，增加10px
+    var targetHeight = windowHeight + 100 + 'px';// 获取目标元素
+    var myElement = document.getElementById('myElement');// 设置元素高度
+    myElement.style.height = targetHeight;
+
     let currentCodeId = ""; // 用于存储当前的codeid
     let urladdres = "https://video.qilingwl.com/api";// api接口地址
 

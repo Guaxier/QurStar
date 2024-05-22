@@ -68,6 +68,57 @@ function validateInput(string $input, string $type): bool
 
 
 /**
+ * 名称：isTableExists
+ * 功能：检查数据库中指定表是否存在
+ * 时间：2024/05/10 创建
+ * 作者：依据您的信息填写
+ * 说明：通过表名查询information_schema.tables，判断指定表是否存在于数据库中。
+ * 参数:
+ * @param PDO $pdo 数据库连接实例
+ * @param string $tableName 要查询的表名
+ * 
+ * 返回:
+ * @return bool 表存在返回true，否则返回false
+ * 
+ * 示例:
+ * 
+ * if (isTableExists($pdo, 'users')) {
+ *     echo '表已存在';
+ * } else {
+ *     echo '表不存在';
+ * }
+ * 
+ */
+function isTableExists(PDO $pdo, string $tableName): bool 
+{
+    try {
+        // SQL查询语句，检查information_schema.tables中是否存在指定的表名
+        $sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = :tableName";
+        
+        // 准备语句并绑定参数
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':tableName', $tableName, PDO::PARAM_STR);
+        
+        // 执行查询
+        $stmt->execute();
+        
+        // 获取查询结果，如果计数大于0则表存在
+        $exists = (bool) $stmt->fetchColumn();
+        
+        // 返回结果并根据要求格式化响应
+        $response = ['exists' => $exists];
+        return $response['exists'];
+    } catch (PDOException $e) {
+        // 错误处理，记录日志或抛出异常等
+        error_log("查询表存在状态失败！" . $e->getMessage());
+        $response = ['exists' => false];
+        return $response['exists']; // 在异常情况下默认认为表不存在
+    }
+}
+
+
+
+/**
  * 名称：selectMessage
  * 名称：用户名是否存在
  * 名称：信息验证/查询
@@ -76,15 +127,16 @@ function validateInput(string $input, string $type): bool
  * 功能：根据提供的用户名、邮箱、电话或令牌检查其存在性，并以JSON形式响应。
  *
  * 参数:
- * @param string|null $name 用户名
- * @param string|null $email 电子邮件地址
- * @param string|null $phone 电话号码
- * @param string|null $token 登录令牌
+ * @param string|null $name 用户名（是否存在）
+ * @param string|null $email 电子邮件地址（是否存在）
+ * @param string|null $phone 电话号码（是否存在）
+ * @param string|null $token 登录令牌（是否有效）
  * 
  * 返回:
  * @return void 本函数不直接返回值，而是输出一个JSON响应到HTTP流，包含键'exists'来指示查询的结果。
  *
- * 示例：检查用户名是否存在
+ * 示例：
+ * 检查用户名是否存在
  * selectMessage('usernameExample', null, null, null);
  * 
  */

@@ -1,27 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <title>数据库初始化配置</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 引入 Vue.js 库 -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-    <!-- 引入 jQuery 库 -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="js/vue@2.js"></script>
+    <title>零星API安装系统</title>
     <style>
+        .loading {
+            display: none;
+            font-size: 16px;
+            color: #333;
+        }
+        #result {
+            display: none;
+        }
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
             margin: 0;
             padding: 0;
         }
-        
-        h2 {
-            font-size: 24px;
-            color: #333;
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            margin-top: 20px;
         }
-        
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            text-align: left;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
         #app {
             max-width: 800px;
             margin: 0 auto;
@@ -29,163 +66,197 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: left;
         }
-        
+
         h3 {
             font-size: 20px;
             color: #333;
             margin-top: 20px;
         }
-        
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
         }
-        
+
         th, td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
         }
-        
+
         th {
             background-color: #f2f2f2;
         }
-        
+
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
-        
+
         ul {
             padding-left: 20px;
         }
-        
+
         li {
             margin-bottom: 5px;
         }
-        
-        form {
-            margin-top: 20px;
-        }
-        
-        label {
-            font-weight: bold;
-        }
-        
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        
-        button[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        button[type="submit"]:hover {
-            background-color: #45a049;
+
+        .available {
+            color: green;
         }
 
+        .unavailable {
+            color: red;
+        }
     </style>
 </head>
 <body>
-    <h2>数据库初始化配置</h2>
+    <div class="container">
+        <form id="dbForm" class="dbForm">
+            <h2>数据库配置</h2>
+            <label for="dbHost">数据库主机：</label>
+            <input type="text" id="dbHost" name="dbHost" value="127.0.0.1"><br>
 
-    <div id="app">
-        <!-- 显示数据库表格 -->
-        <h3>数据库表格状态</h3>
-        <table id="tableStatus" border="1">
-            <tr>
-                <th>表名</th>
-                <th>状态</th>
-            </tr>
-            <tr v-for="(status, table) in tableStatus" :key="table">
-                <td>{{ table }}</td>
-                <td>{{ status }}</td>
-            </tr>
-        </table>
+            <label for="dbName">数据库名称：</label>
+            <input type="text" id="dbName" name="dbName"><br>
 
-        <!-- 显示执行情况 -->
-        <div>
-            <h3>执行情况</h3>
-            <ul>
-                <li v-for="log in logs" :key="log">{{ log }}</li>
-            </ul>
-        </div>
+            <label for="dbUser">数据库用户名：</label>
+            <input type="text" id="dbUser" name="dbUser"><br>
 
-        <!-- 表单 -->
-        <form @submit.prevent="initializeDatabase">
-            <label for="dbname">数据库名:</label>
-            <input type="text" id="dbname" name="dbname" v-model="dbname" required><br><br>
-            <label for="username">数据库账号:</label>
-            <input type="text" id="username" name="username" v-model="username" required><br><br>
-            <label for="password">数据库密码:</label>
-            <input type="password" id="password" name="password" v-model="password" required><br><br>
-            <button type="submit">提交</button>
+            <label for="dbPassword">数据库密码：</label>
+            <input type="password" id="dbPassword" name="dbPassword"><br>
+            <input type="submit" value="提交">
         </form>
+        <div class="loading">
+            <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+            <dotlottie-player src="https://lottie.host/97d0bd30-de6b-4d51-8a74-7c4ba660305d/CKGPTwXJvf.json" background="transparent" speed="1" style="height: 100px;" loop autoplay></dotlottie-player>
+            <h5>正在执行初始化...</h5>
+        </div>
+        <div id="result">
+            <div id="app">
+                <h2>数据库初始化配置</h2>
+                <h3>数据库表格状态</h3>
+                <table id="tableStatus" border="1">
+                    <tr>
+                        <th>表名</th>
+                        <th>状态</th>
+                    </tr>
+                    <!-- 使用v-for指令动态生成表格行 -->
+                    <tr v-for="(table, index) in tables" :key="index">
+                        <td>{{ table.name }}</td>
+                        <td :class="{ 'available': table.status === '已创建', 'unavailable': table.status === '未创建' }">{{ table.status }}</td>
+                    </tr>
+                </table>
+
+                <!-- 显示执行情况 -->
+                <div id="tableshow">
+                    <h3>执行情况</h3>
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
-<script>
-const API_URL = 'installconfig.php';
-new Vue({
-    el: '#app',
-    data: {
-        dbname: '',
-        username: '',
-        password: '',
-        tableStatus: {
-            'user': '未创建',
-            'user_info': '未创建',
-            'user_verification': '未创建',
-            'VerificationCodes': '未创建'
-        },
-        logs: []
-    },
-    methods: {
-        initializeDatabase() {
-            this.logs = []; // 清空执行日志
+    <script>
+        document.getElementById('dbForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // 隐藏表单
+            document.querySelector('.dbForm').style.display = 'none';
 
-            const payload = {
-                dbname: this.dbname,
-                username: this.username,
-                password: this.password
-            };
+            // 显示加载动画
+            document.querySelector('.loading').style.display = 'block';
 
-            $.ajax({
-                type: 'POST',
-                url: API_URL,
-                data: JSON.stringify(payload),
-                contentType: 'application/json',
-                dataType: 'json',
-                success: (response) => {
-                    this.logs.push(response.message); // 输出数据库连接状态
+            // 获取表单数据
+            var formData = new FormData(this);
 
-                    response.tableResults.forEach((result) => {
-                        this.tableStatus[result.tableName] = result.status;
-                        this.logs.push(`${result.tableName}: ${result.status}`);
-                    });
+            // 发送AJAX请求
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'installconfig.php', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // 隐藏加载动画
+                    document.querySelector('.loading').style.display = 'none';
+                    
+                    // 显示result
+                    document.getElementById('result').style.display = 'block';
 
-                    this.logs.push('初始化完成！'); // 输出初始化完成信息
-                },
-                error: (xhr, status, error) => {
-                    this.logs.push(`初始化失败: ${xhr.responseText || error}`);
+                    // 显示服务器返回的内容
+                    document.getElementById('tableshow').innerHTML = xhr.responseText;
+
+                    // 执行checkTableStatuses扫描数据库状态
+                    vm.checkTableStatuses();
+                } else {
+                    // 处理错误
+                    document.querySelector('.loading').innerHTML = '初始化失败，请重试。';
                 }
-            });
-        }
-    }
-});
-</script>
+            };
+            xhr.send(formData);
+        });
 
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                tables: [
+                    { name: 'AccountStatus', status: '未创建' },
+                    { name: 'PasswordHistory', status: '未创建' },
+                    { name: 'Permissions', status: '未创建' },
+                    { name: 'Role_Permissions', status: '未创建' },
+                    { name: 'Roles', status: '未创建' },
+                    { name: 'UserEmailHistory', status: '未创建' },
+                    { name: 'UserLoginRecords', status: '未创建' },
+                    { name: 'UserPhoneHistory', status: '未创建' },
+                    { name: 'UsernameHistory', status: '未创建' },
+                    { name: 'VerificationCodes', status: '未创建' },
+                    { name: 'user_info', status: '未创建' },
+                    { name: 'user_verification', status: '未创建' },
+                    { name: 'users', status: '未创建' },
+                ],
+                checkingTables: [] // 新增一个数组用于存储需要检查的表
+            },
+            mounted() {
+                // 初始化时，将所有状态为'未创建'的表加入到checkingTables
+                this.checkingTables = this.tables.filter(table => table.status === '未创建');
+            },
+            methods: {
+                async checkTableStatuses() {
+                    for (let i = 0; i < this.checkingTables.length; i++) {
+                        const table = this.checkingTables[i];
+                        try {
+                            const response = await fetch('https://video.qilingwl.com/api/', {
+                                method: 'POST',
+                                body: JSON.stringify({ way: 'selecttable', table: table.name }),
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            });
 
+                            if (response.ok) {
+                                const { exists } = await response.json();
+                                if (exists) {
+                                    const index = this.tables.findIndex(t => t.name === table.name);
+                                    if (index > -1) {
+                                        this.$set(this.tables, index, { name: table.name, status: '已创建' });
+                                    }
+                                    this.checkingTables.splice(i--, 1);
+                                    // 添加等待逻辑
+                                    if (i < this.checkingTables.length) { // 确保不是最后一个元素，避免不必要的等待
+                                        await new Promise(resolve => setTimeout(resolve, 1000)); // 等待1秒
+                                    }
+                                } else {
+                                    console.error(`检查 ${table.name} 表状态时发生错误.`);
+                                }
+                            }
+                        } catch (error) {
+                            console.error(`请求错误: ${error}`);
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>

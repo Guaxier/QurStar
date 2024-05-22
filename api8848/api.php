@@ -32,11 +32,11 @@ ini_set('log_errors', 1);
 ini_set('error_log', 'log/php_errors.log');
 
 // 开启session
-session_start(); 
-// 数据库信息引入
-include('includes/config.php');
-include('includes/PDO.php');
-include('includes/MYSQLI.php');
+session_start();
+// 数据库和配置信息引入
+include ('includes/config.php');
+include ('includes/PDO.php');
+include ('includes/MYSQLI.php');
 
 
 
@@ -46,21 +46,27 @@ include('includes/MYSQLI.php');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 获取原始POST数据
     $json_data = file_get_contents("php://input");
-$log_file = 'log.txt';
-file_put_contents($log_file,  $json_data, FILE_APPEND);
+
+    //请求日志记录
+    $log_file = 'log.txt';
+    file_put_contents($log_file, $json_data, FILE_APPEND);
+
     // 解码JSON数据
     $post_data = json_decode($json_data, true);
-    
-        // 写入日志文件
 
-file_put_contents($log_file, $post_data, FILE_APPEND);
+    // 解码后的请求写入日志文件
+    file_put_contents($log_file, $post_data, FILE_APPEND);
+
     // 获取请求类型
     $way = isset($post_data['way']) ? $post_data['way'] : '';
+
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
     // 将请求中way的值赋值给way变量
     $way = isset($_GET['way']) ? $_GET['way'] : '';
     // 保存请求参数
     $getdate = $_GET;
+
 } else {
     echo "请求类型错误！";
     // 待扩展
@@ -87,7 +93,7 @@ if ($way) {
             $toEmail = $post_data["email"] ?? '';//邮箱
             $toPhone = $post_data["phone"] ?? '';//手机号
             $codetype = $post_data["codetype"];//验证码
-            getcode($codetype,$toEmail,$toPhone);//获取验证码
+            getcode($codetype, $toEmail, $toPhone);//获取验证码
             break;
 
 
@@ -95,16 +101,16 @@ if ($way) {
 
         //请求邮箱验证码
         case 'getemailcode':
-            
-            
+
+
             break;
 
-        
+
 
         //请求手机验证码
         case 'getphonecode':
-            
-            
+
+
             break;
 
 
@@ -118,7 +124,7 @@ if ($way) {
             $phone = $post_data["phone"] ?? ''; // 手机号
             $code = $post_data["code"] ?? '';//验证码
             $codeid = $post_data["codeid"] ?? '';//验证码id
-            login($username,$password,$email,$phone,$code,$codeid);//登录验证函数
+            login($username, $password, $email, $phone, $code, $codeid);//登录验证函数
             break;
 
 
@@ -133,7 +139,7 @@ if ($way) {
             $phone = $post_data["phone"] ?? ''; // 手机号
             $code = $post_data["code"];//验证码
             $codeid = $post_data["codeid"];//验证码id
-            register($username,$password,$email,$phone,$code,$codeid);//注册验证函数
+            register($username, $password, $email, $phone, $code, $codeid);//注册验证函数
             break;
 
 
@@ -159,14 +165,21 @@ if ($way) {
             $name = isset($post_data["name"]) ? $post_data["name"] : null;
             $email = isset($post_data["email"]) ? $post_data["email"] : null;
             $phone = isset($post_data["phone"]) ? $post_data["phone"] : null;
-            $token = isset($post_data["token"]) ? $post_data["token"] : null;;
+            $token = isset($post_data["token"]) ? $post_data["token"] : null;
             //调用方法
-            selectmessage($name,$email,$phone,$token);
+            selectmessage($name, $email, $phone, $token);
+            break;
+        
 
-
-
-
-
+        //查询表
+        case 'selecttable' :
+            //从POST获取参数
+            $table = isset($post_data["table"]) ? $post_data["table"] : null;
+            //引入数据库信息
+            global $pdo;
+            //调用方法
+            isTableExists($pdo,$table);
+            break;
 
         case 'ts':
             //前端请求的类型，调用不同api
@@ -185,29 +198,25 @@ if ($way) {
 
 
 //请求图形验证码函数
-function getcode($codetype, $toEmail, $toPhone){
+function getcode($codetype, $toEmail, $toPhone)
+{
     // 初始化结果数组
     $result = array();
-    
-        if ($codetype === 'email') {// 验证码类型：邮箱注册
-            
-            
-            $result = getemailcode($toEmail);//发送邮箱验证码
-        }
-        elseif ($codetype === 'phone') {// 验证码类型:手机注册
-            
-            $result = getphonecode($toPhone);//发送手机验证码
-        }
-        elseif ($codetype === "image") {
-            // 创建 CaptchaManager 验证码 实例
-            $captcha_manager = new CaptchaManager();
-            // 处理验证码请求
-            $result = $captcha_manager->handle_captcha_request();
-        }
-        else {
-            $result = array('success' => false,'message' => '非法请求!');
-        }
-    
+
+    if ($codetype === 'email') {// 验证码类型：邮箱注册
+        $result = getemailcode($toEmail);//发送邮箱验证码
+
+    } elseif ($codetype === 'phone') {// 验证码类型:手机注册
+        $result = getphonecode($toPhone);//发送手机验证码
+
+    } elseif ($codetype === "image") {// 验证码类型:普通图片验证码
+        $captcha_manager = new CaptchaManager();// 创建 CaptchaManager 验证码 实例
+        $result = $captcha_manager->handle_captcha_request();//发送验证码图片
+
+    } else {
+        $result = array('success' => false, 'message' => '非法请求!');
+    }
+
     // 返回 JSON 响应
     echo json_encode($result);
     // 关闭数据库连接
@@ -216,55 +225,60 @@ function getcode($codetype, $toEmail, $toPhone){
 }
 
 //请求邮箱验证码函数
-function getemailcode($toEmail) {
+function getemailcode($toEmail)
+{
     //引入数据库信息
     global $pdo;
     // 验证邮箱是否合法
     if (!validateInput($toEmail, 'email')) {
         $result = array('message' => '邮箱格式错误!', 'success' => false);
-    }elseif (!isEmailExist($pdo,$toEmail)) {// 判断邮箱是否存在
-            // 创建 CaptchaManager 验证码 实例
-            $captcha_manager = new CaptchaManager();
-            // 处理验证码请求
-            $result = $captcha_manager->handle_captcha_request(2, $toEmail,null);
-    }else{
-            $result = array('message' => '邮箱已存在!请直接登陆!', 'success' => false);
-        }
+    } elseif (!isEmailExist($pdo, $toEmail)) {// 判断邮箱是否存在
+        // 创建 CaptchaManager 验证码 实例
+        $captcha_manager = new CaptchaManager();
+        // 处理验证码请求
+        $result = $captcha_manager->handle_captcha_request(2, $toEmail, null);
+
+    } else {
+        $result = array('message' => '邮箱已存在!请直接登陆!', 'success' => false);
+    }
     return $result;
 }
 
 //请求手机验证码函数
-function getphonecode($toPhone) {
+function getphonecode($toPhone)
+{
     //引入数据库信息
     global $pdo;
     // 验证手机号是否合法
     if (!validateInput($toPhone, 'phone')) {
         $result = array('message' => '手机号格式错误!', 'success' => false);
-    }elseif (isPhoneNumberExist($pdo,$toPhone)) {// 判断手机号是否存在
-            // 创建 CaptchaManager 验证码 实例
-            $captcha_manager = new CaptchaManager();
-            //处理验证码请求
-            $result = $captcha_manager->handle_captcha_request(3,null,$toPhone);
-        }else{
-            $result = array('message' => '手机号已存在!请直接登陆!', 'success' => false);
-        }
+    } elseif (isPhoneNumberExist($pdo, $toPhone)) {// 判断手机号是否存在
+        // 创建 CaptchaManager 验证码 实例
+        $captcha_manager = new CaptchaManager();
+        //处理验证码请求
+        $result = $captcha_manager->handle_captcha_request(3, null, $toPhone);
+
+    } else {
+        $result = array('message' => '手机号已存在!请直接登陆!', 'success' => false);
+    }
     return $result;
 }
 
 
 //登录函数
-function login($username,$password,$email,$phone,$code,$codeid){
+function login($username, $password, $email, $phone, $code, $codeid)
+{
     // 初始化结果数组
     $result = array();
     if (validateInput($email, 'email')) {
         // 调用登录获取token(邮箱+密码登陆)
-        $result = login_verification_email($email, $password,$codeid,$code);
-    }elseif(validateInput($phone, 'phone')){
+        $result = login_verification_email($email, $password, $codeid, $code);
+    } elseif (validateInput($phone, 'phone')) {
         // 调用登录获取token(手机号+密码登陆)
-        $result = login_verification_phone($phone, $password,$codeid,$code);
-    }else{
+        $result = login_verification_phone($phone, $password, $codeid, $code);
+    } else {
         // 调用登录获取token(账号+密码登陆)
-        $result = login_verification($username, $password,$codeid,$code);
+        $result = login_verification($username, $password, $codeid, $code);
     }
 
     //返回token
@@ -275,18 +289,21 @@ function login($username,$password,$email,$phone,$code,$codeid){
 }
 
 //注册函数
-function register($username,$password,$email,$phone,$code,$codeid){
+function register($username, $password, $email, $phone, $code, $codeid)
+{
     // 初始化结果数组
     $result = array();
 
     if (validateInput($email, 'email')) {
         // 使用邮箱注册逻辑
         // 调用使用邮箱注册的函数
-        $result = register_email($username,$password,$email,$code,$codeid);
+        $result = register_email($username, $password, $email, $code, $codeid);
+
     } elseif (validateInput($phone, 'phone')) {
         // 使用手机号注册逻辑
         // 调用使用手机号注册的函数
-        $result = register_phone($username,$password,$phone,$code,$codeid);
+        $result = register_phone($username, $password, $phone, $code, $codeid);
+
     } else {
         // 处理错误，没有提供有效的注册方式
         $result = array(
