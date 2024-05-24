@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件浏览器</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .directory > span {
+            cursor: pointer;
+            color: black; /* 修改目录名的颜色为黑色 */
+            user-select: none; /* 禁止选中 */
+        }
+        .directory.selected {
+            background-color: #f0f0f0; /* 选中目录时的背景色 */
+        }
+        #currentPath {
+            margin-bottom: 20px;
+        }
+        /* CSS样式，使消息框悬浮在页面中央 */
+        .download-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>文件目录</h2>
+    <div id="currentPath">当前路径: /</div>
+    <button id="backBtn" class="btn btn-secondary mb-3" disabled>返回上一级</button>
+    <button id="rootBtn" class="btn btn-secondary mb-3" disabled>返回根目录</button>
+    <ul id="fileTree" class="list-group"></ul>
+</div>
+
+<!-- 消息框容器 -->
+<div id="messageContainer"></div>
+
+<script>
+$(document).ready(function(){
+    function fetchDirectory(path) {
+        $.getJSON("scanDirectory.php", { path: path }, function(data){
+            var treeHtml = buildTree(data, path);
+            $("#fileTree").html(treeHtml);
+            $("#currentPath").text('当前路径: ' + (path ? '/' + path : '/'));
+            // 根据当前路径判断是否禁用返回按钮
+            if (path === '') {
+                $("#backBtn").prop("disabled", true);
+                $("#rootBtn").prop("disabled", true);
+            } else {
+                $("#backBtn").prop("disabled", false);
+                $("#rootBtn").prop("disabled", false);
+            }
+        });
+    }
+
+    function buildTree(items, parentPath) {
+        var listItems = '';
+        $.each(items, function(key, value) {
+            var fullPath = parentPath ? parentPath + '/' + value.name : value.name;
+            if (value.type === 'directory') {
+                listItems += '<li class="list-group-item directory" data-path="' + fullPath + '">';
+                listItems += '<span>' + value.name + '</span>';
+                listItems += '</li>';
+            } else {
+                listItems += '<li class="list-group-item">';
+                listItems += '<span>' + value.name + '</span>';
+                listItems += '<button class="btn btn-sm btn-primary float-right download-btn" data-path="' + fullPath + '">下载</button>';
+                listItems += '</li>';
+            }
+        });
+        return listItems;
+    }
+
+    $('#fileTree').on('click', '.directory', function(){
+        $('#fileTree .directory').removeClass('selected'); // 移除其他目录的选中状态
+        $(this).addClass('selected'); // 添加选中目录的状态
+    });
+
+    $('#fileTree').on('dblclick', '.directory', function(){
+        var path = $(this).data('path');
+        fetchDirectory(path);
+    });
+
+    $('#fileTree').on('click', '.download-btn', function(e){
+        e.stopPropagation(); // 阻止事件冒泡，避免触发目录点击事件
+        var path = $(this).data('path');
+        var fileName = path.substring(path.lastIndexOf('/') + 1); // 提取文件名
+        // 创建消息框，并添加到消息框容器中
+        var downloadMessage = $('<div class="alert alert-info download-message" role="alert">正在下载: ' + fileName + '</div>').appendTo('#messageContainer');
+        // 2秒后自动隐藏消息框
+        setTimeout(function(){
+            downloadMessage.fadeOut('slow', function(){
+                $(this).remove();
+            });
+        }, 2000);
+        window.location.href = 'download.php?file=' + encodeURIComponent(path);
+    });
+
+    $('#backBtn').on('click', function(){
+        var currentPath = $("#currentPath").text().trim().substring(6); // 获取当前路径，去掉前面的 "当前路径: "
+        var parentPath = currentPath.substring(0, currentPath.lastIndexOf('/')); // 获取上一级路径
+        fetchDirectory(parentPath);
+    });
+
+    $('#rootBtn').on('click', function(){
+        fetchDirectory('');
+    });
+
+    // 初始加载根目录
+    fetchDirectory('');
+});
+</script>
+</body>
+</html>

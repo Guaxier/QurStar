@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>异步文件上传</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .upload-container {
+            background-color: #fff;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .upload-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        .form-group input[type="file"] {
+            display: none;
+        }
+        .custom-file-upload {
+            display: inline-block;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+            background-color: #fff;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .custom-file-upload:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .form-group input[type="submit"] {
+            display: inline-block;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #007bff;
+            transition: background-color 0.3s;
+        }
+        .form-group input[type="submit"]:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .form-group input[type="submit"]:not(:disabled):hover {
+            background-color: #0056b3;
+        }
+        #preview {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        #preview img, #preview video {
+            max-width: 200px;
+            max-height: 200px;
+        }
+        .file-info {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        #message {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .loading {
+            display: none;
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var uploadForm = document.getElementById('uploadForm');
+            var fileInput = document.getElementById('fileToUpload');
+            var submitBtn = document.getElementById('submitBtn');
+            var messageArea = document.getElementById('message');
+            var previewArea = document.getElementById('preview');
+            var fileInfoArea = document.getElementById('fileInfo');
+            var loadingDiv = document.querySelector('.loading');
+            var progressText = document.getElementById('progressText');
+
+            // 初始状态禁用上传按钮
+            submitBtn.disabled = true;
+
+            // 当文件选择变化时检查是否选择了文件并显示预览
+            fileInput.addEventListener('change', function() {
+                submitBtn.disabled = !fileInput.files.length; // 如果有文件被选中则启用按钮
+                previewFile();
+            });
+
+            // 显示文件预览和信息
+            function previewFile() {
+                var file = fileInput.files[0];
+                previewArea.innerHTML = ''; // 清空之前的预览
+                fileInfoArea.innerHTML = ''; // 清空之前的文件信息
+
+                if (file) {
+                    // 显示文件信息
+                    var fileName = document.createElement('div');
+                    fileName.className = 'file-info';
+                    fileName.textContent = '文件名称: ' + file.name;
+
+                    var fileSize = document.createElement('div');
+                    fileSize.className = 'file-info';
+                    fileSize.textContent = '文件大小: ' + (file.size / 1024).toFixed(2) + ' KB';
+
+                    fileInfoArea.appendChild(fileName);
+                    fileInfoArea.appendChild(fileSize);
+
+                    var reader = new FileReader();
+                    reader.onload = function(event) {
+                        var result = event.target.result;
+                        var element;
+
+                        if (file.type.startsWith('image/')) {
+                            element = document.createElement('img');
+                            element.src = result;
+                        } else if (file.type.startsWith('audio/')) {
+                            element = document.createElement('audio');
+                            element.controls = true;
+                            element.src = result;
+                        } else if (file.type.startsWith('video/')) {
+                            element = document.createElement('video');
+                            element.controls = true;
+                            element.src = result;
+                        } else {
+                            element = document.createElement('p');
+                            element.textContent = '无法预览此文件类型。';
+                        }
+
+                        previewArea.appendChild(element);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            uploadForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                var formData = new FormData();
+                formData.append('fileToUpload', fileInput.files[0]);
+
+                submitBtn.disabled = true; // 提交时禁用按钮，防止重复提交
+                loadingDiv.style.display = 'block'; // 显示加载动画
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'upload.php', true);
+
+                // 监听上传进度事件
+                xhr.upload.addEventListener('progress', function(e) {
+                    if (e.lengthComputable) {
+                        var percentComplete = Math.round((e.loaded / e.total) * 100);
+                        progressText.textContent = '正在上传：' + percentComplete + '%';
+                    }
+                });
+
+                xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        messageArea.textContent = xhr.responseText;
+                        messageArea.style.color = xhr.responseText.includes('成功') ? 'green' : 'red';
+                        // 清除文件输入框的值
+                        fileInput.value = null;
+                        // 清空预览区域
+                        previewArea.innerHTML = '';
+                        // 清空文件信息区域
+                        fileInfoArea.innerHTML = '';
+                    } else {
+                        messageArea.textContent = "文件上传时发生错误。";
+                        messageArea.style.color = 'red';
+                    }
+                    submitBtn.disabled = false; // 显示消息后重新启用按钮
+                    loadingDiv.style.display = 'none'; // 隐藏加载动画
+                };
+
+                xhr.onerror = function() {
+                    console.error('Error:', xhr.statusText);
+                    messageArea.textContent = "文件上传时发生错误。";
+                    messageArea.style.color = 'red';
+                    submitBtn.disabled = false; // 出错后也重新启用按钮
+                    loadingDiv.style.display = 'none'; // 隐藏加载动画
+                };
+
+                xhr.send(formData);
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div class="upload-container">
+    <h2>文件上传</h2>
+    <h7>文件大小不超过30MB</h7>
+    <br>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <label class="custom-file-upload">
+                <input type="file" name="fileToUpload" id="fileToUpload">
+                选择文件
+            </label>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="上传文件" name="submit" id="submitBtn">
+        </div>
+    </form>
+    
+    <div class="loading">
+        <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+        <dotlottie-player src="https://lottie.host/97d0bd30-de6b-4d51-8a74-7c4ba660305d/CKGPTwXJvf.json" background="transparent" speed="1" style="height: 100px;" loop autoplay></dotlottie-player>
+        <h5 id="progressText">正在上传：0%</h5>
+    </div>
+    
+    <div id="preview"></div> <!-- 用于显示文件预览 -->
+    <div id="fileInfo"></div> <!-- 用于显示文件信息 -->
+    <div id="message"></div> <!-- 用于显示服务器返回的信息 -->
+</div>
+
+</body>
+</html>

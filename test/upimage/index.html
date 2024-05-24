@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>头像裁剪</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+            margin: 0;
+        }
+        #imageUpload {
+            margin-bottom: 20px;
+        }
+        #cropper-container {
+            width: 300px;
+            height: 300px;
+            display: none;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        #cropper-container img {
+            max-width: 100%;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #resultMessage {
+            margin-top: 20px;
+            font-size: 16px;
+            display: none;
+        }
+        .error {
+            color: #ff0000;
+        }
+        .success {
+            color: #4CAF50;
+        }
+        #croppedResult {
+            max-width: 300px;
+            max-height: 300px;
+            display: none;
+            border: 2px solid #ddd;
+            margin-top: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" />
+</head>
+<body>
+
+<input type="file" id="imageUpload" accept="image/*">
+<div id="cropper-container"></div>
+<button onclick="cropImage()">裁剪并上传</button>
+<div id="resultMessage"></div>
+<img id="croppedResult" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+<script>
+    let cropper;
+
+    document.getElementById('imageUpload').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const cropperContainer = document.getElementById('cropper-container');
+                cropperContainer.innerHTML = `<img id="imageToCrop" src="${e.target.result}">`;
+                cropperContainer.style.display = 'block';
+
+                if (cropper) {
+                    cropper.destroy();
+                }
+                cropper = new Cropper(document.getElementById('imageToCrop'), {
+                    aspectRatio: 1,
+                    viewMode: 1,
+                    autoCropArea: 1,
+                    movable: true,
+                    zoomable: true,
+                    scalable: true,
+                    cropBoxResizable: true,
+                    cropBoxMovable: true,
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function cropImage() {
+        const resultMessage = document.getElementById('resultMessage');
+        resultMessage.style.display = 'none';
+
+        cropper.getCroppedCanvas().toBlob((blob) => {
+            const formData = new FormData();
+            formData.append('file', blob, 'cropped.jpg');
+            formData.append('token', '');
+            formData.append('way', '46231');
+
+            fetch('upload.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                resultMessage.style.display = 'block';
+                if (data.status === 'success') {
+                    resultMessage.textContent = data.message;
+                    resultMessage.className = 'success';
+                    resetCropper();
+
+                    const croppedResult = document.getElementById('croppedResult');
+                    croppedResult.src = URL.createObjectURL(blob);
+                    croppedResult.style.display = 'block';
+                } else {
+                    resultMessage.textContent = data.message;
+                    resultMessage.className = 'error';
+                }
+            })
+            .catch(error => {
+                resultMessage.style.display = 'block';
+                resultMessage.textContent = 'An error occurred during the upload process.';
+                resultMessage.className = 'error';
+                console.error('Error:', error);
+            });
+        });
+    }
+
+    function resetCropper() {
+        document.getElementById('imageUpload').value = '';
+        document.getElementById('cropper-container').style.display = 'none';
+        if (cropper) {
+            cropper.destroy();
+            cropper = null;
+        }
+    }
+</script>
+</body>
+</html>
