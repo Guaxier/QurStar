@@ -217,13 +217,12 @@
 
 <div class="upload-container">
     <h2>文件上传</h2>
-    <h7>文件大小不超过30MB</h7>
+    <h7>文件大小不超过30MB</h7>/<a href="download.html" style="color: #007bff; text-decoration: none;">前往文件浏览器</a>
     <br>
     <form id="uploadForm" enctype="multipart/form-data">
         <div class="form-group">
             <label class="custom-file-upload">
-                <input type="file" name="fileToUpload" id="fileToUpload">
-                选择文件
+                <input type="file" name="fileToUpload" id="fileToUpload">选择文件
             </label>
         </div>
         <div class="form-group">
@@ -232,7 +231,7 @@
     </form>
     
     <div class="loading">
-        <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+        <script src="js/dotlottie-player.js" type="module"></script>
         <dotlottie-player src="https://lottie.host/97d0bd30-de6b-4d51-8a74-7c4ba660305d/CKGPTwXJvf.json" background="transparent" speed="1" style="height: 100px;" loop autoplay></dotlottie-player>
         <h5 id="progressText">正在上传：0%</h5>
     </div>
