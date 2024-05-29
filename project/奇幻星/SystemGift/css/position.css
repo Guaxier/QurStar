@@ -1,0 +1,144 @@
+header {
+  position: relative;
+  height: 11.73333vw;
+  border-bottom: 1px solid #eee;
+  background-color: #fff;
+}
+header.styleRed {
+  background-color: #fd5050;
+  border-bottom: 1px solid #fd5050;
+  color: #fff;
+}
+header .cont {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  text-align: center;
+  line-height: 11.73333vw;
+  font-size: 4.53333vw;
+}
+header .cont h1 {
+  font-weight: normal;
+  text-align: center;
+}
+.selectObject {
+  margin-top: 0;
+  height: 10.66667vw;
+  line-height: 10.66667vw;
+  font-size: 4.53333vw;
+  border-bottom: 1px solid #eee;
+  position: relative;
+  background: #fff;
+}
+.selectObject .box {
+  height: 10.66667vw;
+  line-height: 10.66667vw;
+  font-size: 3.73333vw;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+.selectObject .box li {
+  flex: 1;
+  color: #666;
+}
+.selectObject .box .act {
+  color: #fd5050;
+}
+.selectObject .box .item {
+  height: 11vw;
+  display: inline-block;
+  color: inherit;
+  position: relative;
+}
+.selectObject .box .act .item::after {
+  background: #fd5050;
+  content: "";
+  width: 100%;
+  height: 0.53333vw;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: block;
+}
+
+.indexArticle {
+  margin: 0 3.5vw;
+  overflow: hidden;
+}
+.indexArticle .items {
+  border-radius: 1.33333vw;
+  position: relative;
+  margin-top: 2.66667vw;
+  background: #fff;
+  overflow: hidden;
+}
+.indexArticle .items .pmryImg {
+  height: 37.3333vw;
+}
+.indexArticle .items .cen {
+  margin: 4vw 3.73333vw;
+}
+.indexArticle .items .h2 {
+  font-size: 4.8vw;
+  line-height: 7.2vw;
+  font-weight: normal;
+  color: #333;
+}
+.indexArticle .items .h2::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.indexArticle .items .source {
+  display: flex;
+  align-items: center;
+  margin: 4vw 3.73333vw;
+  justify-content: space-between;
+  font-size: 3.73333vw;
+  color: #b1b1b1;
+}
+.indexArticle .items .author {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.indexArticle .items .avtImg {
+  width: 5.33333vw;
+  height: 5.33333vw;
+  border-radius: 100%;
+  margin-right: 1.33333vw;
+  overflow: hidden;
+}
+.indexArticle .items .name {
+  margin-right: 1.33333vw;
+  max-width: 32vw;
+  display: inline-block;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  overflow: hidden;
+  color: #666;
+}
+.indexArticle .items .like {
+  flex: 0 0 22vw;
+  text-align: right;
+}
+.indexArticle .items p {
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin: 4vw 3.73333vw;
+  font-size: 3.73333vw;
+  line-height: 6vw;
+  color: #b1b1b1;
+}

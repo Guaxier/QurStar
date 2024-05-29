@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body>
+    <div class="box">
+      <img src="./images/bj.jpg">
+      <header>
+        <div class="leftbox">9:41</div>
+        <div class="rightbox">
+          <img class="box1" src="./images/信号.svg">
+          <img class="box2" src="./images/wifi.svg">
+          <img class="box3" src="./images/实心-电量-电量12-copy.svg">
+        </div>
+      </header>
+      <img class="bj" src="./images/登录 (1)_00.png">
+      <div class="tab">
+        <div class="tab_list">
+          <ul>
+            <li>注册</li>
+            <li class="current">登录</li>
+          </ul>
+        </div>
+        <div class="tab_con">
+          <div class="item">
+            <div class="tbox">
+              <div class="text">用户名</div>
+              <input type="text">
+              <div class="xian"></div>
+            </div>
+            <div class="tbox">
+              <div class="text">邮箱地址</div>
+              <input type="text">
+              <div class="xian"></div>
+            </div>
+            <div class="tbox">
+              <div class="text">密码</div>
+              <input type="password">
+              <div class="xian"></div>
+            </div>
+            <div class="tbox">
+              <div class="text">确认密码</div>
+              <input type="password">
+              <div class="xian"></div>
+            </div>
+            <p class="ts">我已阅读并同意<a>《用户协议》</a>和<a>《隐私协议》</a></p>
+            <div class="button">登录</div>
+            <div class="buttonlogin">使用手机号一键登录
+            </div>
+          </div>
+          <div class="item">
+            <div class="sbox">
+              <div class="text">用户名/邮箱/手机号</div>
+              <input type="text">
+              <div class="xian"></div>
+            </div>
+            <div class="sbox">
+              <div class="text">密码</div>
+              <input type="password">
+              <div class="xian"></div>
+            </div>
+            <p class="ts">登录表示已阅读并同意<a>《用户协议》</a>和<a>《隐私协议》</a></p>
+            <div class="button">登录</div>
+            <div class="icon">
+              <img src="./images/wx.svg">
+              <img src="./images/QQ.svg">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+    var tab_list = document.querySelector('.tab_list');
+    var lis = tab_list.querySelectorAll('li');
+    var items = document.querySelectorAll('.item');
+    //for循环绑定点击事件
+    for (var i = 0; i < lis.length; i++) {
+      lis[i].setAttribute('index',i);//开始给5个小li设置索引号;
+      lis[i].onclick = function () {
+        //干掉所有人 其余的li清除class这个类
+        for (var i = 0; i < lis.length; i++) {
+          lis[i].className = '';
+        }
+        //留下我自己
+        this.className = 'current';
+        //2.下面的显示内容模块
+        var index = this.getAttribute('index');
+        console.log(index);
+        //干掉所有人 让其余的div隐藏
+        for (var i = 0; i < items.length; i++) {
+          items[i].style.display = 'none';
+        }
+        items[index].style.display = 'block';
+      }
+    }
+    </script>  
+  </body>
+</html>

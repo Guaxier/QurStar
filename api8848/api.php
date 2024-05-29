@@ -20,7 +20,7 @@ require_once 'auth/login.php';//登录及其token验证api
 //require_once 'auth/logout.php';//登出api
 require_once 'auth/register.php';//注册api
 //require_once 'auth/forget.php';//找回密码api
-
+require_once 'systemgift/systemgift.php';//奇幻星礼物API
 
 //统一引入数据库处理函数（调试）
 //require_once 'auth/sqlapi/users.php';
@@ -180,6 +180,17 @@ if ($way) {
             //调用方法
             isTableExists($pdo,$table);
             break;
+
+
+        //礼物查询
+        case 'selectgitftype':
+            //引入数据库信息
+            global $pdo;
+            //调用方法
+            selectgitftype();
+            break;
+
+
 
         case 'ts':
             //前端请求的类型，调用不同api

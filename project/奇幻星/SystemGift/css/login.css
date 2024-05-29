@@ -1,0 +1,164 @@
+.box {
+  position: relative;
+  width: 52.5rem;
+  height: 113.375rem;
+  margin: 0 4.0625rem;
+}
+.box img {
+  width: 52.5rem;
+  height: 56.25rem;
+}
+.box .bj {
+  position: absolute;
+  width: 52.5rem;
+  height: 113.375rem;
+  top: -6.25rem;
+}
+.box header {
+  position: absolute;
+  top: 1.25rem;
+  left: 2.5rem;
+  width: 1.5625rem;
+  height: 52.5rem;
+}
+.box header .leftbox {
+  float: left;
+  font-size: 1.125rem;
+  color: #fff;
+  width: 1.5625rem;
+  height: 1.25rem;
+}
+.box header .rightbox {
+  position: relative;
+  float: right;
+  color: #fff;
+  width: 9rem;
+  height: 1.25rem;
+  left: 770px;
+  top: -20px;
+}
+.box header .rightbox .box1 {
+  position: absolute;
+  width: 1.5625rem;
+  height: 1.25rem;
+}
+.box header .rightbox .box2 {
+  position: absolute;
+  top: -0.3125rem;
+  right: 70px;
+  width: 2rem;
+  height: 2rem;
+}
+.box header .rightbox .box3 {
+  position: absolute;
+  right: 0;
+  width: 4.75rem;
+  height: 1.5rem;
+}
+.box .tab {
+  position: absolute;
+  left: 4.1875rem;
+  top: 53.125rem;
+}
+.box .tab .tab_list {
+  width: 20rem;
+  height: 3.4375rem;
+}
+.box .tab .tab_list ul li {
+  float: left;
+  width: 7.5rem;
+  height: 3.4375rem;
+  background: #f5f5f5;
+  border-radius: 20%;
+  margin-right: 1.25rem;
+  text-align: center;
+  font-size: 1.25rem;
+  line-height: 3.4375rem;
+  color: #b4b4b4;
+}
+.box .tab .tab_list .current {
+  background: #324235;
+  color: #fff;
+}
+.box .tab .tab_con {
+  position: absolute;
+  top: 7.5rem;
+}
+.box .tab .tab_con .sbox .text {
+  margin-top: 1.875rem;
+  color: #808080;
+  font-size: 1.125rem;
+}
+.sbox input {
+  margin-top: 1.25rem;
+  outline: none;
+  border: none;
+  width: 43.75rem;
+  font-size: 1.25rem;
+  background: none;
+}
+.box .tab .tab_con .sbox .xian {
+  width: 43.75rem;
+  height: .125rem;
+  margin-top: 1.25rem;
+  background: #ececec;
+}
+.box .tab .tab_con .ts {
+  margin-top: .9375rem;
+  font-size: 1.25rem;
+}
+.box .tab .tab_con a {
+  color: #a6bbda;
+}
+.box .tab .tab_con .button {
+  margin-top: 11.25rem;
+  color: #fff;
+  line-height: 6.25rem;
+  text-align: center;
+  font-size: 1.875rem;
+  width: 43.75rem;
+  height: 6.25rem;
+  background-color: #0cbb5c;
+}
+.box .tab .tab_con .icon {
+  margin-top: 1.875rem;
+  margin-left: 15.625rem;
+}
+.box .tab .tab_con .icon img {
+  float: left;
+  height: 3.75rem;
+  width: 3.75rem;
+  margin-right: 6.25rem;
+}
+.box .tab .tab_con .tbox .text {
+  margin-top: 10px;
+  color: #808080;
+  font-size: 1.125rem;
+}
+.tbox input {
+  margin-top: .625rem;
+  outline: none;
+  border: none;
+  width: 43.75rem;
+  font-size: 1.25rem;
+  background: none;
+}
+.box .tab .tab_con .tbox .xian {
+  width: 43.75rem;
+  height: .125rem;
+  margin-top: .625rem;
+  background: #ececec;
+}
+/*em {
+  display: none; /* 默认隐藏所有 .item 
+}*/
+
+.item:first-child {
+  display: none; /* 第一个 .item 显示 */
+}
+.buttonlogin {
+  font-size: xx-large;
+  color: #0cbb5c;
+  text-align: center;
+  margin-top: 1rem;
+}

@@ -1,0 +1,74 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ul,li,ol {
+  list-style: none;
+}
+a {
+  outline: none;
+  background: none;
+  text-decoration: none;
+  vertical-align: baseline;
+  font-size: inherit;
+}
+body {
+  background-color: #f9f8f8;
+}
+div,h1,form,img,a,button {
+  border: 0 none;
+  font-size: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+nav {
+  display: block;
+}
+video {
+  object-fit: contain;
+  overflow-clip-margin: content-box;
+  overflow: clip;
+}
+.bottombar {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  padding: 1.33333vw 0;
+  border-top: 1px solid #eee;
+  z-index: 10;
+  background: #fff;
+}
+.dfcc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bottombar .act {
+  color: #fd5050;
+}
+.bottombar .uiBlocka{
+  flex: 1;
+  text-align: center;
+}
+.bottombar a {
+  color: #c1c1c1;
+}
+.bottombar .uiBlocka .iconfont {
+  font-size: 5vw;
+  display: block;
+}
+.bottombar span {
+  margin-top: 1.33333vw;
+  font-size: 2.93333vw;
+  line-height: 1;
+  display: block;
+}

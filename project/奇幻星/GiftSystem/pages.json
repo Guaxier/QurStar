@@ -1,0 +1,53 @@
+{
+	"pages": [{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/gift/gift",
+			"style": {
+				"navigationBarTitleText": "礼物"
+			}
+		},
+		{
+			"path": "pages/me/me",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		}
+	],
+	"tabBar": {
+		"color": "#8a8a8a",
+		"selectedColor": "#00aa00",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"text": "首页",
+				"iconPath": "static/index.svg",
+				"selectedIconPath": "static/indexed.svg"
+			},
+			{
+				"pagePath": "pages/gift/gift",
+				"text": "奇幻星",
+				"iconPath": "static/index.svg",
+				"selectedIconPath": "static/indexed.svg"
+			},
+			{
+				"pagePath": "pages/me/me",
+				"text": "我的",
+				"iconPath": "static/me.svg",
+				"selectedIconPath": "static/meed.svg"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app x",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
+}

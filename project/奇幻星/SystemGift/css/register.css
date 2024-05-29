@@ -1,0 +1,99 @@
+header {
+  height: 20vw;
+  position: relative;
+  border-bottom:0.5vw solid #94949461;
+}
+header span {
+  top: 35%;
+  left: 40%;
+  position: absolute;
+  font-size: 10vw;
+  line-height: 10vw;
+  color:#333;
+  font-family: "楷体";
+}
+.email {
+  position: absolute;
+  top: 15%;
+  height: 10vw;
+}
+.email .text {
+  margin-top: 3vw;
+  font-size: 6vw;
+  float: left;
+  margin-left: 6vw;
+  color: #666;
+  font-family: '宋体';
+}
+.email .phone {
+  width: 60%;
+  float: right;
+  color: #a9a8a8;
+  font-size: 5vw;
+  line-height: 10vw;
+  margin-right: 6vw;
+  border-color: rgb(133, 133, 133);
+}
+.pictrue {
+  position: absolute;
+  top: 25%;
+  height: 10vw;
+}
+.pictrue .password {
+  width: 40%;
+  float: left;
+  color: #a9a8a8;
+  font-size: 5vw;
+  line-height: 10vw;
+  margin-left: 10vw;
+  border-color: rgb(133, 133, 133);
+}
+.pictrue img {
+  float: right;
+  width: 30%;
+  margin-right: 10vw;
+}
+.word {
+  position: absolute;
+  top: 35%;
+  height: 10vw;
+}
+.word .test {
+  margin-top: 3vw;
+  font-size: 6vw;
+  float: right;
+  margin-right: 10vw;
+  color: #666;
+  font-family: '宋体';
+}
+.word .password {
+  width: 40%;
+  float: left;
+  color: #a9a8a8;
+  font-size: 5vw;
+  line-height: 10vw;
+  margin-left: 10vw;
+  border-color: rgb(133, 133, 133);
+}
+.size {
+  position: absolute;
+  top: 45%;
+  left: 25%;
+  background: linear-gradient(to right, rgba(255, 166, 0, 0.908),rgb(243, 243, 10));
+  height: 15vw;
+  width: 50%;
+  border-radius: 10%;
+  font-size: 5vw;
+  color: rgb(246, 247, 248);
+}
+.hint {
+  position: absolute;
+  top: 60%;
+  font-size: 5vw;
+  color: #666;
+}
+.hint .login {
+  float: right;
+  display: block;
+  margin-left: 30vw;
+}

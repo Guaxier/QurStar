@@ -1,0 +1,135 @@
+header {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 11.73333vw;
+
+}
+header.style-red {
+  background-color: #fd5050;
+  border-bottom: 1px solid #fd5050;
+  color: #fff;
+}
+header .icon-lft {
+  flex: 0 0 3.3333vw;
+  height: 11.73333vw;
+  line-height: 11.73333vw;
+  color: #a8a8a8;
+  display: flex;
+  justify-content: flex-start;
+}
+header.style-red .icon-lft {
+  color: inherit;
+  font-size: 8vw;
+  margin-left: 3vw;
+}
+header .cont {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  text-align: center;
+  line-height: 11.73333vw;
+  font-size: 5vw;
+}
+header .cont h1 {
+  font-weight: normal;
+}
+.gift-filter {
+  height: 10.66667vw;
+  font-size: 4.53333vw;
+  border-bottom: 1px solid #eee;
+  position: relative;
+  background-color: #fff;
+}
+.gift-filter .box {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  height: 10.66667vw;
+  line-height: 10.66667vw;
+  font-size: 3.73333vw;
+}
+.gift-filter .box li {
+  flex: 1;
+}
+.gift-filter .box .active {
+  color: #fd5050;
+}
+.gift-filter .box .spa {
+  height: 10.66667vw;
+}
+.gift-filter .box span,
+.gift-filter .box .spa {
+  display: inline-block;
+  color: inherit;
+  position: relative;
+}
+.gift-filter .box .active span::after, 
+.gift-filter .box .active .spa::after {
+  content: "";
+  width: 100%;
+  height: 0.53333vw;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: block;
+  background: #fd5050;
+}
+.srch-list {
+  margin: 0 3.33333vw;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.srch-list .items {
+  flex: 0 0 calc(50% - 1.33333vw);
+  margin-top: 2.66667vw;
+  border-radius: 1.33333vw;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.srch-list .img-block {
+  width: 45.33333vw;
+  height: 45.33333vw;
+}
+.srch-list .name {
+  margin: 3.2vw 2.13333vw;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  color: #666;
+  font-size: 3.46667vw;
+}
+.srch-list .name::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.srch-list .other {
+  display: flex;
+  align-items: center;
+  margin: 3.2vw 2.13333vw;
+  font-size: 3.46667vw;
+  line-height: 1;
+  justify-content: space-between;
+}
+.srch-list .price {
+  color: #ff4e50;
+}
+.srch-list .like {
+  color: #c1c1c1;
+}
+.srch-list .like i {
+  font-size: 3.73333vw;
+  margin-right: 0.8vw;
+}

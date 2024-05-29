@@ -1,0 +1,49 @@
+.box {
+  height: 50vw;
+  background: url(/images/背景.jpg ) no-repeat center;
+  background-size: 100% 100%;
+}
+.box::before {
+  content: "";
+  background: rgba(65, 64, 64, 0.5);
+  height: 50vw;
+  display: block;
+  position: relative;
+}
+.box .icon-p {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  font-size: 16vw;
+  background: #fff;
+  border-radius: 100%;
+  color: #a7a7a7;
+}
+.box a {
+  position: absolute;
+  font-size: 10vw;
+  right: 20%;
+  top: 11%;
+  color: #fff;
+}
+section {
+  position: relative;
+  height: 15vw;
+  display: block;
+  border-bottom: 1px solid #858585;
+  font-family: '宋体';
+}
+section h1{
+  font-size: 5vw;
+  color: #777;
+  line-height: 15vw;
+  margin-left: 12vw;
+}
+section i {
+  position: absolute;
+  font-size: 10vw;
+  font-style: normal;
+  color: #999;
+  top: 9%;
+  left: 90%;
+}

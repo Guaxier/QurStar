@@ -1,0 +1,106 @@
+<template>
+	<list-view class="page" show-scrollbar=false :scroll-top="scroll_top_input">
+
+		<list-item>
+			<swiper indicator-dots="true" circular="true" style="height: 240px;">
+				<swiper-item v-for="i in 3" :item-id="i + ''">
+					<image src="/static/logo.png" style="height: 240px; width: 100%;"></image>
+					<text style="position: absolute;align-self: center;">第{{i}}张轮播</text>
+				</swiper-item>
+			</swiper>
+		</list-item>
+
+		<list-item class="content-item">
+			<text class="text">轮播图测试</text>
+		</list-item>
+
+		<sticky-header>
+			<scroll-view style="background-color: #f5f5f5; align-self: center; flex-direction: row;"
+				direction="horizontal" :show-scrollbar="false ">
+				<view style="align-self: flex-start; flex-direction: row;">
+					<list-view>
+						<list-item>
+							<image src="/static/logo.png" style="height: 40rpx; width: 40rpx;"></image>
+						</list-item>
+						<list-item>
+							<text> 礼物街 </text>
+						</list-item>
+					</list-view>
+
+					<image src="/static/logo.png" style="height: 40rpx; width: 40rpx;"></image>
+					<text ref="swipertab" class="sift-item" v-for="(name,index) in sift_item" @click="clickTH(index)">
+						{{name}}
+					</text>
+				</view>
+			</scroll-view>
+		</sticky-header>
+
+	</list-view>
+</template>
+
+
+
+<style>
+	.page {
+		flex: 1;
+		background-color: #f5f5f5;
+	}
+
+	.content-item {
+		padding: 15px;
+		margin-bottom: 10px;
+		background-color: #00aaff;
+		width: 100%;
+	}
+
+	.text {
+		font-size: 14px;
+		color: #666;
+		line-height: 20px;
+		align-self: center;
+	}
+
+	.sift-item {
+		color: #555;
+		font-size: 16px;
+		padding: 12px 15px;
+	}
+</style>
+
+
+
+<script>
+	export default {
+		data() {
+			return {
+				sift_item: ["礼物街", "猜Ta喜欢", "游记攻略", "送礼问答"],
+				list_item: [] as Array<string>,
+				refresher_enabled_boolean: true,
+				refresher_triggered_boolean: false,
+				scroll_top_input: 0
+			}
+		},
+		onLoad() {
+			let lists : Array<string> = []
+			for (let i = 0; i < 40; i++) {
+				lists.push("item---" + i)
+			}
+			this.list_item = lists
+		},
+		methods: {
+			list_view_refresherrefresh() {
+				console.log("下拉刷新被触发 ")
+				this.refresher_triggered_boolean = true
+				setTimeout(() => {
+					this.refresher_triggered_boolean = false
+				}, 1500)
+			},
+			confirm_scroll_top_input(value : number) {
+				this.scroll_top_input = value
+			},
+			clickTH(index : number) {
+				console.log("点击表头：" + index);
+			}
+		}
+	}
+</script>
