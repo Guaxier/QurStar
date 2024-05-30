@@ -185,7 +185,7 @@ if ($way) {
         //礼物查询
         case 'selectgifttype':
             //引入数据库信息
-            global $pdo;
+            //global $pdo;
             //获取主题帖子
             $topic = selectGiftTopic();
             //获取礼物类型

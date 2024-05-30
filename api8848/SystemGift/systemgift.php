@@ -28,8 +28,8 @@ function selectGiftTopic()
             "topic_title" => "送喜欢听歌女生的10种音乐礼物推荐",//标题
             "topic_like" => "235",//点赞数量
             "topic_time" => "7月6日",//发布日期(生产环境建议使用2022/02/02 8:8:8格式交由前端处理)
-            "topic_userimgsrc" => 'http://q1.qlogo.cn/g?b=qq&nk=2537094196&s=100',//用户头像地址
-            "topic_username" => "是一圆呀"//用户昵称
+            "topic_userimgsrc" => 'http://q1.qlogo.cn/g?b=qq&nk=3533326199&s=100',//用户头像地址
+            "topic_username" => "云锦"//用户昵称
         ],
         [
             "topic_imgsrc" => 'https://video.qilingwl.com/test/upload/file/jpg/520.jpg',//图片
@@ -49,7 +49,7 @@ function selectGiftTopic()
             "topic_like" => "11",//点赞数量
             "topic_time" => "4月20日",//发布日期(生产环境建议使用2022/02/02 8:8:8格式交由前端处理)
             "topic_userimgsrc" => 'http://q1.qlogo.cn/g?b=qq&nk=2537094196&s=100',//用户头像地址
-            "topic_username" => "云锦"//用户昵称
+            "topic_username" => "是一圆呀"//用户昵称
         ]
     ];
     return $topic;
@@ -102,18 +102,23 @@ function selectGiftBanner()
 {
     $banner = [
         [
-            "banner_iocclass" => 'uiBlock',//显示的图标
+            "banner_ioc" => '&#xe610;',//显示的图标
             "banner_title" => "礼物街", //显示的文字
             "banner_href" => "a.com"//链接地址
         ],
         [
-            "banner_iocclass" => 'uiBlock',//显示的图标
-            "banner_title" => "礼物街", //显示的文字
+            "banner_ioc" => '&#xe602;',//显示的图标
+            "banner_title" => "猜Ta喜欢", //显示的文字
             "banner_href" => "a.com"//链接地址
         ],
         [
-            "banner_iocclass" => 'uiBlock',//显示的图标
-            "banner_title" => "礼物街", //显示的文字
+            "banner_ioc" => '&#xe64a;',//显示的图标
+            "banner_title" => "游记攻略", //显示的文字
+            "banner_href" => "a.com"//链接地址
+        ],
+        [
+            "banner_ioc" => '&#xe608;',//显示的图标
+            "banner_title" => "送礼问答", //显示的文字
             "banner_href" => "a.com"//链接地址
         ]
     ];
@@ -177,28 +182,12 @@ function selectGiftShop()
 {
     $shopdata = [
         [
-            "shop_imgsrc" => 'baidu.com',//商品图片
+            "shop_imgsrc" => 'https://video.qilingwl.com/test/upload/file/jpg%2F520.jpg',//商品图片
             "shop_href" => "a.com",//商品链接地址
-            "shop_text" => "内容",//商品简介
-            "shop_title" => "标题",//商品标题
-            "shop_price" => "价格",//
-            "shop_love" => "888"//收藏数量
-        ],
-        [
-            "shop_imgsrc" => 'baidu.com',//商品图片
-            "shop_href" => "a.com",//商品链接地址
-            "shop_text" => "内容",//商品简介
-            "shop_title" => "标题",//商品标题
-            "shop_price" => "价格",//
-            "shop_love" => "888"//收藏数量
-        ],
-        [
-            "shop_imgsrc" => 'baidu.com',//商品图片
-            "shop_href" => "a.com",//商品链接地址
-            "shop_text" => "内容",//商品简介
-            "shop_title" => "标题",//商品标题
-            "shop_price" => "价格",//
-            "shop_love" => "888"//收藏数量
+            "shop_text" => "迷你便携的可爱小狗音响，无线蓝牙链接手机电脑，可随时随地播放，适合年轻一族的时尚数码礼物。",//商品简介
+            "shop_title" => "萌宠小旺蓝牙音响",//商品标题
+            "shop_price" => "99.99",//
+            "shop_love" => "16"//收藏数量
         ]
     ];
     return $shopdata;
