@@ -1,51 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="cn">
+
+<head>
     <meta charset="utf-8" />
-		<script src="js/jquery.min.js"></script>
-		<script src="js/LoopSlider.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/LoopSlider.js"></script>
     <script src="font/iconfont.js"></script>
-		<link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
     <link rel="stylesheet" type="text/css" href="css/lunbotu.css">
     <link rel="stylesheet" type="text/css" href="css/font.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-  </head>
-  <body>
-      <header class="opt">
+</head>
+
+<body>
+    <header class="opt">
         <!--login-->
         <span class="icon-lft ">
-          <a href="#">
-            <i class="iconfont" title="我的">&#xe63a;</i>
-          </a>
+            <a href="#">
+                <i class="iconfont" title="我的">&#xe63a;</i>
+            </a>
         </span>
         <!--search-->
         <span class="icon-rgt ">
-          <a href="./smallSearch.html">
-            <i class="iconfont" title="搜索">&#xeafe;</i>
-          </a>
+            <a href="./smallSearch.html">
+                <i class="iconfont" title="搜索">&#xeafe;</i>
+            </a>
         </span>
-      </header>
-      <!--header-->
-      <div class="content">
+    </header>
+    <!--header-->
+    <div class="content">
         <!-- 动态渲染 -->
-      </div>
+    </div>
 
-      <!--banner-->
+    <!--banner-->
     <div class="navMenu dfcc">
         <!-- 动态渲染 -->
     </div>
     <!--navMenu-->
     <div class="selectObject">
-      <h2>您要送谁礼物</h2>
-      <div class="soUl">
-          <!-- 动态渲染 -->
-      </div>
+        <h2>您要送谁礼物</h2>
+        <div class="soUl">
+            <!-- 动态渲染 -->
+        </div>
     </div>
     <!--navbar-->
     <article class="indexArticle">
-      <h2 class="indexArticleh2">
-        每日精选
-      </h2>
+        <h2 class="indexArticleh2">
+            每日精选
+        </h2>
         <div class="goodsContainer">
             <!-- 商品项将动态生成并插入到这里 -->
         </div>
@@ -53,19 +55,45 @@
             <!-- 主题项将动态生成并插入到这里 -->
         </div>
     </article>
-    <script>
-      let urladdres = "https://video.qilingwl.com/api";// api接口地址
+    <!--indexArticle-->
+    <footer class="bottombar dfcc">
+        <a href="index.html" class="uiBlocka act">
+            <i class="iconfont">&#xe612;</i>
+            <span>首页</span>
+        </a>
+        <a href="gifts.html" class="uiBlocka">
+            <i class="iconfont">&#xe615;</i>
+            <span>礼物</span>
+        </a>
+        <a href="strategy.html" class="uiBlocka">
+            <i class="iconfont">&#xe608;</i>
+            <span>攻略</span>
+        </a>
+        <a href="position.html" class="uiBlocka">
+            <i class="iconfont">&#xf02b;</i>
+            <span>问答</span>
+        </a>
+        <a href="person.html" class="uiBlocka">
+            <i class="iconfont">&#xe633;</i>
+            <span>我的</span>
+        </a>
 
-      //初始化数据
-        function selectGiftTopic() {
-            // 发送请求
-            fetch(urladdres, {
-                method: 'POST',
-                body: JSON.stringify({ way: 'selectgifttype' }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
+    </footer>
+
+</body>
+<script>
+    let urladdres = "https://video.qilingwl.com/api";// api接口地址
+
+    //初始化数据
+    function selectGiftTopic() {
+        // 发送请求
+        fetch(urladdres, {
+            method: 'POST',
+            body: JSON.stringify({ way: 'selectgifttype' }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
             .then(response => {
                 // 检查响应的内容类型
                 const contentType = response.headers.get('content-type');
@@ -79,20 +107,20 @@
             .then(data => {
                 // 解析JSON数据
                 const jsonData = typeof data === 'string' ? JSON.parse(data) : data;
-        
+
                 // 处理type数组
                 if (jsonData.type && Array.isArray(jsonData.type)) {
                     const soUl = document.querySelector('.soUl');
                     soUl.innerHTML = ''; // 清空容器内容
-        
+
                     jsonData.type.forEach(item => {
                         const aElement = document.createElement('a');
                         aElement.href = '#';
                         aElement.className = 'abox';
-        
+
                         const strongElement = document.createElement('strong');
                         strongElement.textContent = item;
-        
+
                         aElement.appendChild(strongElement);
                         soUl.appendChild(aElement);
                     });
@@ -110,130 +138,130 @@
                         headerContainer.appendChild(img);
                     });
                 }
-        
+
                 // 处理banner数组
                 if (jsonData.banner && Array.isArray(jsonData.banner)) {
                     const navMenu = document.querySelector('.navMenu');
                     navMenu.innerHTML = ''; // 清空容器内容
-        
+
                     jsonData.banner.forEach(item => {
                         const aElement = document.createElement('a');
                         aElement.href = item.banner_href;
                         aElement.className = 'uiBlock';
-        
+
                         const iElement = document.createElement('i');
                         iElement.className = 'iconfont';
                         iElement.innerHTML = item.banner_ioc;
-        
+
                         const spanElement = document.createElement('span');
                         spanElement.textContent = item.banner_title;
-        
+
                         aElement.appendChild(iElement);
                         aElement.appendChild(spanElement);
                         navMenu.appendChild(aElement);
                     });
                 }
-        
+
                 // 处理shop数组
                 if (jsonData.shop && Array.isArray(jsonData.shop)) {
                     const goodsContainer = document.querySelector('.goodsContainer');
                     goodsContainer.innerHTML = ''; // 清空容器内容
-        
+
                     jsonData.shop.forEach(item => {
                         const sectionElement = document.createElement('section');
                         sectionElement.className = 'goodsBox';
-        
+
                         sectionElement.innerHTML = `
-                            <div class="pmryImg">
-                                <a>
-                                    <img src="${item.shop_imgsrc}">
-                                </a>
-                                <span class="promoPrice">¥${item.shop_price}</span>
-                            </div>
-                            <div class="cen">
-                                <a class="desc">
-                                    「${item.shop_title}」 ${item.shop_text}
-                                </a>
-                            </div>
-                            <div class="btnGroup">
-                                <div class="btnAction">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-aixin"></use>
-                                    </svg>
-                                    <span>${item.shop_love}</span>
-                                </div>
-                                <div class="btnAction">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-xingxing"></use>
-                                    </svg>
-                                    <span>收藏</span>
-                                </div>
-                                <a class="btnLink" href="${item.shop_href}">去淘宝购买</a>
-                            </div>
-                        `;
-        
+                          <div class="pmryImg">
+                              <a>
+                                  <img src="${item.shop_imgsrc}">
+                              </a>
+                              <span class="promoPrice">¥${item.shop_price}</span>
+                          </div>
+                          <div class="cen">
+                              <a class="desc">
+                                  「${item.shop_title}」 ${item.shop_text}
+                              </a>
+                          </div>
+                          <div class="btnGroup">
+                              <div class="btnAction">
+                                  <svg class="icon" aria-hidden="true">
+                                      <use xlink:href="#icon-aixin"></use>
+                                  </svg>
+                                  <span>${item.shop_love}</span>
+                              </div>
+                              <div class="btnAction">
+                                  <svg class="icon" aria-hidden="true">
+                                      <use xlink:href="#icon-xingxing"></use>
+                                  </svg>
+                                  <span>收藏</span>
+                              </div>
+                              <a class="btnLink" href="${item.shop_href}">去淘宝购买</a>
+                          </div>
+                      `;
+
                         goodsContainer.appendChild(sectionElement);
                     });
                 }
-        
+
                 // 处理topic数组
                 if (jsonData.topic && Array.isArray(jsonData.topic)) {
                     const topicsContainer = document.querySelector('.topicsContainer');
                     topicsContainer.innerHTML = ''; // 清空容器内容
-        
+
                     jsonData.topic.forEach(item => {
                         const sectionElement = document.createElement('section');
                         sectionElement.className = 'items';
-        
+
                         sectionElement.innerHTML = `
-                            <div class="pmryImg">
-                                <img src="${item.topic_imgsrc}">
-                            </div>
-                            <div class="cen">
-                                <a href="${item.topic_href}" class="h2">
-                                    ${item.topic_title}
-                                </a>
-                                <p>
-                                    ${item.topic_text}
-                                </p>
-                            </div>
-                            <div class="source">
-                                <div class="author">
-                                    <div class="avtImg">
-                                        <img src="${item.topic_userimgsrc}">
-                                    </div>
-                                    <span class="name">${item.topic_username}</span>
-                                    <span>${item.topic_time}</span>
-                                </div>
-                                <span class="like">${item.topic_like}赞</span>
-                            </div>
-                        `;
-        
+                          <div class="pmryImg">
+                              <img src="${item.topic_imgsrc}">
+                          </div>
+                          <div class="cen">
+                              <a href="${item.topic_href}" class="h2">
+                                  ${item.topic_title}
+                              </a>
+                              <p>
+                                  ${item.topic_text}
+                              </p>
+                          </div>
+                          <div class="source">
+                              <div class="author">
+                                  <div class="avtImg">
+                                      <img src="${item.topic_userimgsrc}">
+                                  </div>
+                                  <span class="name">${item.topic_username}</span>
+                                  <span>${item.topic_time}</span>
+                              </div>
+                              <span class="like">${item.topic_like}赞</span>
+                          </div>
+                      `;
+
                         topicsContainer.appendChild(sectionElement);
                     });
                 }
 
                 //初始化轮播效果
                 LoopSlider.init({
-                el: ".content", //选择器
-                navigator: {
-                  //前进后退按钮
-                  prevEl: ".prev",
-                  nextEl: ".next"
-                },
-                easing: "ease", //动画效果cubic-bezier(0.985, -0.060, 0.000, 1.320)
-                duration: 1000, //过渡时间，默认为300ms,
-                autoplay: 3000, //boolean 和 number 设置为true 默认延时为3s,如果设置为1000，延时为1s
-              })
+                    el: ".content", //选择器
+                    navigator: {
+                        //前进后退按钮
+                        prevEl: ".prev",
+                        nextEl: ".next"
+                    },
+                    easing: "ease", //动画效果cubic-bezier(0.985, -0.060, 0.000, 1.320)
+                    duration: 1000, //过渡时间，默认为300ms,
+                    autoplay: 3000, //boolean 和 number 设置为true 默认延时为3s,如果设置为1000，延时为1s
+                })
             })
             .catch(error => {
                 // 处理错误
                 console.error('错误:', error);
             });
-        }
-        
-        // 调用函数以执行请求并更新页面内容
-        selectGiftTopic();
-		</script>
-  </body>
+    }
+
+    // 调用函数以执行请求并更新页面内容
+    selectGiftTopic();
+</script>
+
 </html>
