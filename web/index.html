@@ -197,8 +197,7 @@
           </div>
           <div>
             <label for="gifselect">关键词：</label>
-            <input type="text" id="token" placeholder="请输入检索词">
-            <span id="selecttoken" class="feedback hidden"></span>
+            <input type="text" id="gifttopic" placeholder="请输入检索词">
           </div>
           
           <button onclick="aaa4()">获取邮箱验证码</button>
@@ -214,6 +213,7 @@
 
           <button onclick="checkTokenAvailability()" >状态检查（Token有效性）</button>
           <button onclick="checkTokenMessage()" >状态检查（Token校验）</button>
+          <button onclick="selectGiftTopic()" >关键词数据查验</button>
           
           <button onclick="showModalButton(2,'找回密码','账号绑定的邮箱','发送验证码','取消',function() { aaa9('获取验证码失败'); },button1)">找回密码</button>
           <button onclick="showModalButton(3,'状态检查','token','检查认证','获取信息',function() { checkTokenAvailability(); },function() { checkTokenMessage(); })">状态检查</button>
@@ -1316,6 +1316,74 @@ function parseJwt(token,statusMessage) {
         feedback.className = 'feedback unavailable';
     }
 }
+
+
+
+
+    //帖子数据验证
+    function selectGiftTopic() {
+        // 获取关键字
+        const gifttopic = document.getElementById('gifttopic').value;
+
+        // 发送请求
+        fetch(urladdres, {
+            method: 'POST',
+            body: JSON.stringify({ way: 'selectgifttype' }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            // 检查响应的内容类型
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                return response.json();
+            } else {
+                // 如果返回的数据不是JSON，直接返回响应的文本
+                return response.text();
+            }
+        })
+        .then(data => {
+            // 解析JSON数据
+            const jsonData = JSON.parse(data);
+            // 获取消息字段
+            const message = jsonData.message;
+            
+            // 检查是否存在topic数组
+            const topics = jsonData.hasOwnProperty('topic') && Array.isArray(jsonData.topic) ? jsonData.topic : [];
+            
+            // 构建要显示的所有topic信息的字符串
+            let topicsDisplayMessage = '';
+            if (topics.length > 0) {
+                topics.forEach((topic, index) => {
+                    topicsDisplayMessage += `\n${index + 1}:\n`
+                    topicsDisplayMessage += `标题：\n${topic.topic_title}\n`;
+                    topicsDisplayMessage += `简介: \n${topic.topic_text}\n`;
+                    topicsDisplayMessage += `图片: \n${topic.topic_imgsrc}\n`;
+                    topicsDisplayMessage += `详情: \n${topic.topic_href}\n`;
+                    topicsDisplayMessage += `发布: \n${topic.topic_time}\n`;
+                    topicsDisplayMessage += `头像: \n${topic.topic_userimgsrc}\n`;
+                    topicsDisplayMessage += `昵称: \n${topic.topic_username}\n`;
+                    // 添加规则
+                    // topicsDisplayMessage += `  - Image: ${topic.topic_imgsrc}\n`;
+                    // topicsDisplayMessage += `  - Text: ${topic.topic_text}\n`;
+                });
+            } else {
+                topicsDisplayMessage = '\n 获取结果为空';
+            }
+            
+            // 将消息和所有topic信息组合并显示在页面上
+            document.getElementById('message').innerText = `${message}${topicsDisplayMessage}`;
+        })
+
+
+        
+        .catch(error => {
+            // 处理错误
+            console.error('错误:', error);
+        });
+    }
+
     </script>
     
 </body>

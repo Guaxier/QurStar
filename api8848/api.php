@@ -183,11 +183,22 @@ if ($way) {
 
 
         //礼物查询
-        case 'selectgitftype':
+        case 'selectgifttype':
             //引入数据库信息
             global $pdo;
-            //调用方法
-            selectgitftype();
+            //获取主题帖子
+            $topic = selectGiftTopic();
+            //获取礼物类型
+            $type = selectGiftType();
+            //获取推荐ico
+            $banner = selectGiftBanner();
+            //获取轮播图
+            $header = selectGiftHeader();
+            //获取商品推荐
+            $shop = selectGiftShop();
+            //返回结果
+            $result = array("success" => true, "message" => "获取成功", "topic" => $topic, "type" => $type, "banner" => $banner, "header" => $header, "shop" => $shop);
+            echo json_encode($result);
             break;
 
 

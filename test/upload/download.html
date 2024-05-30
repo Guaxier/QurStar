@@ -72,6 +72,7 @@ $(document).ready(function(){
                 listItems += '<li class="list-group-item">';
                 listItems += '<span>' + value.name + '</span>';
                 listItems += '<button class="btn btn-sm btn-primary float-right download-btn" data-path="' + fullPath + '">下载</button>';
+                listItems += '<button class="btn btn-sm btn-secondary float-right copy-link-btn mr-2" data-path="' + fullPath + '">复制文件地址</button>';
                 listItems += '</li>';
             }
         });
@@ -101,6 +102,25 @@ $(document).ready(function(){
             });
         }, 2000);
         window.location.href = 'download.php?file=' + encodeURIComponent(path);
+    });
+
+    $('#fileTree').on('click', '.copy-link-btn', function(e){
+        e.stopPropagation(); // 阻止事件冒泡，避免触发目录点击事件
+        var path = $(this).data('path');
+        var link = window.location.origin + '/test/upload/file/' + encodeURIComponent(path);
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val(link).select();
+        document.execCommand("copy");
+        $temp.remove();
+        // 显示复制成功的消息
+        var copyMessage = $('<div class="alert alert-success download-message" role="alert">文件地址已复制: ' + link + '</div>').appendTo('#messageContainer');
+        // 2秒后自动隐藏消息框
+        setTimeout(function(){
+            copyMessage.fadeOut('slow', function(){
+                $(this).remove();
+            });
+        }, 2000);
     });
 
     $('#backBtn').on('click', function(){
