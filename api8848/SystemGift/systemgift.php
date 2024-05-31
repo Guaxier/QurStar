@@ -146,15 +146,15 @@ function selectGiftHeader()
 {
     $header = [
         [
-            "header_imgurl" => 'uiBlock',//图片地址
+            "header_imgurl" => 'https://video.qilingwl.com/test/upload/file/other%2F%E9%AB%98%E9%A2%9C%E5%80%BC%E5%B0%8F%E5%A4%9C%E7%81%AF.webp',//图片地址
             "header_url" => "礼物街", //详情地址
         ],
         [
-            "header_imgurl" => 'uiBlock',//图片地址
+            "header_imgurl" => 'https://video.qilingwl.com/test/upload/file/other%2F%E9%AB%98%E9%A2%9C%E5%80%BC%E5%B0%8F%E5%A4%9C%E7%81%AF.webp',//图片地址
             "header_url" => "礼物街", //详情地址
         ],
         [
-            "header_imgurl" => 'uiBlock',//图片地址
+            "header_imgurl" => 'https://video.qilingwl.com/test/upload/file/other%2F%E9%AB%98%E9%A2%9C%E5%80%BC%E5%B0%8F%E5%A4%9C%E7%81%AF.webp',//图片地址
             "header_url" => "礼物街", //详情地址
         ],
     ];
