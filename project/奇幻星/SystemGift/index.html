@@ -106,8 +106,8 @@
                     // 解析JSON数据
                     const jsonData = typeof data === 'string' ? JSON.parse(data) : data;
 
-                    // 处理type数组
-                    if (jsonData.type && Array.isArray(jsonData.type)) {
+                    // 处理gifttype数组
+                    if (jsonData.gifttype && Array.isArray(jsonData.gifttype)) {
                         const soUl = document.querySelector('.soUl');
                         soUl.innerHTML = ''; // 清空容器内容
 
@@ -124,7 +124,7 @@
                         });
                     }
 
-                    // 处理type数组
+                    // 处理header数组-轮播图
                     if (jsonData.header && Array.isArray(jsonData.header)) {
                         // 处理 header 数组
                         const headerContainer = document.querySelector('.content');
