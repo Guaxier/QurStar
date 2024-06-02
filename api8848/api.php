@@ -183,14 +183,14 @@ if ($way) {
 
 
         //礼物查询
-        case 'selectgiftmain':
+        case 'selectgifttype':
             //引入数据库信息
-            //global $pdo;
+            global $pdo;
             //获取主题帖子
             $topic = selectGiftTopic();
             //获取礼物类型
             $gifttype = selectGiftType();
-            //获取推荐图标信息
+            //获取推荐ico
             $banner = selectGiftBanner();
             //获取轮播图
             $header = selectGiftHeader();
@@ -200,17 +200,7 @@ if ($way) {
             $result = array("success" => true, "message" => "获取成功", "topic" => $topic, "gifttype" => $gifttype, "banner" => $banner, "header" => $header, "shop" => $shop);
             echo json_encode($result);
             break;
-        
 
-        //分类列表获取
-        case 'selectgifttypelist':
-            //引入数据库信息
-            //global $pdo;
-            //获取分类
-            $typelist = selectTypeList();
-            $result = array("success" => true, "message" => "获取成功", "typelist" => $typelist);
-            echo json_encode($result);
-            break;
 
 
         case 'ts':

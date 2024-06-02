@@ -28,7 +28,7 @@ function selectGiftTopic()
             "topic_title" => "送喜欢听歌女生的10种音乐礼物推荐",//标题
             "topic_like" => "235",//点赞数量
             "topic_time" => "7月6日",//发布日期(生产环境建议使用2022/02/02 8:8:8格式交由前端处理)
-            "topic_userimgsrc" => 'http://q1.qlogo.cn/g?b=qq&nk=3533326199&s=100',//用户头像地址
+            "topic_userimgsrc" => 'https://q1.qlogo.cn/g?b=qq&nk=3533326199&s=100',//用户头像地址
             "topic_username" => "云锦"//用户昵称
         ],
         [
@@ -38,7 +38,7 @@ function selectGiftTopic()
             "topic_title" => "答谢贵人？送这10种感谢礼物错不了",//标题
             "topic_like" => "995",//点赞数量
             "topic_time" => "12月12日",//发布日期(生产环境建议使用2022/02/02 8:8:8格式交由前端处理)
-            "topic_userimgsrc" => 'http://q1.qlogo.cn/g?b=qq&nk=2537094196&s=100',//用户头像地址
+            "topic_userimgsrc" => 'https://q1.qlogo.cn/g?b=qq&nk=2537094196&s=100',//用户头像地址
             "topic_username" => "柠檬大王"//用户昵称
         ],
         [
@@ -48,7 +48,7 @@ function selectGiftTopic()
             "topic_title" => "2024年送女友的七夕情人节礼物排行榜推荐",//标题
             "topic_like" => "11",//点赞数量
             "topic_time" => "4月20日",//发布日期(生产环境建议使用2022/02/02 8:8:8格式交由前端处理)
-            "topic_userimgsrc" => 'http://q1.qlogo.cn/g?b=qq&nk=2537094196&s=100',//用户头像地址
+            "topic_userimgsrc" => 'https://q1.qlogo.cn/g?b=qq&nk=2537094196&s=100',//用户头像地址
             "topic_username" => "是一圆呀"//用户昵称
         ]
     ];
@@ -76,8 +76,8 @@ function selectGiftTopic()
 
 function selectGiftType()
 {
-    $shopType = ["男生","女生","爸爸","妈妈","孩子","老人","老师","客户","结婚礼物","创意礼物","实用礼物","更多"];
-        return $shopType;
+    $giftType = ["情侣","男生","女生","爸爸","妈妈","孩子","老人","老师","客户","结婚礼物","创意礼物","实用礼物","更多"];
+        return $giftType;
 }
 
 /**
@@ -188,32 +188,6 @@ function selectGiftShop()
             "shop_title" => "萌宠小旺蓝牙音响",//商品标题
             "shop_price" => "99.99",//
             "shop_love" => "16"//收藏数量
-        ]
-    ];
-    return $shopdata;
-}
-
-/**
- * 名称：sselectTypeList
- * 名称：分类列表
- * 时间：2024/05/29 创建
- * 作者：Guaxier
- * 功能：获取分类数据
- * 参数:
- * 数据库返回，无参数
- * 
- * 返回:
- * 成功返回商品列表数组
- * 
- * 
- * 示例:
- * 
- * 
-*/
-function selectTypeList()
-{
-    $shopdata = [
-        [
         ]
     ];
     return $shopdata;
