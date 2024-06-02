@@ -207,7 +207,7 @@ if ($way) {
             //引入数据库信息
             //global $pdo;
             //获取分类
-            $typelist = selectTypeList()
+            $typelist = selectTypeList();
             $result = array("success" => true, "message" => "获取成功", "typelist" => $typelist);
             echo json_encode($result);
             break;

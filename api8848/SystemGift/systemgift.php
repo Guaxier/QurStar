@@ -192,3 +192,29 @@ function selectGiftShop()
     ];
     return $shopdata;
 }
+
+/**
+ * 名称：sselectTypeList
+ * 名称：分类列表
+ * 时间：2024/05/29 创建
+ * 作者：Guaxier
+ * 功能：获取分类数据
+ * 参数:
+ * 数据库返回，无参数
+ * 
+ * 返回:
+ * 成功返回商品列表数组
+ * 
+ * 
+ * 示例:
+ * 
+ * 
+*/
+function selectTypeList()
+{
+    $shopdata = [
+        [
+        ]
+    ];
+    return $shopdata;
+}
