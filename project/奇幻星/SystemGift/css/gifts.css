@@ -137,7 +137,7 @@ header .hot .key {
   width: 19.2vw;
   background: #f4f4f4;
   position: absolute;
-  height: 1333.2vw;
+  /*height: 1333.2vw;*/
   text-align: center;
 }
 .giftCategoryl .active {
