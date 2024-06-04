@@ -147,9 +147,69 @@
         display: none;
     }
   </style>
+      <style>
+        .floating-iframe-container {
+          position: fixed; /* 让iframe固定定位 */
+          top: 20%; /* 初始顶部距离 */
+          right: 0px; /* 初始右侧距离 */
+          width: 30%; /* 初始宽度 */
+          height: 15%; /* 初始高度 */
+          z-index: 9999; /* 确保始终在最前面 */
+          overflow: hidden; /* 隐藏超出内容 */
+        }
+        .floating-iframe {
+          width: 100%; /* 占满容器宽度 */
+          height: 100%; /* 占满容器高度 */
+          border: none; /* 去除边框 */
+          pointer-events: none; /* 禁止iframe内的交互 */
+        }
+        .drag-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          cursor: move; /* 鼠标样式 */
+          background: transparent; /* 透明背景 */
+        }
+        .custom-menu {
+          position: absolute;
+          display: none;
+          z-index: 10000;
+          background: white;
+          border: 1px solid #ccc;
+          box-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+        .custom-menu ul {
+          list-style: none;
+          padding: 5px;
+          margin: 0;
+        }
+        .custom-menu li {
+          padding: 5px 10px;
+          cursor: pointer;
+        }
+        .custom-menu li:hover {
+          background-color: #eee;
+        }
+      </style>
 </head>
 <body id="myElement">
-
+      <!-- iframe部分 -->
+      <div class="floating-iframe-container" id="floatingContainer">
+        <iframe class="floating-iframe" src="ico-api/index.html"></iframe>
+        <div class="drag-overlay"></div>
+      </div>
+    
+      <!-- 自定义右键菜单 -->
+      <div class="custom-menu" id="customMenu">
+        <ul>
+          <li onclick="alert('快捷功能1')">快捷功能1</li>
+          <li onclick="alert('快捷功能2')">快捷功能2</li>
+          <li onclick="alert('快捷功能3')">快捷功能3</li>
+          <li onclick="alert('快捷功能4')">快捷功能4</li>
+        </ul>
+      </div>
   <header>
     <h1>齐心创意API示例</h1>
     <h7>此页面为api示例，详情请查看<a style="color: #007bff; text-decoration: none;" href="http://video.qilingwl.com/docs">API接口文档</a></h7>
@@ -1072,152 +1132,8 @@ async function checkNameAvailability() {
     }else{
         feedback.textContent = '可用';
     }
-/*
-    try {
-        const urlAddress = 'https://video.qilingwl.com/api/'; // API地址
-        const response = await fetch(urlAddress, {
-            method: 'POST',
-            body: JSON.stringify({ way: 'selectname', password }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
 
-        if (response.ok) {
-            const data = await response.json();
-            feedback.textContent = data.exists ? '格式错误' : '安全';
-            feedback.className = data.exists ? 'feedback unavailable' : 'feedback available';
-        } else {
-            feedback.textContent = '检查过程中发生错误';
-            feedback.className = 'feedback unavailable';
-        }
-    } catch (error) {
-        console.error('请求错误:', error);
-        feedback.textContent = '网络错误';
-        feedback.className = 'feedback unavailable';
-    }
-    */
 }
-
-/**
- * 名称：checkTokenAvailability
- * 时间：2024/05/14 创建
- * 作者：Guaxier
- * 功能： 检查token是否合法
- * 
- * API参数:
- * way: 'selectname'
- * token: '需要查询的token'
- * 
- * 此函数通过向服务器发送请求，验证输入的token是否合法。
- * 基于服务器响应更新提示信息，指示token是否合法。
- *
- * 返回：
- * @returns {Promise<void>} 不直接返回值，但通过修改DOM元素显示结果。
- *
- * 示例：
- * 
- * 调用该函数以检查token是否合法
- * checkTokenAvailability();
- * 
- */
-/*
-async function checkTokenAvailability() {
-    const token = document.getElementById('emailCode').value; // 获取输入的token
-    const urlAddress = 'https://video.qilingwl.com/api/'; // API地址
-    closeModal(); // 关闭现有模态框
-    try {
-        const response = await fetch(urlAddress, {
-            method: 'POST',
-            body: JSON.stringify({ way: 'selectname', token: token }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        const result = await response.json();
-
-        if (result.success) {
-            showModalButton(1, '检查认证', '当前token服务器认证通过！', '确定', null, button1, null);
-        } else {
-            showModalButton(1, '检查认证', '当前token服务器认证失败！token无效或过期', '确定', null, button1, null);
-        }
-    } catch (error) {
-        showModalButton(1, '检查认证', '当前token服务器认证失败！token无效或过期', '确定', null, button1, null);
-    }
-}
-*/
-
-/**
-     * 名称：checkTokenMessage
-     * 时间：2024/05/14 创建
-     * 作者：Guaxier
-     * 功能： 检查token是否合法
-     * 
-     * API参数:
-     * way: 'selectname'
-     * token: '需要查询的token'
-     * 
-     * 此函数通过向服务器发送请求，验证输入的token是否合法。
-     * 基于服务器响应更新提示信息，指示token是否合法。
-     *
-     * 返回：
-     * @returns {Promise<void>} 不直接返回值，但通过修改DOM元素显示结果。
-     *
-     * 示例：
-     * 
-     * 调用该函数以查看token的信息
-     * checkTokenMessage();
-     * 
-     */
-    /*
-     async function checkTokenMessage() {
-        const token = document.getElementById('emailCode').value; // 获取输入的token
-        const urlAddress = 'https://video.qilingwl.com/api/'; // API地址
-
-        // 解析Token
-        function parseJwt(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-
-            return JSON.parse(jsonPayload);
-        }
-        closeModal(); // 关闭现有模态框
-        try {
-            const tokenData = parseJwt(token);
-            const userId = tokenData.userId;
-            const iat = new Date(tokenData.iat * 1000);
-            const exp = new Date(tokenData.exp * 1000);
-
-            const response = await fetch(urlAddress, {
-                method: 'POST',
-                body: JSON.stringify({ way: 'selectname', token: token }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            const result = await response.json();
-
-            let statusMessage = '无效或过期';
-            if (result.success) {
-                statusMessage = '有效';
-            }
-
-            const content = `
-                用户ID: ${userId}<br>
-                生效时间: ${iat}<br>
-                过期时间: ${exp}<br>
-                当前状态: ${statusMessage}
-            `;
-
-            showModalButton(1, '检查认证', content, '确定', null, button1, null);
-
-        } catch (error) {
-            showModalButton(1, '检查认证', '当前token服务器认证失败！token无效或过期', '确定', null, button1, null);
-        }
-    }*/
 
     async function checkTokenAvailability() {
         const nameInput = document.getElementById('token');
@@ -1385,6 +1301,86 @@ function parseJwt(token,statusMessage) {
     }
 
     </script>
+    
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          let dragTarget = null; // 当前拖动的目标元素
+          let offsetX, offsetY; // 鼠标相对于目标元素的位置偏移
+    
+          function handleMouseDown(e) {
+            dragTarget = e.target.closest('.floating-iframe-container'); // 确保点击的是iframe容器或者其子元素
+            if (!dragTarget) return;
+            
+            offsetX = e.clientX - dragTarget.offsetLeft;
+            offsetY = e.clientY - dragTarget.offsetTop;
+            
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+            
+            e.preventDefault();
+          }
+    
+          function handleMouseMove(e) {
+            if (dragTarget) {
+              let newX = e.clientX - offsetX;
+              let newY = e.clientY - offsetY;
+              
+              // 限制边界
+              newX = Math.max(0, Math.min(newX, window.innerWidth - dragTarget.offsetWidth));
+              newY = Math.max(0, Math.min(newY, window.innerHeight - dragTarget.offsetHeight));
+              
+              dragTarget.style.left = `${newX}px`;
+              dragTarget.style.top = `${newY}px`;
+            }
+          }
+    
+          function handleMouseUp() {
+            dragTarget = null;
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+          }
+    
+          // 右键菜单
+          function handleContextMenu(e) {
+            e.preventDefault();
+            const menu = document.getElementById('customMenu');
+            
+            // 获取菜单的宽度和高度
+            const menuWidth = menu.offsetWidth;
+            const menuHeight = menu.offsetHeight;
+            
+            // 计算菜单的显示位置
+            let menuX = e.clientX;
+            let menuY = e.clientY;
+            
+            // 确保菜单不会超出浏览器窗口
+            if (menuX + menuWidth > window.innerWidth) {
+              menuX = window.innerWidth - menuWidth;
+            }
+            if (menuY + menuHeight > window.innerHeight) {
+              menuY = window.innerHeight - menuHeight;
+            }
+            
+            menu.style.left = `${menuX}px`;
+            menu.style.top = `${menuY}px`;
+            menu.style.display = 'block';
+          }
+    
+          // 双击事件
+          function handleDoubleClick() {
+            //弹窗
+            alert('双击事件');
+          }
+    
+          document.querySelector('.drag-overlay').addEventListener('mousedown', handleMouseDown);
+          document.querySelector('.drag-overlay').addEventListener('contextmenu', handleContextMenu);
+          document.querySelector('.drag-overlay').addEventListener('dblclick', handleDoubleClick);
+    
+          document.addEventListener('click', () => {
+            document.getElementById('customMenu').style.display = 'none';
+          });
+        });
+      </script>
     
 </body>
 </html>
