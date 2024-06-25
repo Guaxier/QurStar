@@ -192,6 +192,18 @@
         .custom-menu li:hover {
           background-color: #eee;
         }
+        .qr-code-container {
+            border: 1px solid #ccc; /* 添加浅色边框 */
+            display: flex;
+            flex-direction: column; /* 改变方向为列布局，使得文字在上，图片在下 */
+            align-items: center; /* 居中对齐内容 */
+            padding: 10px; /* 可选，添加内边距 */
+        }
+
+        #uidImage {
+            width: 30%; /* 保持图片宽度设定 */
+            margin-top: 5px; /* 图片与上文的间距，可按需调整 */
+        }
       </style>
 </head>
 <body id="myElement">
@@ -259,6 +271,10 @@
             <label for="gifselect">关键词：</label>
             <input type="text" id="gifttopic" placeholder="请输入检索词">
           </div>
+          <div class="qr-code-container">
+            <label for="uidImageselect">二维码登录</label>
+            <img id="uidImage" src="https://video.qilingwl.com/test/upload/file/png%2F%E4%BA%8C%E7%BB%B4%E7%A0%81.png" alt="登录二维码" style="width: 30%;">
+          </div>
           
           <button onclick="aaa4()">获取邮箱验证码</button>
           <button onclick="aaa1()">获取登录验证码</button>
@@ -280,7 +296,7 @@
           <button onclick="showModalButton(1,'修改密码API','修改密码API出现未知的风险，接口暂时不可用！','确定',null,button1,null)" class="NoOpenApi">修改密码</button>
           <div>
               <div id="message" style="word-wrap: break-word;overflow-wrap: break-word;"></div>
-              <img id="captchaImage" src="" alt="图像验证码">
+              <img id="captchaImage" src="" alt="图像验证码" onclick="aaa1()">
           </div>
       </div>
 
@@ -1294,6 +1310,42 @@ function parseJwt(token,statusMessage) {
 
 
         
+        .catch(error => {
+            // 处理错误
+            console.error('错误:', error);
+        });
+    }
+
+    function getQRcode() {
+        // 发送请求获取新的验证码图片
+        fetch(urladdres, {
+            method: 'POST',
+            body: JSON.stringify({ way: 'getcode',codetype: 'qrcode',userqrcode: 'qrcode' }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // 获取消息字段
+                const message = data.message;
+                // 构建要显示的消息字符串
+                let displayMessage = `${message}`;
+                // 将获取到的Base64中的"\/"替换为"/"
+                const base64Image = data.image.replace(/\\\//g, '/');
+                // 将消息显示在页面上
+                document.getElementById('message').innerText = displayMessage;
+                // 更新验证码图片的src属性
+                document.getElementById('captchaImage').src = base64Image;
+
+                // 保存当前codeid的值
+                currentCodeId = data.codeid;
+            } else {
+                // 如果获取失败，给出错误消息
+                console.error('获取验证码失败:', data.message);
+            }
+        })
         .catch(error => {
             // 处理错误
             console.error('错误:', error);
