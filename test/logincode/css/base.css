@@ -1,0 +1,70 @@
+* {
+    margin : 0;
+    padding: 0;
+}
+
+.h1 {
+    padding   : 10px;
+    text-align: center;
+}
+
+.menu {
+    text-align: center;
+}
+
+.menu nav {
+    display    : inline-block;
+    padding    : 20px;
+    font-size  : 20px;
+    font-weight: bold;
+    cursor     : pointer;
+}
+
+.menu nav.active {
+    color: #42b983;
+}
+
+
+.main {
+    position: relative;
+    z-index : 1;
+}
+
+.main .create {
+    text-align: center;
+}
+
+.main .create .qrcode img {
+    margin       : 20px auto;
+    padding      : 1px;
+    width        : 60px;
+    height       : 60px;
+    border-radius: 8px;
+    border       : 2px solid gray;
+}
+
+.main .reader {
+    display   : none;
+    text-align: center;
+    font-size : 16px;
+    padding-top: 40px;
+}
+
+.main .reader .sweep {
+    position  : relative;
+    margin    : 8px;
+    padding   : 3px;
+    width     : 120px;
+    font-size : 18px;
+    cursor    : pointer;
+    color     : white;
+    background: #42b983;
+    border    : 1px solid #42b983;
+    overflow  : hidden;
+}
+
+.main .reader .sweep input {
+    position : absolute;
+    font-size: 100px;
+    opacity  : 0;
+}

@@ -198,6 +198,7 @@
             flex-direction: column; /* 改变方向为列布局，使得文字在上，图片在下 */
             align-items: center; /* 居中对齐内容 */
             padding: 10px; /* 可选，添加内边距 */
+            height: 200px;
         }
 
         #uidImage {
@@ -271,10 +272,22 @@
             <label for="gifselect">关键词：</label>
             <input type="text" id="gifttopic" placeholder="请输入检索词">
           </div>
-          <div class="qr-code-container">
+
+
+
+
+
+          <div class="qr-code-container" id="qr-code-container" >
             <label for="uidImageselect">二维码登录</label>
             <img id="uidImage" src="https://video.qilingwl.com/test/upload/file/png%2F%E4%BA%8C%E7%BB%B4%E7%A0%81.png" alt="登录二维码" style="width: 30%;">
           </div>
+          
+
+
+
+
+
+
           
           <button onclick="aaa4()">获取邮箱验证码</button>
           <button onclick="aaa1()">获取登录验证码</button>
@@ -314,6 +327,8 @@
         <h7>零星礼物WEB已经完成部署，示例请前往</h7>
         <a href="https://video.qilingwl.com/test/installconfig.html" style="color: #007bff; text-decoration: none;">奇幻星</a>
         -
+        <a href="https://video.qilingwl.com//project/奇幻星/SystemGift/" style="color: #ff0000; text-decoration: none;">礼物平台</a>
+        -
         <a href="https://video.qilingwl.com/test/upload" style="color: #00ff2a; text-decoration: none;">文件上传</a>
     </section>
     <section id="endpoint2" class="endpoint">
@@ -329,6 +344,14 @@
     <p>© 2024 API Demonstrate 七零网络</p>
   </footer>
 
+  <script>
+
+    window.onload = function() {
+    aaa1();// 页面加载时自动刷新验证码
+    load_qrcode();// 加载二维码登录组件
+    };
+
+  </script>
   <script>
     // 获取当前视口高度
     var windowHeight = Math.max(document.documentElement.clientHeight, document.body.clientHeight);
@@ -417,6 +440,7 @@
             let displayMessage = `${message}`;
             if(token !== null) {
                 displayMessage += `\n token: ${token}`;
+                localStorage.setItem('token', token);
             }
             
             // 将消息显示在页面上
@@ -709,14 +733,6 @@
             console.error('错误:', error);
         });
     }
-
-
-
-
-    // 页面加载时自动刷新验证码
-    window.onload = function() {
-        aaa1();
-    };
 </script>
 
 
@@ -1432,6 +1448,12 @@ function parseJwt(token,statusMessage) {
             document.getElementById('customMenu').style.display = 'none';
           });
         });
+      </script>
+      <script>
+        function load_qrcode() {
+        document.getElementById("qr-code-container").innerHTML = '<object type="text/html" data="https://video.qilingwl.com/test/logincode/2/" width="100%" height="100%"></object>';
+        }
+
       </script>
     
 </body>

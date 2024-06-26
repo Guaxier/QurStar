@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二维码登录验证器</title>
+    <link rel="stylesheet" href="./css/base.css" />
+</head>
+<body>
+    <menu class="menu" id="menu">
+        <nav class="active">获取二维码</nav> |
+        <nav>扫描二维码</nav>
+    </menu>
+
+    <hr />
+
+    <main class="main">
+        <aside class="create">
+            <div class="qrcode" id="qrcode"></div>
+        </aside>
+        <aside class="reader">
+            <button class="sweep" onclick="sweep()">扫一扫</button>
+            <button class="sweep">
+                <input type="file" id="file" onchange="upload()" />从相册选择
+            </button>
+            <div class="imgurl" style="display: none;">
+                <img id="imgurl"
+                    src=""
+                    alt="当前识别的二维码" />
+            </div>
+            <textarea class="result" id="result" cols="32" rows="6" placeholder="二维码识别结果！" style="display: none;"></textarea>
+            <canvas class="canvas" id="canvas" style="display: none;"></canvas>
+        </aside>
+    </main>
+    <!-- 二维码识别 -->
+    <script src="./js/jimp.js"></script>
+    <script src="./js/jsqr.min.js"></script>
+    <script src="./js/base.js"></script>
+    <script>
+        let qrCodeValue = '';
+        function showQRCodeContent() {
+            alert(`二维码内容: ${qrCodeValue}`);
+        };
+        const result = document.querySelector('#result');
+        const QrCode = new QrCodeRecognition({
+            sweepId: '#canvas',
+            uploadId: '#file',
+            error: function (err) {
+                // 识别错误反馈
+                // result.value = err;
+                qrCodeValue = err;
+            },
+            seuccess: function (res) {
+                // 识别成功反馈
+                // result.value = res.data;
+                qrCodeValue = res.data;
+                showQRCodeContent();
+            }
+        });
+
+        // 扫一扫
+        function sweep() {
+            result.value = '';
+            QrCode.sweep();
+        };
+
+        // 从相册选择
+        function upload() {
+            result.value = '';
+            QrCode.upload();
+        };
+    </script>
+    
+    <!-- Demo页面交互 -->
+    <script>
+        const menu = [...document.querySelectorAll('nav')];
+        const aside = [...document.querySelectorAll('aside')];
+        menu.forEach((nav, n) => {
+            nav.onclick = () => {
+                aside.forEach((ele, a) => {
+                    ele.style.display = 'none';
+                    menu[a].classList.remove('active');
+                });
+                menu[n].classList.add('active');
+                aside[n].style.display = 'block';
+            }
+        });
+    </script>
+    <script>
+        function fetchQRCode() {
+            fetch('generate_qr_code.php')
+                .then(response => response.text())
+                .then(qrCodeUrl => {
+                    const qrcodeDiv = document.getElementById('qrcode');
+                    qrcodeDiv.innerHTML = `<img src="${qrCodeUrl}" alt="QR Code" id="qr-image" style="cursor: pointer;" />`;
+                    // 绑定点击事件到二维码图像
+                    document.getElementById('qr-image').addEventListener('click', fetchQRCode);
+                })
+                .catch(err => console.error('Error fetching QR code:', err));
+        }
+
+        // 初始获取二维码
+        fetchQRCode();
+
+        // 轮询检查二维码状态
+        let interval = setInterval(function() {
+            fetch('check_qr_code.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        clearInterval(interval);
+                        alert('登录成功！');
+                        document.cookie = `token=${data.token}; path=/`; // 设置新的token到cookie
+                        location.reload(); // 刷新页面
+                    } else if (data.status === 'expired') {
+                        clearInterval(interval);
+                        alert('二维码已过期，请点击二维码刷新');
+                    }
+                })
+                .catch(err => console.error('Error checking QR code status:', err));
+        }, 3000); // 每3秒检查一次
+    </script>
+</body>
+</html>
