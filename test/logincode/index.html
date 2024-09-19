@@ -17,7 +17,9 @@
 
     <main class="main">
         <aside class="create">
-            <div class="qrcode" id="qrcode"></div>
+            <div class="qrcode" id="qrcode">
+                <img src="#" alt="登录二维码" id="qr-image" style="cursor: pointer;" />
+            </div>
         </aside>
         <aside class="reader">
             <button class="sweep" onclick="sweep()">扫一扫</button>
@@ -88,20 +90,9 @@
         });
     </script>
     <script>
-        function fetchQRCode() {
-            fetch('generate_qr_code.php')
-                .then(response => response.text())
-                .then(qrCodeUrl => {
-                    const qrcodeDiv = document.getElementById('qrcode');
-                    qrcodeDiv.innerHTML = `<img src="${qrCodeUrl}" alt="QR Code" id="qr-image" style="cursor: pointer;" />`;
-                    // 绑定点击事件到二维码图像
-                    document.getElementById('qr-image').addEventListener('click', fetchQRCode);
-                })
-                .catch(err => console.error('Error fetching QR code:', err));
-        }
 
-        // 初始获取二维码
-        fetchQRCode();
+
+
 
         // 轮询检查二维码状态
         let interval = setInterval(function() {

@@ -192,20 +192,28 @@
         .custom-menu li:hover {
           background-color: #eee;
         }
+      </style>
+      <style>
         .qr-code-container {
             border: 1px solid #ccc; /* 添加浅色边框 */
             display: flex;
             flex-direction: column; /* 改变方向为列布局，使得文字在上，图片在下 */
             align-items: center; /* 居中对齐内容 */
             padding: 10px; /* 可选，添加内边距 */
-            margin: 10px 30px;
-            height: 200px;
+            margin: 10px 20px;
+        }
+        .qr-code-container .main .create .sweep{
+            background-color: #3f9234;
+        }
+        .main .create .qrcode img {
+            margin       : 10px auto;
+            padding      : 1px;
+            width        : 100px;
+            height       : 100px;
+            border-radius: 8px;
+            border       : 2px solid gray;
         }
 
-        #uidImage {
-            width: 30%; /* 保持图片宽度设定 */
-            margin-top: 5px; /* 图片与上文的间距，可按需调整 */
-        }
       </style>
 </head>
 <body id="myElement">
@@ -278,7 +286,27 @@
 
 
           <label for="uidImageselect">二维码登录测试</label>
-          <div class="qr-code-container" id="qr-code-container" ></div>
+          <div class="qr-code-container" id="qr-code-container" >
+            <main class="main">
+                <aside class="create">
+                    <div class="qrcode" id="qrcode">
+                        <img src="#" alt="登录二维码" id="qr-image" style="cursor: pointer;" />
+                    </div>
+
+                    <button class="sweep" onclick="sweep()">扫一扫</button>
+                    <div class="imgurl" style="display: none;">
+                        <img id="imgurl"
+                            src=""
+                            alt="当前识别的二维码" />
+                    </div>
+
+                    <textarea class="result" id="result" cols="32" rows="6" placeholder="二维码识别结果！" style="display: none;"></textarea>
+                    <canvas class="canvas" id="canvas" style="display: none;"></canvas>
+                </aside>
+
+            </main>
+            
+          </div>
           
 
 
@@ -346,7 +374,7 @@
 
     window.onload = function() {
     aaa1();// 页面加载时自动刷新验证码
-    load_qrcode();// 加载二维码登录组件
+    fetchQRCode();// 初始获取二维码
     };
 
   </script>
@@ -1330,42 +1358,6 @@ function parseJwt(token,statusMessage) {
         });
     }
 
-    function getQRcode() {
-        // 发送请求获取新的验证码图片
-        fetch(urladdres, {
-            method: 'POST',
-            body: JSON.stringify({ way: 'getcode',codetype: 'qrcode',userqrcode: 'qrcode' }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // 获取消息字段
-                const message = data.message;
-                // 构建要显示的消息字符串
-                let displayMessage = `${message}`;
-                // 将获取到的Base64中的"\/"替换为"/"
-                const base64Image = data.image.replace(/\\\//g, '/');
-                // 将消息显示在页面上
-                document.getElementById('message').innerText = displayMessage;
-                // 更新验证码图片的src属性
-                document.getElementById('captchaImage').src = base64Image;
-
-                // 保存当前codeid的值
-                currentCodeId = data.codeid;
-            } else {
-                // 如果获取失败，给出错误消息
-                console.error('获取验证码失败:', data.message);
-            }
-        })
-        .catch(error => {
-            // 处理错误
-            console.error('错误:', error);
-        });
-    }
-
     </script>
     
       <script>
@@ -1447,12 +1439,75 @@ function parseJwt(token,statusMessage) {
           });
         });
       </script>
-      <script>
-        function load_qrcode() {
-        document.getElementById("qr-code-container").innerHTML = '<object type="text/html" data="https://video.qilingwl.com/test/logincode/2/" width="100%" height="100%"></object>';
+    
+
+    <!-- 二维码识别 -->
+    <script src="https://video.qilingwl.com/web/js/jimp.js"></script>
+    <script src="https://video.qilingwl.com/web/js/jsqr.min.js"></script>
+    <script src="https://video.qilingwl.com/web/js/base.js"></script>
+    <script>
+        let qrCodeValue = '';
+        function showQRCodeContent() {
+            alert(`二维码内容: ${qrCodeValue}`);
+        };
+        const result = document.querySelector('#result');
+        const QrCode = new QrCodeRecognition({
+            sweepId: '#canvas',
+            uploadId: '#file',
+            error: function (err) {
+                // 识别错误反馈
+                result.value = err;
+                qrCodeValue = err;
+            },
+            seuccess: function (res) {
+                // 识别成功反馈
+                result.value = res.data;
+                qrCodeValue = res.data;
+                showQRCodeContent();
+            }
+        });
+    
+        // 扫一扫
+        function sweep() {
+            result.value = '';
+            QrCode.sweep();
+        };
+
+        //获取登录二维码函数
+        function fetchQRCode() {
+        fetch(urladdres, {
+            method: 'POST',
+            body: JSON.stringify({ way: 'qrcode', codetype: 'get'}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        
+        .then(response => response.json())
+        .then(data => {
+            // 获取消息字段
+            const message = data.message;
+            // 构建要显示的消息字符串
+            let displayMessage = `${message}`;
+            // 将消息显示在页面上
+            document.getElementById('message').innerText = displayMessage;
+            // 将获取到的Base64中的"\/"替换为"/"
+            const base64Image = data.qrcode.replace(/\\\//g, '/');
+            // 更新验证码图片的src属性
+            document.getElementById('qr-image').src = base64Image;
+            // 绑定点击事件到二维码图像
+            document.getElementById('qr-image').addEventListener('click', fetchQRCode);
+            // 保存当前codeid的值
+            currentCodeId = data.codeid;
+        })
+        .catch(error => {
+            // 处理错误
+            console.error('获取登录二维码错误:', error);
+        });
+
         }
 
-      </script>
-    
+    </script>
+
 </body>
 </html>

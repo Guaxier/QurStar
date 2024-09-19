@@ -9,6 +9,8 @@ require_once 'includes/functions.php'; // 导入共享函数文件
 require_once 'includes/CaptchaManager.php'; // 导入验证码管理类
 require_once 'includes/emailspend.php';//邮件发送
 require_once 'includes/smsspend.php';//短信发送
+require_once 'includes/generate_qr_code.php';//二维码登录获取
+require_once 'includes/check_qr_code.php';//二维码登录验证
 
 require_once 'includes/depend/SMSALI/vendor/autoload.php'; // 确保引入了自动加载文件
 
@@ -207,6 +209,27 @@ if ($way) {
             //前端请求的类型，调用不同api
             break;
 
+
+
+
+
+
+        case 'qrcode':
+            $qrcode = $post_data["qrcode"] ?? '';//请求种类
+            $token = $post_data["token"] ?? '';//token
+            if($qrcode = 'get'){
+                //调用获取函数
+                $result = getqrcode();
+            }elseif($qrcode = 'check'){
+                //调用检查函数
+                $result = checkqrcode($token);
+            }else{
+                $result = array('success' => false, 'message' => '非法请求!');
+            }
+
+            //返回 JSON 响应
+            echo json_encode($result);
+            break;
 
 
 
